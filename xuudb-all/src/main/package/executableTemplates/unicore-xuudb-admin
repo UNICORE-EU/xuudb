@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+#Start script for the XUUDB admin client
+#
+
+#
+# Read basic configuration parameters
+#
+@cdInstall@
+
+. @etc@/startup.properties
+
+LOCAL_DIR=@localDir@
+
+if [ ! -d "$LOCAL_DIR" ]; then
+    mkdir "$LOCAL_DIR"
+fi
+
+CFILES="${CONF}/xuudb_client.conf ${CONF}/client_logging.properties"
+for f in ${CFILES} ; do
+    if [ ! -e "$LOCAL_DIR"/`basename $f` ]; then
+		cp $f "$LOCAL_DIR"
+    fi
+done
+
+#
+# helper function to set an option if it is not already set
+#
+# arg1: option name (without leading "-", e.g "Ducc.extensions")
+# arg2: option value (e.g. =conf/extensions)
+#
+Options=( )
+	set_option(){
+	    if [[ "$UVOSCLC_OPTS" != *$1* ]]
+	        then
+	                N=${#Options[*]}
+	                Options[$N]="-$1$2"
+	        fi
+	}
+
+#
+#Options
+#
+
+set_option "Dxuudb.batch" "=true"
+set_option "Dxuudb.client.conf" "=${LOCAL_DIR}/xuudb_client.conf"
+
+#
+# log configuration
+#
+set_option "Djava.util.logging.config.file" "=${LOCAL_DIR}/client_logging.properties"
+set_option "Dlog4j.configuration" "=@filePrefix@${LOCAL_DIR}/client_logging.properties"
+
+CLASSPATH=.$(@cdRoot@find "${LIB}" -name *.jar -exec printf ":{}" \;)
+export CLASSPATH
+
+# run
+$JAVA "${Options[@]}" ${XUUDB_ADMIN_OPTS} de.fzj.unicore.xuudb.client.XUUDBClient "$@"

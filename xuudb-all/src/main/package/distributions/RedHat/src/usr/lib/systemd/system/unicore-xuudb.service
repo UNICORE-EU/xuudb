@@ -1,0 +1,12 @@
+[Unit]
+Description=UNICORE XUUDB
+
+[Service]
+Type=forking
+User=unicore
+ExecStart=/usr/sbin/unicore-xuudb-start.sh
+ExecStop=/usr/sbin/unicore-xuudb-stop.sh
+PIDFile=/var/run/unicore/xuudb.pid
+
+[Install]
+WantedBy=multi-user.target

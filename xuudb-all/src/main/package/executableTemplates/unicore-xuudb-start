@@ -1,0 +1,44 @@
+#!/bin/bash
+
+#
+# Startup script for the XUUDB server
+#
+@cdInstall@
+#
+# Read basic configuration parameters
+#
+. @etc@/startup.properties
+
+#
+# check whether the server might be already running
+#
+if [ -e $PID ] 
+ then 
+  if [ -d /proc/$(cat $PID) ]
+   then
+     echo "An XUUDB server instance may be already running with process id "$(cat $PID)
+     echo "If this is not the case, delete the file $PID and re-run this script"
+     exit 1
+   fi
+fi
+
+#
+#put all jars in lib/ on the classpath
+#
+CLASSPATH=.$(@cdRoot@find "$LIB" -name *.jar -exec printf ":{}" \;)
+export CLASSPATH
+
+
+PARAM=$*
+if [ "$PARAM" = "" ]
+then
+  PARAM="--start $CONF/xuudb_server.conf"
+fi
+
+#
+#go
+#
+nohup $JAVA ${MEM} ${OPTS} ${DEFS} de.fzj.unicore.xuudb.server.XUUDBServer ${PARAM}  > "$STARTLOG" 2>&1  & echo $! > "$PID"
+
+
+

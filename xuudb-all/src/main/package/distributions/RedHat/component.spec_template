@@ -1,0 +1,96 @@
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+Buildroot: %{_builddir}/%{name}-root
+Name: unicore-@component-name@
+Version: @component-version@
+Release: @component-release@@component-disttag@
+Summary: Site-central UNICORE users database
+License: BSD
+Distribution: RedHat
+Group: System Environment/Daemons
+URL: http://www.unicore.eu
+Requires: java-1.@java-main-version@.0-openjdk
+BuildArch: @component-architecture@
+AutoReqProv: no
+Packager: UNICORE <unicore-support@lists.sourceforge.net>
+@preamble@
+
+%description
+UNICORE (Uniform Interface to Computing Resources) offers a
+ready-to-run Grid system including client and server software.
+UNICORE makes distributed computing and data resources available
+in a seamless and secure way in intranets and the internet.
+
+This package contains the UNICORE users database which can be used 
+to authorize grid users and to map them to local UNIX accounts. 
+Its command line client is also included.
+
+
+%changelog
+* Tue Jul 15 2014 Bernd Schuller <unicore-support@lists.sourceforge.net>
+- Updated to depend on Java 7
+* Tue Jul 17 2012 Krzysztof Benedyczak <unicore-support@lists.sourceforge.net>
+- Updated to maintain XUUDB 2 startup and config files
+* Tue Aug 09 2011 Krzysztof Benedyczak <unicore-support@lists.sourceforge.net>
+- Fixed the default logging configuration.
+* Sat Jul 18 2011 Krzysztof Benedyczak <unicore-support@lists.sourceforge.net>
+- Fixed rpm permissions.
+* Sat Feb 19 2011 Krzysztof Benedyczak <unicore-support@lists.sourceforge.net> 
+-Many packaging fixes
+* Wed Oct 06 2010 Andre Giesler <unicore-support@lists.sourceforge.net> 
+-Initial rpm package
+
+@install_command@
+
+%files
+%dir %attr(755 unicore unicore) "/etc/unicore/xuudb/"
+%config(noreplace) %attr(644 unicore unicore) "/etc/unicore/xuudb/client_logging.properties"
+%config(noreplace) %attr(644 unicore unicore) "/etc/unicore/xuudb/xuudb_client.conf"
+%config(noreplace) %attr(644 unicore unicore) "/etc/unicore/xuudb/startup.properties"
+%config(noreplace) %attr(640 unicore unicore) "/etc/unicore/xuudb/logging.properties"
+%config(noreplace) %attr(640 unicore unicore) "/etc/unicore/xuudb/xuudb_server.conf"
+%config(noreplace) %attr(640 unicore unicore) "/etc/unicore/xuudb/xuudb.acl"
+%config(noreplace) %attr(640 unicore unicore) "/etc/unicore/xuudb/dap-configuration.xml"
+%attr(755 root root) "/usr/sbin/unicore-xuudb-start"
+%attr(755 root root) "/usr/sbin/unicore-xuudb-stop"
+%attr(755 root root) "/usr/sbin/unicore-xuudb-admin"
+%attr(755 root root) "/usr/sbin/unicore-xuudb-status"
+%attr(644 root root) "/usr/lib/systemd/system/unicore-xuudb.service"
+
+
+%docdir %attr(755 root root) "/usr/share/doc/unicore/xuudb/"
+%attr(644 root root) "/usr/share/doc/unicore/xuudb/*"
+
+%attr(755 root root) %dir "/usr/share/unicore/xuudb/lib"
+%attr(644 root root) "/usr/share/unicore/xuudb/lib/*.jar"
+
+
+%dir %attr(750 unicore unicore) "/var/lib/unicore"
+%dir %attr(750 unicore unicore) "/var/lib/unicore/xuudb"
+%dir %attr(750 unicore unicore) "/var/lib/unicore/xuudb/data"
+%dir %attr(755 unicore unicore) "/var/log/unicore/xuudb"
+%dir %attr(755 unicore unicore) "/var/log/unicore"
+%dir %attr(755 unicore unicore) "/var/run/unicore"
+
+
+#
+#unicore-configurator
+#
+%dir %attr(755 root root) "/usr/share/unicore/configurator"
+%dir %attr(755 root root) "/usr/share/unicore/configurator/updater.d"
+%attr(644 root root) "/usr/share/unicore/configurator/updater.d/xuudb.py"
+
+
+%pre
+/usr/sbin/groupadd -r unicore 2>/dev/null || :
+/usr/sbin/useradd -c "UNICORE" -g unicore \
+    -s /sbin/nologin -r -d /usr/share/unicore unicore 2>/dev/null || :
+
+%post
+/sbin/chkconfig --add unicore-xuudb
+
+%preun
+if [ "$1" = "0" ]; then                                                                                                       
+    /etc/init.d/unicore-xuudb stop >/dev/null 2>&1
+    /sbin/chkconfig --del unicore-xuudb
+fi
+

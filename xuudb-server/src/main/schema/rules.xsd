@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://unicore.eu/xuudb/dynamicAttributesRules" 
+	xmlns:tns="http://unicore.eu/xuudb/dynamicAttributesRules"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+
+	<!-- Configuration of the subsystem allowing to influence the attribute assignment dynamically. -->
+
+	<xsd:element name="dynamicAttributes">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="poolMonitoringDelay" minOccurs="0" maxOccurs="1" type="xsd:int" />						
+				<xsd:element name="defaultConfiguration" minOccurs="0" maxOccurs="1" type="tns:Configuration" />			
+				<xsd:element name="rules" minOccurs="0" maxOccurs="1" type="tns:Rules" />
+				<xsd:element name="pools" minOccurs="0" maxOccurs="1" type="tns:Pools" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="Configuration">
+		<xsd:sequence>
+			<xsd:element name="automaticFreezeAfter" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="automaticDeleteAfter" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="emptyWarningAbsolute" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="emptyWarningPercent" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+			
+			<xsd:element name="handlerInvocationTimeLimit" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="handlerAboutToFreeze" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="handlerAboutToDelete" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="handlerCreateSystemUid" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="handlerCreateSystemGid" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="handlerPoolGettingEmpty" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="handlerPoolEmpty" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Rules">
+		<xsd:sequence>
+			<xsd:element name="rule" type="tns:Rule" maxOccurs="unbounded" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Pools">
+		<xsd:sequence>
+			<xsd:element name="pool" type="tns:Pool" maxOccurs="unbounded" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Rule">
+		<xsd:sequence>
+			<xsd:element name="condition" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+			<xsd:element name="mapping" type="tns:Mapping" maxOccurs="unbounded" minOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="overwriteExisting" type="xsd:boolean" use="optional"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Mapping" >
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="type" type="xsd:string" use="required"/>
+				<xsd:attribute name="maps" type="xsd:string" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Pool">
+		<xsd:sequence>
+			<xsd:element name="configuration" type="tns:Configuration" maxOccurs="1" minOccurs="0"/>
+			<xsd:element name="id" type="xsd:string" maxOccurs="unbounded" minOccurs="0"/>
+			<xsd:element name="file" type="xsd:string" maxOccurs="unbounded" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:string" use="required"/>
+		<xsd:attribute name="key" type="xsd:string" use="required"/>
+		<xsd:attribute name="type" type="xsd:string" use="required"/>
+		<xsd:attribute name="precreated" type="xsd:boolean" use="required"/>
+	</xsd:complexType>
+	
+</xsd:schema>

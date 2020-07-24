@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false"/>
+	</settings>
+
+	<typeAliases>
+		<typeAlias alias="LoginData" type="de.fzj.unicore.xuudb.server.db.LoginBean" />
+	</typeAliases>
+
+	<environments default="def">
+		<environment id="def">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${xuudb.db.driver}" />
+				<property name="url" value="${xuudb.db.jdbcUrl}" />
+				<property name="username" value="${xuudb.db.username}" />
+				<property name="password" value="${xuudb.db.password}" />
+				<!-- 
+				<property name="defaultTransactionIsolationLevel" value="" />
+				-->
+				<property name="poolMaximumActiveConnections" value="10" />
+				<property name="poolMaximumIdleConnections" value="5" />
+				<property name="poolMaximumCheckoutTime" value="120000" />
+				<property name="poolTimeToWait" value="500" />
+				<property name="poolPingQuery" value="select 1 from UUDB" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="600000" />
+			</dataSource>
+		</environment>
+	</environments>
+
+
+	<mappers>
+		<mapper resource="mybatis/uudb-common.xml" />
+		<mapper resource="mybatis/uudb.${xuudb.db.dialect}.xml" />
+		<mapper resource="mybatis/uudb-pool-common.xml" />
+		<mapper resource="mybatis/uudb-pool.${xuudb.db.dialect}.xml" />
+	</mappers>
+</configuration>

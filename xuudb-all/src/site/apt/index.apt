@@ -1,0 +1,16 @@
+UNICORE XUUDB
+
+* Overview
+ 
+  The XUUDB server is Attribute Source implementation which can be used by UNICORE
+servers. It is used to map user credentials (an X509 certificate or
+X500 distinguished name) to authorisation and incarnation attributes.
+
+  For more information about UNICORE visit {{http://www.unicore.eu}}
+
+* User manual
+
+ * {{{./manual.html}HTML format}} 
+ 
+ * {{{./manual.pdf}PDF format}}
+

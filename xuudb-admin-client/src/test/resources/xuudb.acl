@@ -1,0 +1,13 @@
+#
+# example XUUDB ACL file
+#
+# - the trusted subjects are listed, one per line
+#
+# - the subject name must be in RFC 2253 format
+#
+# - to extract the subject name from a certificate, use
+#
+#    openssl x509 -subject -noout -nameopt RFC2253 -in <certfile>
+#
+
+CN=Demo XUUDB,O=UNICORE,C=EU

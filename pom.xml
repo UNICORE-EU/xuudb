@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.fzj.unicore.xuudb</groupId>
+  <artifactId>xuudb-parent</artifactId>
+  <packaging>pom</packaging>
+  <name>XUUDB</name>
+  <version>2.5.2-SNAPSHOT</version>
+  <description>XUUDB attribute source for UNICORE</description>
+  <inceptionYear>2006</inceptionYear>
+
+  <parent>
+    <artifactId>unicore-parent</artifactId>
+    <groupId>eu.unicore</groupId>
+    <version>1.22</version>
+  </parent>
+
+  <scm>
+    <connection>scm:svn:https://svn.code.sf.net/p/unicore/svn/xuudb/trunk</connection>
+    <developerConnection>scm:svn:https://svn.code.sf.net/p/unicore/svn/trunk</developerConnection>
+  </scm>
+
+  <properties>
+    <secutils.version>2.0.3</secutils.version>
+    <jetty.version>9.4.28.v20200408</jetty.version>    
+    <seclib.version>4.5.10</seclib.version>
+  </properties>
+
+  <modules>
+    <module>xuudb-common</module>
+    <module>xuudb-server</module>
+    <module>xuudb-admin-client</module>
+    <module>xuudb-all</module>
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>unicore.eu</id>
+      <name>UNICORE repository</name>
+      <url>https://unicore-dev.zam.kfa-juelich.de/maven</url>
+    </repository>
+  </repositories>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.16</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlets</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>eu.unicore.security</groupId>
+        <artifactId>securityLibrary</artifactId>
+        <version>${seclib.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>eu.unicore.security</groupId>
+        <artifactId>secutils-cxf</artifactId>
+        <version>${secutils.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.xmlbeans</groupId>
+        <artifactId>xmlbeans-jdk8</artifactId>
+        <version>2.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>1.4.199</version>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.19</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-expression</artifactId>
+        <version>3.1.1.RELEASE</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>

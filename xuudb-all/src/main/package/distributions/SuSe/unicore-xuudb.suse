@@ -1,0 +1,30 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          unicore-xuudb
+# Required-Start:    $network $local_fs
+# Required-Stop:
+# Should-Start:      $named
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+case "$1" in
+    start)
+ unicore-xuudb-start
+ ;;
+    stop)
+ unicore-xuudb-stop
+ ;;
+    restart|force-reload)
+ unicore-xuudb-stop
+ unicore-xuudb-start
+ ;;
+    *)
+ echo "Usage: $0 {start|stop|restart}"
+ exit 2
+ ;;
+esac

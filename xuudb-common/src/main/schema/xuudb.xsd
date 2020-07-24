@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.fz-juelich.de/unicore/xuudb"
+	xmlns:xuudb="http://www.fz-juelich.de/unicore/xuudb">
+
+<!-- 
+  Types and messages for the XUUDB web service
+-->
+
+
+<!-- 
+  Simple types
+-->
+
+    <xsd:element name="gcID" type="xsd:string"/>
+
+    <xsd:element name="Token" type="xsd:string"/>
+
+    <xsd:element name="xlogin" type="xsd:string"/>
+
+    <xsd:element name="role" type="xsd:string"/>
+
+    <xsd:element name="projects" type="xsd:string"/>
+
+	<xsd:element name="CertInPEM" type="xsd:string"/>
+
+	<xsd:element name="encodedChain" type="xsd:string"/>
+
+    <xsd:element name="DistinguishedName" type="xsd:string"/>
+
+	<xsd:element name="Data" type="xuudb:LoginDataType"/>
+
+    <xsd:element name="Database" type="xuudb:LoginDataType" />
+
+<!-- 
+  Complex types
+-->
+   
+ <xsd:complexType name="LoginDataType">
+    	<xsd:sequence>
+    		<xsd:element ref="xuudb:gcID" />
+    		<xsd:element ref="xuudb:Token" /> 
+    		<xsd:element ref="xuudb:xlogin"/>
+    		<xsd:element ref="xuudb:role"/>
+    		<xsd:element ref="xuudb:projects"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="UpdateDataType">
+    	<xsd:sequence>
+     		<xsd:element ref="xuudb:gcID" />
+    		<xsd:element ref="xuudb:Token" /> 
+    		<xsd:element ref="xuudb:Data"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="CheckDataType">
+    	<xsd:sequence>
+    		<xsd:element ref="xuudb:gcID"/>
+    		<xsd:element ref="xuudb:CertInPEM"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="CheckChainDataType">
+    	<xsd:sequence>
+    		<xsd:element ref="xuudb:gcID"/>
+    		<xsd:element ref="xuudb:encodedChain"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="CheckDNDataType">
+    	<xsd:sequence>
+    		<xsd:element ref="xuudb:gcID"/>
+    		<xsd:element ref="xuudb:DistinguishedName"/>
+    	</xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="DatabaseType">
+    	<xsd:sequence>
+    		<xsd:element name="XUUDBInfo" type="xsd:string" minOccurs="0"/>
+    		<xsd:element name="IsDNMode" type="xsd:boolean" minOccurs="0"/>
+    		<xsd:element ref="xuudb:Database" minOccurs="0" maxOccurs="unbounded"/>
+    	</xsd:sequence>
+        <xsd:attribute name="clean" type="xsd:boolean"/>
+    </xsd:complexType>
+
+<!-- 
+  Message types
+-->
+
+    <xsd:element name="RemoveCertificate" type="xuudb:LoginDataType"/>
+
+    <xsd:element name="RemoveCertificateResponse" type="xsd:string"/>
+
+    <xsd:element name="AddCertificate" 	type="xuudb:LoginDataType"/>
+
+    <xsd:element name="AddCertificateResponse" type="xsd:string"/>
+
+    <xsd:element name="UpdateCertificate" type="xuudb:UpdateDataType"/>
+    
+    <xsd:element name="UpdateCertificateResponse" type="xsd:string"/>
+
+    <xsd:element name="ListDatabase" type="xuudb:LoginDataType"/>
+
+    <xsd:element name="ListDatabaseResponse" type="xuudb:DatabaseType"/>
+    
+    <xsd:element name="ImportDatabase" type="xuudb:DatabaseType"/>
+
+    <xsd:element name="ImportDatabaseResponse" type="xsd:string"/>
+    
+    <xsd:element name="CheckCertificate" type="xuudb:CheckDataType"/>
+
+    <xsd:element name="checkCertificateResponse" type="xuudb:LoginDataType"/>
+
+    <xsd:element name="CheckCertificateChain" type="xuudb:CheckChainDataType"/>
+
+
+
+    <xsd:element name="CheckCertChainResponse" type="xuudb:LoginDataType"/>
+
+    <xsd:element name="CheckDN" type="xuudb:CheckDNDataType"/>
+
+    <xsd:element name="CheckDNResponse" type="xuudb:LoginDataType"></xsd:element>
+    
+    
+ 
+</xsd:schema>

@@ -1,0 +1,14 @@
+#
+# example XUUDB ACL file
+#
+# - the trusted subject are listed, one per line
+#
+# - the subject must be in RFC 2253 format
+#
+# - to extract the DN from a certificate, use
+#
+#    openssl x509 -subject -noout -nameopt RFC2253 -in <certfile>
+#
+# Example line:
+# emailAddress=unicore-support@lists.sf.net,C=DE,O=unicore.eu,OU=Testing,CN=UNICORE demo xuudb
+@acl@

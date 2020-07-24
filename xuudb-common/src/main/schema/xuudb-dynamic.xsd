@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.fz-juelich.de/unicore/xuudb" 
+	xmlns:xuudb="http://www.fz-juelich.de/unicore/xuudb">
+
+	<!-- Types and messages for the dynamic attributes XUUDB web service -->
+
+
+	<xsd:complexType name="GetAttributesRequestType">
+		<xsd:sequence>
+			<xsd:element name="userDN" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="issuerDN" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="role" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="vo" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="xlogin" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="gid" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="supplementaryGids" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="extraAttributes" type="xuudb:SimplifiedAttributeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="SimplifiedAttributeType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GetAttributesResponseType">
+		<xsd:sequence>
+			<xsd:element name="xlogin" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="gid" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="supplementaryGids" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Message types -->
+	<xsd:element name="GetAttributesRequest" type="xuudb:GetAttributesRequestType" />
+	<xsd:element name="GetAttributesResponse" type="xuudb:GetAttributesResponseType" />
+	
+	
+	
+	
+	 <!-- used by the DAP admin interface -->
+
+	
+
+
+	<xsd:complexType name="SimplifiedAttributesListType">
+		<xsd:sequence>
+		    <xsd:element name="attribute" type="xuudb:SimplifiedAttributeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MappingDataType">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="key" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="lastAccess" type="xsd:dateTime" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="freezeTime" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="poolName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="keyType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="MappingListDataType">
+		<xsd:sequence>
+		  <xsd:element name="mapping" type="xuudb:MappingDataType" minOccurs="0" maxOccurs="unbounded"/>
+	  </xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ListMappingRequestType">
+		<xsd:sequence>	
+			<xsd:element name="mappingType" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="poolId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="FindMappingRequestType">
+		<xsd:sequence>	
+			<xsd:element name="type" type="xsd:string"/>
+			<xsd:element name="value" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FreezeRemoveMappingRequestType">
+		<xsd:sequence>	
+			<xsd:element name="id" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="date" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="poolId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PoolInfoType">
+		<xsd:sequence>
+			<xsd:element name="poolId" type="xsd:string"/>
+			<xsd:element name="poolType" type="xsd:string"/>
+			<xsd:element name="poolKeyType" type="xsd:string"/>
+			<xsd:element name="activeMappings" type="xsd:int"/>
+			<xsd:element name="frozenMappings" type="xsd:int"/>
+			<xsd:element name="freeSlots" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="ListPoolsResponseType">
+		<xsd:sequence>
+			<xsd:element name="pool" type="xuudb:PoolInfoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RemovePoolRequestType">
+		<xsd:sequence>
+			<xsd:element name="poolId" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+
+	<!-- Message types -->
+	<xsd:element name="ListMappingRequest" type="xuudb:ListMappingRequestType" />
+	<xsd:element name="ListMappingResponse" type="xuudb:MappingListDataType" />
+	
+	<xsd:element name="FindMappingRequest" type="xuudb:FindMappingRequestType" />
+	<xsd:element name="FindMappingResponse" type="xuudb:MappingListDataType" />
+	
+	<xsd:element name="FindReverseMappingRequest" type="xuudb:FindMappingRequestType" />
+	<xsd:element name="FindReverseMappingResponse" type="xuudb:MappingListDataType" />
+		
+	<xsd:element name="FreezeMappingRequest" type="xuudb:FreezeRemoveMappingRequestType" />
+	
+	<xsd:element name="RemoveMappingRequest" type="xuudb:FreezeRemoveMappingRequestType" />
+	
+	<xsd:element name="ListPoolsResponse" type="xuudb:ListPoolsResponseType" />
+	
+	<xsd:element name="RemovePoolRequest" type="xuudb:RemovePoolRequestType" />
+	
+	<xsd:element name="SimulateGetAttributesRequest" type="xuudb:GetAttributesRequestType" />
+	<xsd:element name="SimulateGetAttributesResponse" type="xuudb:GetAttributesResponseType" />
+	
+	
+</xsd:schema>

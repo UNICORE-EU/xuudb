@@ -1,0 +1,8 @@
+<xb:config xmlns:xb="http://www.bea.com/2002/09/xbean/config">
+
+    <!-- Use the "namespace" element to map a namespace to the Java package-->
+        
+     <xb:namespace uri="http://unicore.eu/xuudb/dynamicAttributesRules">
+        <xb:package>de.fzj.unicore.xuudb.server.dynamic.xbeans</xb:package>
+    </xb:namespace>
+</xb:config>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dynamicAttributes xmlns="http://unicore.eu/xuudb/dynamicAttributesRules"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <poolMonitoringDelay>300</poolMonitoringDelay>
+  <rules>
+
+	<!-- Some example rules -->
+	<!-- 
+    <rule>
+      <condition>vo.matches("/biology/dynamic/.*")</condition>
+      <mapping type="pool">biology-dynamic-gids-pool</mapping>
+    </rule>
+    
+    <rule>
+      <condition>vo.matches("/times/.*")</condition>
+      <mapping type="pool">times-test-gids-pool</mapping>
+    </rule>
+
+    <rule>
+      <condition>vo.matches("/biology/.*")</condition>
+      <mapping type="pool">biology-uids-pool</mapping>
+      <mapping type="fixed" maps="gid">biologists</mapping>
+    </rule>
+
+    <rule>
+      <condition>attributes["matlabAllowed"] != null and attributes["matlabAllowed"].contains("true")</condition>
+      <mapping type="fixed" maps="supplementaryGids">matlab</mapping>
+    </rule>
+
+    <rule>
+      <condition>true</condition>
+      <mapping type="script" maps="uid">/usr/local/bin/create-mapping.pl "${userDN}" "${vo}" </mapping>
+    </rule>
+	-->
+
+  </rules>
+
+  <!-- Some example pools -->
+  <!-- 
+  <pools>
+    <pool id="biology-dynamic-gids-pool" type="gid" key="vo" precreated="true">
+      <id>grid-dyn[1-100]</id>
+      <id>grid-dyn[200-1000]</id>
+    </pool>
+    <pool id="biology-uids-pool" type="uid" key="dn" precreated="true">
+      <file>src/test/resources/externalUidsPool</file>
+    </pool>
+ 	
+ 	<pool id="times-test-gids-pool" type="gid" key="vo" precreated="true">
+      <configuration>
+        <automaticFreezeAfter>3</automaticFreezeAfter>
+        <automaticDeleteAfter>5</automaticDeleteAfter>
+        <handlerAboutToFreeze>/bin/echo</handlerAboutToFreeze>
+        <handlerAboutToDelete>/bin/echo</handlerAboutToDelete>
+      </configuration>
+      <id>times[1-100]</id>
+    </pool>
+  </pools>
+  -->
+</dynamicAttributes>

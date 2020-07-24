@@ -1,0 +1,142 @@
+
+Overview
+--------
+
+The UNICORE XUUDB is used to map a UNICORE user identity (an X.500
+distinguished name (DN)) to a set of attributes. The attributes are
+typically used to provide local account details (uid, gid(s)) and
+sometimes also to provide authorization information: user's role.
+
+The UNICORE XUUDB is best suited as a site-service. Theoretically it can be used for multiple
+sites, however as it offers limited authorization capabilities and doesn't allow 
+for grouping users, it is better to use the more flexible Unity server in such a case.
+In case of the simple one host-service XUUDB sometimes can be replaced by a simple file
+storing the mappings. Please refer to the UNICORE/X documentation for more information.
+
+The XUUDB offers two web services, one for querying, and one for 
+administration of the users' database. There are several clients which can use the XUUDB server:
+
+ - Admin client (see <<sec_admin>>) can be used to control the XUUDB database contents.
+ - UNICORE servers include the XUUDB client code (it is named XUUDB Attribute Information Point) and
+ can consume and process the XUUDB information.
+
+Both admin and client access to the XUUDB can be protected by a client-authenticated SSL.
+
+The XUUDB can map users using two different mechanisms:
+
+ - _classic_ or _static_ mechanism, where administrator enters mappings 
+ for each DN manually,
+ - _dynamic_ mechanism, where administrator only define rules stating what attributes
+ should be assigned to UNICORE users fulfilling rule's condition.   
+
+The classic mapping
+~~~~~~~~~~~~~~~~~~~
+
+The classic or static mechanism when UNICORE is used as a gateway to HPC
+site, with a well defined set of users. It is also useful in federated
+scenarios when a dedicated, external infrastructure is build to
+maintain a global list of users.
+
+Using it it is possible to set a list of UNIX logins (aka XLogins or uids), a list of 
+UNIX groups (aka projects or gids) and the role attribute used for authorization. 
+The first uid and the first gid is assumed to be the default one but Grid users are 
+allowed to choose any of the available. 
+
+In case of the default authorization policy the 'user' role is required to get a normal access
+to the site, the 'admin' role grants super-user privileges, and the 'banned' role bans the user.    
+
+The XUUDB stores and compares only distinguished names (DNs), not full certificates.
+
+Multiple UNICORE sites can share the XUUDB, even if the attributes are
+different per UNICORE site. Sites are grouped by the so-called GCID
+(grid component ID).
+
+The dynamic mapping
+~~~~~~~~~~~~~~~~~~~
+
+The dynamic mechanism is used to map users who _were already
+authorized_, therefore it doesn't make sense (and is not possible) to
+assign the authorization attributes as 'role'. The dynamic mechanism
+is useful in deployments where a site doesn't know the precise list of
+its users (which are maintained externally), or simply doesn't want to
+define local accounts for each UNICORE user. In other words, the site
+relies on a trusted 3rd party to maintain a list of genuine and
+authorized users, and automatically assigns a local account to each
+user.
+
+As it will be shown later on dynamic mappings can be also used in
+other scenarios, also being complementary to static mappings.
+
+Dynamic mappings configuration is described in the section <<dynamic>>.
+
+    
+
+[NOTE]
+.IMPORTANT NOTE ON PATHS
+=========================================================
+XUUDB is distributed either as an platform independent and portable
+bundle (as part of the UNICORE quickstart package) or as an 
+installable, platform dependent package such as RPM. 
+
+Depending on the installation package used paths are different. If 
+installing using distribution-specific package the following path prefixes
+are used:
+
+  CONF=/etc/unicore/xuudb
+  BIN=/usr/sbin
+  ADMIN=/usr/sbin/unicore-xuudb-admin
+  LOG=/var/log/unicore/xuudb
+
+If installing using portable bundle all XUUDB files are installed
+under a single directory. Path prefixes used then are as follows,
+where INST is a directory where the XUUDB was installed:
+
+  CONF=INST/conf
+  BIN=INST/bin
+  ADMIN=BIN/admin.sh
+  LOG=INST/log
+
+The above variables (CONF, BIN, ADMIN and LOG) are used throughout the rest of this
+manual.
+=========================================================
+
+
+Installation
+------------
+
+The UNICORE XUUDB is distributed in the following formats:
+
+ 1. As a part of a platform independent installation bundle called
+ UNICORE core server bundle.
+ 2. As a platform-specific binary package
+ available for RedHat (Centos) and Debian platforms. Those
+ packages are not tested on all possible platforms, but should work
+ without any problems with other versions of similar distributions.
+
+In both cases an installation of XUUDB installs both XUUDB Server and XUUDB admin client.
+
+After installing the server you will have to configure it. This is described in the section 
+<<server-cfg>>.
+
+Installation from Core Server Bundle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Download the core server bundle from the UNICORE project website at 
+https://sourceforge.net/projects/unicore/files/Servers/Core
+
+Installation from RPM or DEB packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An up-to-date list of the available repositories is given on the following page
+https://sourceforge.net/p/unicore/wiki/Linux_Repositories/
+
+The preferred way is to use Yum or APT to install (and subsequently update) XUUDB.
+
+After the repository is configured, the following command installs XUUDB:
+ 
+ $> yum install unicore-xuudb
+
+or in case of Debian systems
+
+ $> apt-get install unicore-xuudb
+

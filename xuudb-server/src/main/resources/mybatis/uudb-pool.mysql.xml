@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="de.fzj.unicore.xuudb.server.db.UudbPoolMapper">
+	<update id="create-pools-table">
+		CREATE TABLE IF NOT EXISTS UUDB_POOLS (
+			id			INTEGER PRIMARY KEY AUTO_INCREMENT,
+			name		VARCHAR(64) NOT NULL,
+			keyType		VARCHAR(64) NOT NULL,
+			valueType	VARCHAR(64) NOT NULL,
+			UNIQUE (name)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+	</update>
+
+	<update id="create-mappings-table">
+		CREATE TABLE IF NOT EXISTS UUDB_POOL_ENTRIES (
+			id			INTEGER PRIMARY KEY AUTO_INCREMENT,
+			pool		INTEGER,
+			entry		VARCHAR(64),
+			poolKey		VARCHAR(512) DEFAULT NULL,
+			lastAccess	DATETIME,
+			freezeTime	DATETIME DEFAULT NULL,
+			UNIQUE 		(pool, entry),
+			FOREIGN KEY (pool) REFERENCES UUDB_POOLS (id) ON DELETE CASCADE,
+			INDEX		(pool, entry)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+	</update>
+</mapper>

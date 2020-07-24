@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FindBugsFilter>
+  <LastVersion value="-1" relOp="NEQ"/>
+  <And>
+    <Class name="de.fzj.unicore.xuudb.server.XUUDBServer"/>
+    <Bug pattern="DM_EXIT"/>
+  </And>
+  <And>
+    <Class name="de.fzj.unicore.xuudb.X509Utils"/>
+    <Method name="getStringFromPEMFile"/>
+    <Bug pattern="NP_DEREFERENCE_OF_READLINE_VALUE"/>
+  </And>
+  <And>
+    <Class name="de.fzj.unicore.xuudb.Configuration"/>
+    <Or>
+      <Method name="createDefaultServer"/>
+      <Method name="createDefaultClient"/>
+    </Or>
+    <Bug pattern="REC_CATCH_EXCEPTION"/>
+  </And>
+  <And>
+    <Class name="de.fzj.unicore.xuudb.server.db.Database"/>
+    <Method name="checkToken" />
+    <Bug pattern="DE_MIGHT_IGNORE"/>
+  </And>
+  <And>
+    <Class name="de.fzj.unicore.xuudb.server.db.Database"/>
+    <Method name="&lt;init&gt;" />
+    <Bug pattern="DMI_EMPTY_DB_PASSWORD"/>
+  </And>
+  <And>
+    <Class name="de.fzj.unicore.xuudb.server.db.Database"/>
+    <Method name="update" />
+    <Bug pattern="DMI_EMPTY_DB_PASSWORD"/>
+  </And>
+</FindBugsFilter>

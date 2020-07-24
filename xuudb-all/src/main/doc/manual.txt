@@ -1,0 +1,19 @@
+XUUDB Manual
+============
+:revnumber: 2.1.1
+UNICORE Team <unicore-support@lists.sourceforge.net>
+:numbered:
+
+The XUUDB server is an Attribute Source implementation which can be used by UNICORE
+servers. It is used to map a UNICORE identity (an X500 distinguished name) to 
+authorisation and incarnation attributes.
+The XUUDB is also capable of performing dynamic mappings of incarnation attributes, 
+using a rule engine.
+
+
+For more information about UNICORE visit https://www.unicore.eu[https://www.unicore.eu].
+
+include::xuudb-general.txt[]
+include::xuudb-server.txt[]
+include::xuudb-client.txt[]
+
