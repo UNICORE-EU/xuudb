@@ -21,8 +21,8 @@
   </scm>
 
   <properties>
-    <secutils.version>2.0.3</secutils.version>
-    <jetty.version>9.4.28.v20200408</jetty.version>    
+    <secutils.version>2.0.4</secutils.version>
+    <jetty.version>9.4.31.v20200723</jetty.version>
     <seclib.version>4.5.10</seclib.version>
   </properties>
 
