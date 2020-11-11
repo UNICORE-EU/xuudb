@@ -34,7 +34,7 @@
 package de.fzj.unicore.xuudb.server;
 
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzJuelich.unicore.xuudb.AddCertificateDocument;
 import de.fzJuelich.unicore.xuudb.AddCertificateResponseDocument;

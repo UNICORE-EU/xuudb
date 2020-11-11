@@ -41,7 +41,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.invoker.BeanInvoker;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzj.unicore.xuudb.AbstractConfiguration;
 import de.fzj.unicore.xuudb.Log;

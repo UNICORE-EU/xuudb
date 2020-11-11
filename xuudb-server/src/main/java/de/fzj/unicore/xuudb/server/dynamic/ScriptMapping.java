@@ -7,7 +7,7 @@ package de.fzj.unicore.xuudb.server.dynamic;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.springframework.expression.EvaluationException;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;

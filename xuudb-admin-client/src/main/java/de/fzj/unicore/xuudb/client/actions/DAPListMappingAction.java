@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzJuelich.unicore.xuudb.MappingDataType;
 import de.fzj.unicore.xuudb.Log;

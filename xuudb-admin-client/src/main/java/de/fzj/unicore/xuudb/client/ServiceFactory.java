@@ -35,7 +35,7 @@ package de.fzj.unicore.xuudb.client;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzj.unicore.xuudb.AbstractConfiguration;
 import de.fzj.unicore.xuudb.Log;

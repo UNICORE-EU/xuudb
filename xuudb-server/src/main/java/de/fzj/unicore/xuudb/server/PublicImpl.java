@@ -42,7 +42,7 @@ import java.security.cert.X509Certificate;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzJuelich.unicore.xuudb.CheckCertChainResponseDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateChainDocument;

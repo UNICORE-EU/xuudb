@@ -1,6 +1,6 @@
 package de.fzj.unicore.xuudb.client.wsapi.impl;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzJuelich.unicore.xuudb.GetAttributesRequestDocument;
 import de.fzJuelich.unicore.xuudb.GetAttributesRequestType;

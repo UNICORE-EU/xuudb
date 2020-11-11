@@ -5,7 +5,7 @@ import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;

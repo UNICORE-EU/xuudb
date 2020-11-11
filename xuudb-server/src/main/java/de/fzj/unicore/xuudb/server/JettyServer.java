@@ -36,7 +36,7 @@ package de.fzj.unicore.xuudb.server;
 import java.net.URL;
 
 import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;

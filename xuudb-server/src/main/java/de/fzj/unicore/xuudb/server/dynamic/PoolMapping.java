@@ -4,7 +4,7 @@
  */
 package de.fzj.unicore.xuudb.server.dynamic;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
 import de.fzj.unicore.xuudb.Log;

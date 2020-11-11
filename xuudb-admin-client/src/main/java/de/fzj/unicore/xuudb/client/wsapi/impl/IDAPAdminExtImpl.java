@@ -3,7 +3,7 @@ package de.fzj.unicore.xuudb.client.wsapi.impl;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.fzJuelich.unicore.xuudb.FindMappingRequestDocument;
 import de.fzJuelich.unicore.xuudb.FindMappingRequestType;
