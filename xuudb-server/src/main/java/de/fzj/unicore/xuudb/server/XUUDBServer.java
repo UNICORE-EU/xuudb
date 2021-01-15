@@ -34,15 +34,10 @@
 package de.fzj.unicore.xuudb.server;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import de.fzj.unicore.xuudb.Log;
 
@@ -53,6 +48,7 @@ public class XUUDBServer {
 	private ScheduledExecutorService executorService;
 	
 	public static void main(String[] args) {
+		checkLogSystem();
 		if(args.length==0)
 			XUUDBServer.printUsage();
 		else
@@ -64,7 +60,7 @@ public class XUUDBServer {
 			printUsage();
 		executorService = Executors.newScheduledThreadPool(5);
 		String configFile = new File("conf", "xuudb_server.conf").getPath();
-		startLogConfigWatcher();
+		
 		if(args[0].equalsIgnoreCase("--start")) {
 			if(args.length>1){
 				configFile=args[1];
@@ -83,34 +79,16 @@ public class XUUDBServer {
 			}
 		}		
 	}
+	
 	/**
-	 * sets up a watchdog that checks for changes to the log4j configuration file,
-	 * and re-configures log4j if that file has changed
+	 * warn if no log4j2 config is set
 	 */
-	private void startLogConfigWatcher(){
-		final String logConfig=System.getProperty("log4j.configuration");
-		if(logConfig==null){
-			logger.debug("No log4j config defined.");
-			return;
-		}
-		
-		try{
-			Runnable r=new Runnable(){
-				public void run(){
-					logger.info("LOG CONFIG MODIFIED, re-configuring.");
-					PropertyConfigurator.configure(logConfig);
-				}
-			};
-			File logProperties=logConfig.startsWith("file:")?new File(new URI(logConfig)):new File(logConfig);
-			FileWatcher fw=new FileWatcher(logProperties,r);
-			executorService.scheduleWithFixedDelay(fw, 5, 5, TimeUnit.SECONDS);
-			logger.info("Monitoring log configuration at <"+logProperties.getAbsolutePath()+">");
-		
-		}catch(FileNotFoundException fex){
-			System.err.println("Log configuration file <"+logConfig+"> not found.");
-		}
-		catch(URISyntaxException use){
-			System.err.println("Not a valid URI: <"+logConfig+">.");
+	private static void checkLogSystem() {
+		if(System.getProperty("log4j.configurationFile")==null) {
+			System.err.println("***");
+			System.err.println("*** NO log4j configuration set - will use defaults.");
+			System.err.println("*** please configure log4j with -Dlog4j.configurationFile=file:/path/to/config");
+			System.err.println("***");
 		}
 	}
 

@@ -24,7 +24,7 @@
 
   <properties>
     <secutils.version>3.1.0</secutils.version>
-    <jetty.version>9.4.31.v20200723</jetty.version>
+    <jetty.version>9.4.35.v20201120</jetty.version>
     <seclib.version>5.1.0</seclib.version>
   </properties>
 
@@ -45,11 +45,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.16</version>
-      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
