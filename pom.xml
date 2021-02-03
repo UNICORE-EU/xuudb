@@ -23,9 +23,9 @@
   </scm>
 
   <properties>
-    <secutils.version>3.1.0</secutils.version>
+    <secutils.version>3.1.2</secutils.version>
     <jetty.version>9.4.35.v20201120</jetty.version>
-    <seclib.version>5.1.0</seclib.version>
+    <seclib.version>5.2.0</seclib.version>
   </properties>
 
   <modules>
@@ -65,6 +65,11 @@
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-servlets</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-rewrite</artifactId>
         <version>${jetty.version}</version>
       </dependency>
       <dependency>
@@ -147,7 +152,7 @@
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.19</version>
+        <version>8.0.22</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>

@@ -28,6 +28,10 @@
       <artifactId>jetty-servlets</artifactId>
     </dependency>
     <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-rewrite</artifactId>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
