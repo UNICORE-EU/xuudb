@@ -6,7 +6,7 @@ Summary: Site-central UNICORE users database
 License: BSD
 Distribution: RedHat
 Group: System Environment/Daemons
-URL: http://www.unicore.eu
+URL: https://www.unicore.eu
 Requires: java-1.@java-main-version@.0-openjdk
 BuildArch: @component-architecture@
 AutoReqProv: no
@@ -18,9 +18,9 @@ UNICORE (UNiform Interface to COmputing REsources) is a software suite
 for building federated systems, providing secure and seamless access
 to high-performance compute and data resources.
 
-This package contains the UNICORE XUUDB users database which can be
-used to authorize UNICORE users and to map them to local UNIX accounts.
-Its command line client is also included.
+This package contains the UNICORE user database which can be used
+to authorize federated users and to map them to local UNIX accounts.
+The command line client for administrators is also included.
 
 
 %changelog

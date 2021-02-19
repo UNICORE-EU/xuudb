@@ -1,11 +1,8 @@
 #!/bin/bash
 #
-#Start script for the XUUDB admin client
+# Start script for the XUUDB admin client
 #
 
-#
-# Read basic configuration parameters
-#
 @cdInstall@
 
 . @etc@/startup.properties
@@ -38,21 +35,13 @@ Options=( )
 	        fi
 	}
 
-#
-#Options
-#
-
 set_option "Dxuudb.batch" "=true"
+
 set_option "Dxuudb.client.conf" "=${LOCAL_DIR}/xuudb_client.conf"
 
-#
-# log configuration
-#
-set_option "Djava.util.logging.config.file" "=${LOCAL_DIR}/client_logging.properties"
-set_option "Dlog4j.configuration" "=@filePrefix@${LOCAL_DIR}/client_logging.properties"
+set_option "Dlog4j.configurationFile" "=@filePrefix@${LOCAL_DIR}/client_logging.properties"
 
 CLASSPATH=.$(@cdRoot@find "${LIB}" -name *.jar -exec printf ":{}" \;)
 export CLASSPATH
 
-# run
 $JAVA "${Options[@]}" ${XUUDB_ADMIN_OPTS} de.fzj.unicore.xuudb.client.XUUDBClient "$@"
