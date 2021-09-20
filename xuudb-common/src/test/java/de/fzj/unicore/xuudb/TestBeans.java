@@ -1,10 +1,12 @@
 package de.fzj.unicore.xuudb;
 
+import org.junit.Test;
+
 import de.fzJuelich.unicore.xuudb.CheckCertificateChainDocument;
-import junit.framework.TestCase;
 
-public class TestBeans extends TestCase {
+public class TestBeans {
 
+	@Test
 	public void test1(){
 		CheckCertificateChainDocument ccd=CheckCertificateChainDocument.Factory.newInstance();
 		ccd.addNewCheckCertificateChain().setEncodedChain("foo");

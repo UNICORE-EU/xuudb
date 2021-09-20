@@ -1,131 +1,106 @@
 package de.fzj.unicore.xuudb.client.functional;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;
 
 public class TestFuncAdmin extends TestFuncBase {
-	public void testAddAction() {
+
+	@Test
+	public void testAddAction() throws Exception {
 		System.out.println("Test add user");
 
-		try {
-			XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
-					project);
-			if (!resp.getStatus().contains("OK"))
-				fail();
-		} catch (Exception e) {
-			fail(e.toString());
-		}
+		XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
+				project);
+		if (!resp.getStatus().contains("OK"))
+			fail();
 	}
 
-	public void testAddDNAction() {
+	@Test
+	public void testAddDNAction() throws Exception {
 		System.out.println("Test addDN user");
-		try {
-			XUUDBResponse resp = admin.adddn(gcId, dn, xlogin2, role, project);
-			if (!resp.getStatus().contains("OK"))
-				fail();
-
-		} catch (Exception e) {
-			fail(e.toString());
-		}
+		XUUDBResponse resp = admin.adddn(gcId, dn, xlogin2, role, project);
+		if (!resp.getStatus().contains("OK"))
+			fail();
 	}
 
-	public void testImportExport() {
+	@Test
+	public void testImportExport() throws Exception {
 
 		System.out.println("Test export");
 
-		try {
-			XUUDBResponse resp = admin.adddn(gcId, dn, xlogin2, role, project);
-			if (!resp.getStatus().contains("OK"))
-				fail();
+		XUUDBResponse resp = admin.adddn(gcId, dn, xlogin2, role, project);
+		if (!resp.getStatus().contains("OK"))
+			fail();
 
-		} catch (Exception e) {
-			fail(e.toString());
-		}
+		resp = admin.exportCsv();
+		if (!resp.getStatus().contains("OK"))
+			fail();
 
-		try {
-			XUUDBResponse resp = admin.exportCsv();
-			if (!resp.getStatus().contains("OK"))
-				fail();
+		if (resp.getData().length != 1)
+			fail();
 
-			if (resp.getData().length != 1)
-				fail();
 
-			
 
-			XUUDBResponse resp2 = admin.importCsv(resp.getData(), true);
-			if (!resp2.getStatus().contains(
-					"1   certificates from   1   were imported into the XUUDB"))
-				fail();
-
-		} catch (Exception e) {
-			fail(e.toString());
-		}
+		XUUDBResponse resp2 = admin.importCsv(resp.getData(), true);
+		if (!resp2.getStatus().contains(
+				"1   certificates from   1   were imported into the XUUDB"))
+			fail();
 
 	}
 
-	public void testList() {
-
+	@Test
+	public void testList() throws Exception {
+		
 		System.out.println("Test list");
-		try {
-			XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
-					project);
-			if (!resp.getStatus().contains("OK"))
-				fail();
+		XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
+				project);
+		if (!resp.getStatus().contains("OK"))
+			fail();
 
-			LoginDataType lg = LoginDataType.Factory.newInstance();
-			lg.setGcID(gcId);
-			XUUDBResponse resp2 = admin.list(lg);
-			if (resp2.getData().length != 1)
-				fail();
-
-		} catch (Exception e) {
-			fail(e.toString());
-		}
-
+		LoginDataType lg = LoginDataType.Factory.newInstance();
+		lg.setGcID(gcId);
+		XUUDBResponse resp2 = admin.list(lg);
+		if (resp2.getData().length != 1)
+			fail();
 	}
 
-	public void testUpdate() {
+	@Test
+	public void testUpdate() throws Exception {
 
 		System.out.println("Test update");
 
-		try {
-			XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
-					project);
-			if (!resp.getStatus().contains("OK"))
-				fail();
+		XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
+				project);
+		if (!resp.getStatus().contains("OK"))
+			fail();
 
-			LoginDataType lg = LoginDataType.Factory.newInstance();
-			lg.setGcID(gcId + "xxx");
-			lg.setRole("newRole");
-			XUUDBResponse resp2 = admin.update(gcId, certPem, lg);
-			if (!resp2.getStatus().contains("Updated   1   rows."))
-				fail();
-
-		} catch (Exception e) {
-			fail(e.toString());
-		}
-
+		LoginDataType lg = LoginDataType.Factory.newInstance();
+		lg.setGcID(gcId + "xxx");
+		lg.setRole("newRole");
+		XUUDBResponse resp2 = admin.update(gcId, certPem, lg);
+		if (!resp2.getStatus().contains("Updated   1   rows."))
+			fail();
 	}
 
-	public void testRemove() {
+	@Test
+	public void testRemove() throws Exception {
 		System.out.println("Test idividual remove");
-		try {
-			XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
-					project);
-			if (!resp.getStatus().contains("OK"))
-				fail();
+		XUUDBResponse resp = admin.add(gcId, certPem, xlogin1, role,
+				project);
+		if (!resp.getStatus().contains("OK"))
+			fail();
 
-			LoginDataType lg = LoginDataType.Factory.newInstance();
-			lg.setGcID(gcId);
-			lg.setRole(role);
-			lg.setToken(certPem);
-			XUUDBResponse resp2 = admin.remove(lg);
-			if (!resp2.getStatus().contains("Removed records: 1"))
-				fail();
-
-		} catch (Exception e) {
-			fail(e.toString());
-		}
+		LoginDataType lg = LoginDataType.Factory.newInstance();
+		lg.setGcID(gcId);
+		lg.setRole(role);
+		lg.setToken(certPem);
+		XUUDBResponse resp2 = admin.remove(lg);
+		if (!resp2.getStatus().contains("Removed records: 1"))
+			fail();
 
 	}
 

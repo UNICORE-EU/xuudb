@@ -1,5 +1,10 @@
 package de.fzj.unicore.xuudb.server;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.cert.X509Certificate;
@@ -9,8 +14,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import de.fzJuelich.unicore.xuudb.ImportDatabaseDocument;
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.server.db.DatabaseProperties;
@@ -19,17 +29,15 @@ import de.fzj.unicore.xuudb.server.db.IStorage;
 import de.fzj.unicore.xuudb.server.db.MyBatisDatabase;
 import eu.emi.security.authn.x509.impl.CertificateUtils;
 import eu.emi.security.authn.x509.impl.CertificateUtils.Encoding;
-import eu.unicore.bugsreporter.annotation.FunctionalTest;
-import eu.unicore.bugsreporter.annotation.FunctionalTests;
 import eu.unicore.util.configuration.FilePropertiesHelper;
 
-public class TestMyBatisXUUDB extends TestCase {
+public class TestMyBatisXUUDB {
 	
-	protected IClassicStorage xuudb;
-	protected IStorage db;
+	protected static IClassicStorage xuudb;
+	protected static IStorage db;
 	
-	@Override
-	protected void setUp()throws Exception{
+	@BeforeClass
+	public static void setUp()throws Exception{
 		ShutdownHook hook = new ShutdownHook();
 		DatabaseProperties dbProps = new DatabaseProperties(FilePropertiesHelper.load(
 				"src/test/resources/xuudb_server.conf"));
@@ -38,8 +46,15 @@ public class TestMyBatisXUUDB extends TestCase {
 		xuudb.remove(LoginDataType.Factory.newInstance());
 	}
 
-	@Override
-	protected void tearDown() {
+	@After
+	public void cleanup() {
+		ImportDatabaseDocument i = ImportDatabaseDocument.Factory.newInstance();
+		i.addNewImportDatabase().setClean(true);
+		xuudb.import_csv(i);
+	}
+
+	@AfterClass
+	public static void tearDown() {
 		try
 		{
 			db.shutdown();
@@ -51,7 +66,7 @@ public class TestMyBatisXUUDB extends TestCase {
 		}
 	}
 	
-
+	@Test
 	public void testRemoveByDN()throws Exception{
 		LoginDataType addRequest=getAddRequest("xlogin1:xlogin2:xlogin3");
 		xuudb.add(addRequest);
@@ -72,10 +87,7 @@ public class TestMyBatisXUUDB extends TestCase {
 		return add;
 	}
 
-	@FunctionalTests({@FunctionalTest(id="xuudb_remove"), 
-			@FunctionalTest(id="xuudb_add"),
-			@FunctionalTest(id="xuudb_list"),
-			@FunctionalTest(id="xuudb_update")})
+	@Test
 	public void testAddRemoveIndividualXlogins()throws Exception{
 		
 		LoginDataType addRequest=getAddRequest("xlogin1");
@@ -124,6 +136,7 @@ public class TestMyBatisXUUDB extends TestCase {
 		
 	}
 
+	@Test
 	public void testDoNotAddSameXlogin()throws Exception{
 		
 		LoginDataType addRequest=getAddRequest("xlogin1");
@@ -149,6 +162,7 @@ public class TestMyBatisXUUDB extends TestCase {
 		
 	}
 
+	@Test
 	public void testRemoveFullXlogin()throws Exception{
 		LoginDataType addRequest=getAddRequest("xlogin1:xlogin2:xlogin3");
 		xuudb.add(addRequest);
@@ -161,6 +175,7 @@ public class TestMyBatisXUUDB extends TestCase {
 		assertEquals(0,os.length);
 	}
 
+	@Test
 	public void testBasicCRUD()throws Exception{
 		LoginDataType addRequest=getAddRequest("xlogin1");
 		xuudb.add(addRequest);
@@ -188,8 +203,9 @@ public class TestMyBatisXUUDB extends TestCase {
 	
 	}
 
-	@FunctionalTest(id="xuudb_performance")
-	public void tstPerformance() throws Exception{
+	@Test
+	@Ignore
+	public void testPerformance() throws Exception{
 		final int ITERATIONS = 10, DIFFERENT_QUERIES = 100, MULTIPLIER = 5;
 		final int RECORD_COUNT = DIFFERENT_QUERIES*MULTIPLIER;
 		for(int i=0; i<RECORD_COUNT; i++){
@@ -221,8 +237,9 @@ public class TestMyBatisXUUDB extends TestCase {
 		xuudb.remove(removeRequest);
 	}
 
-	@FunctionalTest(id="xuudb_scalability")
-	public void tstScalability() throws Exception{
+	@Test
+	@Ignore
+	public void testScalability() throws Exception{
 		final int ITERATIONS = 200, QUERY_THREADS = 40, CRUD_THREADS = 10;
 		final int RECORD_COUNT = 100;
 		for(int i=0; i<RECORD_COUNT; i++){

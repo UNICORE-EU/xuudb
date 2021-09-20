@@ -7,6 +7,7 @@ import java.util.Properties;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Test;
 
 import de.fzJuelich.unicore.xuudb.AddCertificateDocument;
 import de.fzJuelich.unicore.xuudb.AddCertificateResponseDocument;
@@ -28,10 +29,11 @@ import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.interfaces.IAdmin;
 import de.fzj.unicore.xuudb.interfaces.IPublic;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class TestAdminAndPublic extends TestCase {
+public class TestAdminAndPublic {
 
+	@Test
 	public void testAdminActions() {
 		HttpsServer server = null;
 		try {

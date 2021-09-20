@@ -2,13 +2,17 @@ package de.fzj.unicore.xuudb.client.unit;
 
 import java.security.Permission;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
 import de.fzj.unicore.xuudb.client.CLCExecutor;
 import de.fzj.unicore.xuudb.client.XUUDBClient;
 
-public class CLClientTest extends TestCase {
+import static org.junit.Assert.*;
 
-	public void testClcExecutor() {
+public class CLClientTest {
+
+	@Test
+	public void testClcExecutor() throws Exception {
 		CLCExecutor e = new CLCExecutor();
 
 		e = new CLCExecutor();
@@ -27,24 +31,12 @@ public class CLClientTest extends TestCase {
 
 		String[] args3 = { "--config", "test.conf", "help" };
 		e2.processCommandLineArgs(args3);
-		try {
-			assertTrue(e2.parseLine(e2.getParsedLine()));
-		} catch (Exception e1) {
-
-			e1.printStackTrace();
-			fail();
-		}
-
+		assertTrue(e2.parseLine(e2.getParsedLine()));
+		
 		String[] args33 = { "--config", "test.conf", "help", "list" };
 		e2.processCommandLineArgs(args33);
-		try {
-			assertTrue(e2.parseLine(e2.getParsedLine()));
-		} catch (Exception e1) {
-
-			e1.printStackTrace();
-			fail();
-		}
-
+		assertTrue(e2.parseLine(e2.getParsedLine()));
+		
 		CLCExecutor e3 = new CLCExecutor("src/test/resources/client.conf");
 		e3.readConfig();
 		e3.registerHelpActions();
@@ -52,17 +44,11 @@ public class CLClientTest extends TestCase {
 
 		String[] args4 = { "helpAll" };
 		e3.processCommandLineArgs(args4);
-		try {
-			assertTrue(e3.parseLine(e3.getParsedLine()));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
-
+		assertTrue(e3.parseLine(e3.getParsedLine()));
+		
 		CLCExecutor e5 = new CLCExecutor();
 		String[] args6 = new String[0];
 		assertFalse(e5.processCommandLineArgs(args6));
-
 	}
 
 	protected static class ExitException extends SecurityException {
@@ -92,8 +78,9 @@ public class CLClientTest extends TestCase {
 	}
 
 
+	@Test
 	@SuppressWarnings("static-access")
-	public void testClc() {
+	public void testClc() throws Exception {
 
 		SecurityManager old = System.getSecurityManager();
 		System.setSecurityManager(new NoExitSecurityManager());
@@ -101,7 +88,7 @@ public class CLClientTest extends TestCase {
 		String[] args = { "--config", "src/test/resources/client.conf", "help" };
 		
 		try{
-		cl.main(args);
+			cl.main(args);
 		}catch (ExitException e) {
 			if(e.status!=0)
 				fail();

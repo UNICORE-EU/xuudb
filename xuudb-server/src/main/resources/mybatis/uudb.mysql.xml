@@ -10,7 +10,7 @@
 			xlogin 		VARCHAR(255),
 			token 		VARCHAR(8192),
 			role 		VARCHAR(255),
-			projects 	VARCHAR(255),
+			projects 	VARCHAR(1024),
 			INDEX		(gcid)
 		)  ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 	</update>

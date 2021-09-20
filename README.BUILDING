@@ -1,24 +1,16 @@
 Building the XUUDB
 ******************
 
-Apart from the Java SDK, you will need a Subversion client and Maven2, 
+Apart from the Java SDK, you will need a Git client and Maven3, 
 available at http://maven.apache.org
 
-1) Checkout the code from the Subversion repository:
+1) Checkout the code from the Github
 
-for the latest code:
-
-  svn co https://svn.code.sf.net/p/unicore/svn/xuudb/trunk
-
-for e.g. the 2.1.0 release:
-
-  svn co https://svn.code.sf.net/p/unicore/svn/xuudb/tags/2.1.0
-
+  git clone https://github.com/UNICORE-EU/xuudb.git
 
 2) To compile the components, do
 
   mvn clean install
-
 
 3) Packaging
 
@@ -50,6 +42,6 @@ to import the projects into Eclipse
 CONTACT INFO
 ************
 
-Web:            http://www.unicore.eu
-Mailing lists:  http://sourceforge.net/projects/unicore
-
+Web:            https://www.unicore.eu
+Mailing lists:  https://sourceforge.net/projects/unicore
+Sources:        https://github.com/UNICORE-EU/xuudb

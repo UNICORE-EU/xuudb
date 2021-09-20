@@ -5,10 +5,12 @@ import static eu.unicore.security.canl.TrustedIssuersProperties.PROP_KS_PATH;
 import static eu.unicore.security.canl.TrustedIssuersProperties.PROP_KS_TYPE;
 import static eu.unicore.security.canl.TrustedIssuersProperties.PROP_TYPE;
 import static eu.unicore.security.canl.TruststoreProperties.DEFAULT_PREFIX;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Properties;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
 import de.fzj.unicore.xuudb.AbstractConfiguration;
 import de.fzj.unicore.xuudb.client.ClientConfiguration;
 import de.fzj.unicore.xuudb.client.ServiceFactory;
@@ -18,10 +20,11 @@ import de.fzj.unicore.xuudb.interfaces.IPublic;
 import eu.unicore.security.canl.CredentialProperties;
 import eu.unicore.util.httpclient.ClientProperties;
 
-public class TestServiceFactory extends TestCase {
+public class TestServiceFactory {
 	private static final String P = AbstractConfiguration.PROP_PREFIX;
 	
-	public void testServiceFactory() {
+	@Test
+	public void testServiceFactory() throws Exception {
 		Properties newone = new Properties();
 		newone.setProperty(P + AbstractConfiguration.PROP_ADDRESS, "http://localhost:9999");
 		
@@ -40,16 +43,8 @@ public class TestServiceFactory extends TestCase {
 		
 		ClientConfiguration config = new ClientConfiguration(newone);
 		ServiceFactory serviceFactory;
-		try
-		{
-			serviceFactory = new ServiceFactory(config);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			fail("Error creating ServiceFactory " + e);
-			return;
-		}
-
+		serviceFactory = new ServiceFactory(config);
+		
 		IAdmin admin = null;
 		admin = serviceFactory.getAdminEndpoint();
 		assertNotNull(admin);

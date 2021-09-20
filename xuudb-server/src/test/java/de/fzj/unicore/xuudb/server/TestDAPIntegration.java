@@ -4,12 +4,20 @@
  */
 package de.fzj.unicore.xuudb.server;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Test;
 
 import de.fzJuelich.unicore.xuudb.FindMappingRequestDocument;
 import de.fzJuelich.unicore.xuudb.FindMappingRequestType;
@@ -30,11 +38,10 @@ import de.fzJuelich.unicore.xuudb.SimulateGetAttributesRequestDocument;
 import de.fzJuelich.unicore.xuudb.SimulateGetAttributesResponseDocument;
 import de.fzj.unicore.xuudb.interfaces.IDAPAdmin;
 import de.fzj.unicore.xuudb.interfaces.IDynamicAttributesPublic;
-import junit.framework.TestCase;
 
-public class TestDAPIntegration extends TestCase {
+public class TestDAPIntegration {
 	
-	
+	@Test
 	public void test() {
 		HttpsServer server = null;
 		try {

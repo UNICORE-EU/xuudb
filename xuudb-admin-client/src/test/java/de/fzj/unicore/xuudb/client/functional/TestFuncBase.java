@@ -5,7 +5,10 @@ import java.security.cert.X509Certificate;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.client.CLCExecutor;
@@ -17,11 +20,11 @@ import de.fzj.unicore.xuudb.client.wsapi.IPublicExtInterface;
 import de.fzj.unicore.xuudb.server.HttpsServer;
 import eu.unicore.util.configuration.FilePropertiesHelper;
 
-public abstract class TestFuncBase extends TestCase {
-	protected String serverConfigFile = "src/test/resources/server.conf";
-	protected  String clientConfigFile = "src/test/resources/client.conf";
+public abstract class TestFuncBase {
+	protected static String serverConfigFile = "src/test/resources/server.conf";
+	protected static String clientConfigFile = "src/test/resources/client.conf";
 
-	protected CLCExecutor clc;
+	protected static CLCExecutor clc;
 
 	protected String gcIdDN = "TestDN";
 	protected String gcId = "Test";
@@ -30,15 +33,16 @@ public abstract class TestFuncBase extends TestCase {
 	protected String xlogin2 = "test2";
 	protected String project = "test";
 	protected String role = "user";
-	protected String pemFile = "src/test/resources/demouser.pem";
-	protected String certPem;
+	protected static String pemFile = "src/test/resources/demouser.pem";
+	protected static String certPem;
 
-	protected IAdminExtInterface admin;
-	protected IPublicExtInterface query;
-	protected IDAPAdminExtInterface dap;
-	protected HttpsServer server;
+	protected static IAdminExtInterface admin;
+	protected static IPublicExtInterface query;
+	protected static IDAPAdminExtInterface dap;
+	protected static HttpsServer server;
 	
-	protected void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 
 		Properties p = FilePropertiesHelper.load(serverConfigFile);
 		//CHECK 
@@ -62,10 +66,14 @@ public abstract class TestFuncBase extends TestCase {
 
 	}
 	
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void cleanup() throws Exception {
 		System.out.println("Clear database");
 		admin.remove(LoginDataType.Factory.newInstance());
+	}
+	
+	@AfterClass
+	public static void tearDown() throws Exception {
 		server.shutdown();
 	}
 

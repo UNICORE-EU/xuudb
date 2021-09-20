@@ -8,15 +8,19 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import org.junit.Test;
+
 import de.fzj.unicore.xuudb.server.db.IStorage;
 import de.fzj.unicore.xuudb.server.db.StorageFactory;
-import de.fzj.unicore.xuudb.server.dynamic.Rule;
 import de.fzj.unicore.xuudb.server.dynamic.DAPConfiguration;
-import junit.framework.TestCase;
+import de.fzj.unicore.xuudb.server.dynamic.Rule;
 
-public class TestDAPConfig  extends TestCase {
+import static org.junit.Assert.*;
+
+public class TestDAPConfig {
 	
 	
+	@Test
 	public void test() throws Exception
 	{
 		ShutdownHook hook = new ShutdownHook();
