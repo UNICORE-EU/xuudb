@@ -24,8 +24,8 @@ The command line client for administrators is also included.
 
 
 %changelog
-* Wed Nov 11 2020 Bernd Schuller <unicore-support@lists.sourceforge.net>
-- Updated
+* @release-timestamp@ Bernd Schuller <unicore-support@lists.sourceforge.net>
+- Latest
 * Sat Feb 19 2011 Krzysztof Benedyczak <unicore-support@lists.sourceforge.net> 
 -Many packaging fixes
 * Wed Oct 06 2010 Andre Giesler <unicore-support@lists.sourceforge.net> 
