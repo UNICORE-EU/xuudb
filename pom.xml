@@ -12,7 +12,7 @@
   <parent>
     <artifactId>unicore-parent</artifactId>
     <groupId>eu.unicore</groupId>
-    <version>2.0</version>
+    <version>2.1</version>
   </parent>
 
   <scm>
@@ -24,8 +24,12 @@
 
   <properties>
     <secutils.version>3.2.3</secutils.version>
-    <jetty.version>9.4.44.v20210927</jetty.version>
+    <jetty.version>9.4.46.v20220331</jetty.version>
     <seclib.version>5.3.4</seclib.version>
+    <mysql.version>8.0.28</mysql.version>
+    <mybatis.version>3.5.9</mybatis.version>
+    <h2.version>2.1.212</h2.version>
+
   </properties>
 
   <modules>
@@ -76,6 +80,12 @@
         <groupId>eu.unicore.security</groupId>
         <artifactId>securityLibrary</artifactId>
         <version>${seclib.version}</version>
+	<exclusions>
+	  <exclusion>
+	    <groupId>stax</groupId>
+	    <artifactId>stax-api</artifactId>
+	  </exclusion>
+	</exclusions>
       </dependency>
       <dependency>
         <groupId>eu.unicore.security</groupId>
@@ -126,6 +136,10 @@
 	    <groupId>org.apache.santuario</groupId>
 	    <artifactId>xmlsec</artifactId>
 	  </exclusion>
+	  <exclusion>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+          </exclusion>
 	</exclusions>
       </dependency>
       <dependency>
@@ -137,22 +151,26 @@
 	    <groupId>net.sf.saxon</groupId>
 	    <artifactId>Saxon-HE</artifactId>
 	  </exclusion>
+	  <exclusion>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+          </exclusion>
 	</exclusions>
       </dependency>
       <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>
-        <version>3.5.7</version>
+        <version>${mybatis.version}</version>
       </dependency>
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.4.200</version>
+        <version>${h2.version}</version>
       </dependency>
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.27</version>
+        <version>${mysql.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>

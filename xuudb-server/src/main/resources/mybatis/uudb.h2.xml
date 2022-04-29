@@ -11,7 +11,7 @@
 			token 		VARCHAR(8192),
 			role 		VARCHAR(255),
 			projects 	VARCHAR(1024),
-			UNIQUE KEY 	(gcid, token)
+			UNIQUE		(gcid, token)
 		);
 		CREATE INDEX IF NOT EXISTS IDX_GCID ON UUDB_CLASSIC(gcid);
 	</update>
