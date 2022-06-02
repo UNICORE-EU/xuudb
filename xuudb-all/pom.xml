@@ -14,9 +14,6 @@
   <properties>
     <!-- package release index (will be appended to the version) -->
     <package.release>1</package.release>
-    <!-- this activates asciidoc usage -->
-    <docman.enabled />
-    <doc.includeBundle>file:src/main/doc/xuudb-documentation.properties</doc.includeBundle>
   </properties>
 
   <dependencies>

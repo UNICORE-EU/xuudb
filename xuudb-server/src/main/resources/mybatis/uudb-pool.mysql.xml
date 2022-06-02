@@ -10,7 +10,7 @@
 			keyType		VARCHAR(64) NOT NULL,
 			valueType	VARCHAR(64) NOT NULL,
 			UNIQUE (name)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+		) ENGINE=InnoDB DEFAULT CHARSET=#{param1} AUTO_INCREMENT=1;
 	</update>
 
 	<update id="create-mappings-table">
@@ -24,6 +24,6 @@
 			UNIQUE 		(pool, entry),
 			FOREIGN KEY (pool) REFERENCES UUDB_POOLS (id) ON DELETE CASCADE,
 			INDEX		(pool, entry)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+		) ENGINE=InnoDB DEFAULT CHARSET=#{param1} AUTO_INCREMENT=1;
 	</update>
 </mapper>

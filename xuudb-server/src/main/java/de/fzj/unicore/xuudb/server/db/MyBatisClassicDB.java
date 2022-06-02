@@ -24,13 +24,13 @@ public class MyBatisClassicDB implements IClassicStorage {
 	private MyBatisSessionFactory factory;
 	private static final String ST_CREATE_TABLE = "create-records-table";
 	
-	public MyBatisClassicDB(MyBatisSessionFactory factory) {
+	public MyBatisClassicDB(MyBatisSessionFactory factory, String charset) {
 		this.factory = factory;
 	
 		SqlSession session = factory.openSession(false);
 		try
 		{
-			session.update(ST_CREATE_TABLE);
+			session.update(ST_CREATE_TABLE, charset);
 		} finally 
 		{
 			factory.closeSession(session);

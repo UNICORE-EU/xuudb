@@ -12,7 +12,7 @@
 			role 		VARCHAR(255),
 			projects 	VARCHAR(1024),
 			INDEX		(gcid)
-		)  ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+		)  ENGINE=InnoDB DEFAULT CHARSET=#{param1} AUTO_INCREMENT=1;
 	</update>
 
 </mapper>

@@ -24,7 +24,7 @@
 				<property name="poolMaximumIdleConnections" value="5" />
 				<property name="poolMaximumCheckoutTime" value="120000" />
 				<property name="poolTimeToWait" value="500" />
-				<property name="poolPingQuery" value="select 1 from UUDB" />
+				<property name="poolPingQuery" value="select 1 from UUDB_CLASSIC" />
 				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingConnectionsNotUsedFor" value="600000" />
 			</dataSource>

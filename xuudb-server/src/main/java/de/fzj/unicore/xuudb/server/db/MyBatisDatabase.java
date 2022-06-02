@@ -34,8 +34,10 @@ public class MyBatisDatabase implements IShutdownable, IStorage
 			ShutdownHook shutdown)
 	{
 		factory = new MyBatisSessionFactory(configuration, properties.getProperties());
-		classicDB = new MyBatisClassicDB(factory);
-		poolDB = new MyBatisPoolDB(factory);
+		String charset = properties.getValue(DatabaseProperties.CHARSET);
+		log.debug("Using charset '{}'", charset);
+		classicDB = new MyBatisClassicDB(factory, charset);
+		poolDB = new MyBatisPoolDB(factory, charset);
 	}
 	
 	@Override

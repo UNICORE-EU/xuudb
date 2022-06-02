@@ -32,6 +32,8 @@ public class DatabaseProperties extends PropertiesHelper
 	
 	private enum DbDialect {h2, mysql};
 	
+	public static String CHARSET = "charset";
+
 	@DocumentationReferencePrefix
 	public static final String PROP_PREFIX = AbstractConfiguration.PROP_PREFIX+DBPropertiesHelper.PREFIX;
 	
@@ -40,6 +42,8 @@ public class DatabaseProperties extends PropertiesHelper
 	static 
 	{
 		DEFAULTS.putAll(DBPropertiesHelper.getMetadata(Driver.class, "jdbc:h2:data/xuudb2", DbDialect.h2, ""));
+		DEFAULTS.put(CHARSET, new PropertyMD("utf8").setCategory(DBPropertiesHelper.dbCategory).
+				setDescription("(MySQL) Charset to use for XUUDB tables."));
 	}
 
 	public DatabaseProperties(Properties properties) throws ConfigurationException

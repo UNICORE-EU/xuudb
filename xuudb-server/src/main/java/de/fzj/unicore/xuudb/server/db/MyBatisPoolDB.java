@@ -30,14 +30,14 @@ public class MyBatisPoolDB implements IPoolStorage
 	private static final String ST_CREATE_TABLE_MAPPINGS = "create-mappings-table";
 
 	
-	public MyBatisPoolDB(MyBatisSessionFactory factory) 
+	public MyBatisPoolDB(MyBatisSessionFactory factory, String charset) 
 	{
 		this.factory = factory;
 		SqlSession session = factory.openSession(false);
 		try
 		{
-			session.update(ST_CREATE_TABLE_POOLS);
-			session.update(ST_CREATE_TABLE_MAPPINGS);
+			session.update(ST_CREATE_TABLE_POOLS, charset);
+			session.update(ST_CREATE_TABLE_MAPPINGS, charset);
 		} finally 
 		{
 			factory.closeSession(session);
