@@ -97,13 +97,13 @@ public class HttpsServer implements IShutdownable {
 		String v=AbstractConfiguration.class.getPackage().getImplementationVersion();
 		
 		logger.info("");
-		logger.info("******************************************");
-		logger.info("*    UNICORE AUTHORISATION SERVICE");
+		logger.info("*********************************************");
+		logger.info("*    UNICORE XUUDB USER ATTRIBUTES SERVICE");
 		if(v!=null){
 			logger.info("*    Version "+v);
 		}
-		logger.info("*    http://www.unicore.eu");
-		logger.info("******************************************");
+		logger.info("*    https://www.unicore.eu");
+		logger.info("**********************************************");
 	}	
 	
 	public void start() throws Exception {

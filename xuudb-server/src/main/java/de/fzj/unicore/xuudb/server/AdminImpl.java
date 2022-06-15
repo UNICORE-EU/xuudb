@@ -56,12 +56,10 @@ public class AdminImpl implements IAdmin {
 	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, AdminImpl.class);
 	
 	private IClassicStorage xuudb;
-	private boolean isDNMode;
 	private String version; 
 	
 	public AdminImpl(ServerConfiguration co, IClassicStorage backend) throws Exception {
 		this.xuudb = backend;
-		isDNMode=true;
 		version=getClass().getPackage().getImplementationVersion();
 		if(version==null)
 			version="DEVELOPMENT";
@@ -101,7 +99,7 @@ public class AdminImpl implements IAdmin {
 		DatabaseType data = DatabaseType.Factory.newInstance();
 		data.setDatabaseArray(ans);
 		data.setXUUDBInfo(getInfo());
-		data.setIsDNMode(isDNMode);
+		data.setIsDNMode(true);
 		ret.setListDatabaseResponse(data);
 		return ret;
 	}
@@ -163,7 +161,6 @@ public class AdminImpl implements IAdmin {
 	protected String getInfo(){
 		StringBuilder sb=new StringBuilder();
 		sb.append("XUUDB Server version ").append(version);
-		sb.append(" ").append("running in ").append(isDNMode?"DN":"normal").append(" mode");
 		return sb.toString();
 	}
 }
