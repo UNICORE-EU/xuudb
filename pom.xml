@@ -27,6 +27,7 @@
     <jetty.version>9.4.46.v20220331</jetty.version>
     <seclib.version>5.3.4</seclib.version>
     <mysql.version>8.0.28</mysql.version>
+    <pgsql.version>42.3.3</pgsql.version>    
     <mybatis.version>3.5.9</mybatis.version>
     <h2.version>2.1.212</h2.version>
 
@@ -171,6 +172,11 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.version}</version>
+      </dependency>
+      <dependency>
+	<groupId>org.postgresql</groupId>
+	<artifactId>postgresql</artifactId>
+	<version>${pgsql.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>

@@ -30,7 +30,7 @@ public class DatabaseProperties extends PropertiesHelper
 {
 	private static final Logger log = Log.getLogger(Log.XUUDB_DB, DatabaseProperties.class);
 	
-	private enum DbDialect {h2, mysql};
+	private enum DbDialect {h2, mysql, pgsql};
 	
 	public static String CHARSET = "charset";
 

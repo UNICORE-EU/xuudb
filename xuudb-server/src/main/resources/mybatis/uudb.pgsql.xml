@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="de.fzj.unicore.xuudb.server.db.UudbClassicMapper">
+<!-- UNIQUE	 	(gcid, token), -->
+	<update id="create-records-table">
+		CREATE TABLE IF NOT EXISTS UUDB_CLASSIC (
+			gcid 		VARCHAR(255),
+			xlogin 		VARCHAR(255),
+			token 		VARCHAR(8192),
+			role 		VARCHAR(255),
+			projects 	VARCHAR(1024)
+		);
+	</update>
+
+</mapper>
