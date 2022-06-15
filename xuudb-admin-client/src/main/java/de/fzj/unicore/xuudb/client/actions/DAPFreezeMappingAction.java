@@ -4,13 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.logging.log4j.Logger;
-
-import de.fzj.unicore.xuudb.Log;
-
 public class DAPFreezeMappingAction extends AbstractAction {
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, DAPFreezeMappingAction.class);
 
 	public DAPFreezeMappingAction(ConnectionManager cm) {
 		super(
@@ -29,10 +23,7 @@ public class DAPFreezeMappingAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("Command: freezeMapping ");
-		for (int i = 0; i < args.length; i++) {
-			logger.debug("Parameter " + i + ": " + args[i]);
-		}
+		logArguments(args);
 
 		Date from = tryParseDate(args[0]);
 		

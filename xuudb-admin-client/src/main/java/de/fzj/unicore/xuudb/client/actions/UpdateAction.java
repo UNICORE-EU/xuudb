@@ -3,18 +3,13 @@ package de.fzj.unicore.xuudb.client.actions;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.apache.logging.log4j.Logger;
-
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;
 import eu.emi.security.authn.x509.impl.X500NameUtils;
-import de.fzj.unicore.xuudb.Log;
 
 public class UpdateAction extends AbstractAction {
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, UpdateAction.class);
-
+	
 	public UpdateAction(ConnectionManager cm) {
 		super(
 				cm,
@@ -29,12 +24,7 @@ public class UpdateAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("Command: update ");
-		if (args.length > 0) {
-			for (int i = 0; i < args.length; i++) {
-				logger.debug("Parameter " + i + ": " + args[i]);
-			}
-		}
+		logArguments(args);
 
 		String[] lastArgs = new String[args.length - 2];
 		for (int i = 2; i < args.length; ++i) {

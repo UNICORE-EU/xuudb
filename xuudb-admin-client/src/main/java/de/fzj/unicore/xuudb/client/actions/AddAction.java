@@ -5,17 +5,12 @@ import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
 
-import org.apache.logging.log4j.Logger;
-
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;
 import eu.emi.security.authn.x509.impl.CertificateUtils;
 import eu.emi.security.authn.x509.impl.FormatMode;
-import de.fzj.unicore.xuudb.Log;
 
 public class AddAction extends AbstractAction {
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, AddAction.class);
 
 	public AddAction(ConnectionManager cm) {
 		super(
@@ -31,10 +26,7 @@ public class AddAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("Command: add ");
-		for (int i = 0; i < args.length; i++) {
-			logger.debug("Parameter " + i + ": " + args[i]);
-		}
+		logArguments(args);
 
 		String certPem = null;
 		X509Certificate x509 = null;
@@ -61,7 +53,6 @@ public class AddAction extends AbstractAction {
 				logger.warn(msg);
 				System.out.println("Warning: " + msg);
 			} else if (!confirm(msg)) {
-
 				logger.error(msg, cee);
 				throw new Exception(msg, cee);
 			}

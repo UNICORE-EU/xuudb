@@ -2,16 +2,11 @@ package de.fzj.unicore.xuudb.client.actions;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.Logger;
-
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;
-import de.fzj.unicore.xuudb.Log;
 
 public class CheckCertAction extends AbstractAction {
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, CheckCertAction.class);
 
 	public CheckCertAction(ConnectionManager cm) {
 		super(cm, "check-cert",
@@ -25,10 +20,7 @@ public class CheckCertAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("Command: check-cert");
-		for (int i = 0; i < args.length; i++) {
-			logger.debug("Parameter " + i + ": " + args[i]);
-		}
+		logArguments(args);
 
 		String cert = null;
 		try {

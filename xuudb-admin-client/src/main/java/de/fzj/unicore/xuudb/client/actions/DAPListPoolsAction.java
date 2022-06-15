@@ -1,14 +1,9 @@
 package de.fzj.unicore.xuudb.client.actions;
 
-import org.apache.logging.log4j.Logger;
-
 import de.fzJuelich.unicore.xuudb.PoolInfoType;
-import de.fzj.unicore.xuudb.Log;
 
 public class DAPListPoolsAction extends AbstractAction {
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, DAPListPoolsAction.class);
-
+	
 	public DAPListPoolsAction(ConnectionManager cm) {
 		super(cm, "listPools", "List pools.\n" + " Syntax: \n"
 				+ "        listPools   \n" + " Example:\n"
@@ -18,7 +13,7 @@ public class DAPListPoolsAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("Command: listPools ");
+		logArguments(args);
 		PoolInfoType[] resp = cm.dapAdmin.listPools();
 
 		if (resp == null)

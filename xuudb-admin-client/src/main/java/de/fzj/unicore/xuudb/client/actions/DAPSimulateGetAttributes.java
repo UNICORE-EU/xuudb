@@ -4,17 +4,12 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-import org.apache.logging.log4j.Logger;
-
 import de.fzJuelich.unicore.xuudb.GetAttributesResponseType;
 import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
 import eu.emi.security.authn.x509.impl.X500NameUtils;
-import de.fzj.unicore.xuudb.Log;
 
 public class DAPSimulateGetAttributes extends AbstractAction {
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, DAPSimulateGetAttributes.class);
-
+	
 	protected DAPSimulateGetAttributes(ConnectionManager cm, String cmd, String help,
 			int minArgs, int maxArgs, String alias) {
 		super(cm, cmd, help, minArgs, maxArgs, alias);
@@ -34,10 +29,7 @@ public class DAPSimulateGetAttributes extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("command: " + getName());
-		for (int i = 0; i < args.length; i++) {
-			logger.debug("Parameter " + i + ": " + args[i]);
-		}
+		logArguments(args);
 
 		String dn = null;
 		String issuerDN = null;
@@ -46,7 +38,7 @@ public class DAPSimulateGetAttributes extends AbstractAction {
 		String xlogin = null;
 		String gid = null;
 		String[] supplementaryGids = null;
-		HashMap<String, String> attrs = new HashMap<String, String>();
+		HashMap<String, String> attrs = new HashMap<>();
 
 		for (int i = 0; i < args.length; ++i) {
 			if (args[i].toLowerCase().startsWith("vo="))

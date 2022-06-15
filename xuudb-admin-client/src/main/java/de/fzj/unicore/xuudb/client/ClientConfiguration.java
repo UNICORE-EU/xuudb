@@ -60,7 +60,7 @@ public class ClientConfiguration extends AbstractConfiguration {
 
 	public static final String PROP_BATCH = "batch";
 	
-	public final static Map<String, PropertyMD> DEFAULTS = new HashMap<String, PropertyMD>();
+	public final static Map<String, PropertyMD> DEFAULTS = new HashMap<>();
 	static 
 	{
 		DEFAULTS.put(PROP_ADDRESS, new PropertyMD(DEFAULT_ADDRESS));

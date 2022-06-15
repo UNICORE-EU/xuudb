@@ -1,15 +1,9 @@
 package de.fzj.unicore.xuudb.client.actions;
 
-import org.apache.logging.log4j.Logger;
-
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;
 import eu.emi.security.authn.x509.impl.X500NameUtils;
-import de.fzj.unicore.xuudb.Log;
 
 public class AddDNAction extends AbstractAction {
-
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, AddDNAction.class);
 
 	public AddDNAction(ConnectionManager cm) {
 		super(
@@ -28,11 +22,7 @@ public class AddDNAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-
-		logger.debug("Command: adddn ");
-		for (int i = 0; i < args.length; i++) {
-			logger.debug("Parameter {}: {}", i, args[i]);
-		}
+		logArguments(args);
 
 		String projects = null;
 

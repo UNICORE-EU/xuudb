@@ -4,11 +4,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 
+import org.apache.logging.log4j.Logger;
+
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzJuelich.unicore.xuudb.MappingDataType;
+import de.fzj.unicore.xuudb.Log;
 import de.fzj.unicore.xuudb.X509Utils;
 
 public abstract class AbstractAction implements Comparable<AbstractAction> {
+	
+	protected static final Logger logger = Log.getLogger(Log.XUUDB_CLIENT);
+
 	protected enum Category {classic, dynamic, other}; 
 	private static final DateFormat SHORT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
 	protected String cmd;
@@ -78,6 +84,13 @@ public abstract class AbstractAction implements Comparable<AbstractAction> {
 	public abstract boolean invoke(String[] args, boolean isBatch)
 			throws Exception;
 
+	protected void logArguments(String[] args) {
+		logger.debug("Command: {}", getName());
+		for (int i = 0; i < args.length; i++) {
+			logger.debug("Parameter {}: {}", i, args[i]);
+		}
+	}
+
 	protected LoginDataType parseArgsToUlogin(String[] args) throws Exception {
 		LoginDataType ret = LoginDataType.Factory.newInstance();
 		boolean alreadyHaveToken = false;
@@ -109,9 +122,8 @@ public abstract class AbstractAction implements Comparable<AbstractAction> {
 
 	protected boolean confirm(String message) {
 		System.out.println(message + "\nAre you sure? [yes, no]");
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String ans = "no";
-		try {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
 			ans = br.readLine();
 		} catch (Exception e) {
 		}

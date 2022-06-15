@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import de.fzj.unicore.xuudb.client.actions.AbstractAction;
 import de.fzj.unicore.xuudb.client.actions.AddAction;
@@ -33,12 +34,12 @@ public class CLCExecutor {
 	private ConnectionManager connManager;
 	private ClientConfiguration conf;
 	private String configFile = null;
-	private HashMap<String, AbstractAction> actions;
+	private Map<String, AbstractAction> actions;
 	private String[] parsedLine;
 	private boolean consoleError;
 
 	public CLCExecutor() {
-		actions = new HashMap<String, AbstractAction>();
+		actions = new HashMap<>();
 	}
 
 	public CLCExecutor(ConnectionManager m) {
@@ -242,7 +243,7 @@ public class CLCExecutor {
 								+ "UNICORE XUUDB system. Type 'help <CMD>' to get help on "
 								+ "every command. Available commands are:");
 				Iterator<AbstractAction> it = actions.values().iterator();
-				List<AbstractAction> list = new ArrayList<AbstractAction>();
+				List<AbstractAction> list = new ArrayList<>();
 				while (it.hasNext()) {
 					AbstractAction aa = it.next();
 					if (!list.contains(aa))
@@ -278,7 +279,7 @@ public class CLCExecutor {
 					+ "UNICORE XUUDB system. Type 'help <CMD>' to get help on "
 					+ "every command. Available commands are:");
 			Iterator<AbstractAction> it = actions.values().iterator();
-			List<AbstractAction> list = new ArrayList<AbstractAction>();
+			List<AbstractAction> list = new ArrayList<>();
 			while (it.hasNext()) {
 				AbstractAction aa = it.next();
 				if (!list.contains(aa))
@@ -295,7 +296,7 @@ public class CLCExecutor {
 		}
 	}
 
-	public HashMap<String, AbstractAction> getActions() {
+	public Map<String, AbstractAction> getActions() {
 		return actions;
 	}
 

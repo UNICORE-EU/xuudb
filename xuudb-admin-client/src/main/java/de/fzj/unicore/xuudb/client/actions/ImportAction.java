@@ -8,16 +8,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;
 import eu.emi.security.authn.x509.impl.X500NameUtils;
 import eu.unicore.util.Log;
 
 public class ImportAction extends AbstractAction {
-
-	private static final Logger logger = Log.getLogger("unicore.xuudb.client", ImportAction.class);
 
 	public ImportAction(ConnectionManager cm) {
 		super(cm, "import", "Import entries from csv file to database.\n"
@@ -27,10 +23,7 @@ public class ImportAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("Command: import ");
-		for (int i = 0; i < args.length; i++) {
-			logger.debug("Parameter {}: {}", i, args[i]);
-		}
+		logArguments(args);
 
 		boolean clear = false;
 

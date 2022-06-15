@@ -2,13 +2,7 @@ package de.fzj.unicore.xuudb.client.actions;
 
 import java.util.Date;
 
-import org.apache.logging.log4j.Logger;
-
-import de.fzj.unicore.xuudb.Log;
-
 public class DAPRemoveMappingAction extends AbstractAction {
-	private static final Logger logger = Log.getLogger(
-			Log.XUUDB_CLIENT, DAPRemoveMappingAction.class);
 
 	public DAPRemoveMappingAction(ConnectionManager cm) {
 		super(
@@ -26,10 +20,7 @@ public class DAPRemoveMappingAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-		logger.debug("Command: removeMappings ");
-		for (int i = 0; i < args.length; i++) {
-			logger.debug("Parameter " + i + ": " + args[i]);
-		}
+		logArguments(args);
 
 		Date from = DAPFreezeMappingAction.tryParseDate(args[0]);
 
