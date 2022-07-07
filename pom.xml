@@ -5,7 +5,7 @@
   <artifactId>xuudb-parent</artifactId>
   <packaging>pom</packaging>
   <name>XUUDB</name>
-  <version>2.6.3-SNAPSHOT</version>
+  <version>2.7.0</version>
   <description>XUUDB attribute source for UNICORE</description>
   <inceptionYear>2006</inceptionYear>
 
@@ -23,13 +23,13 @@
   </scm>
 
   <properties>
-    <secutils.version>3.2.3</secutils.version>
-    <jetty.version>9.4.46.v20220331</jetty.version>
-    <seclib.version>5.3.4</seclib.version>
-    <mysql.version>8.0.28</mysql.version>
-    <pgsql.version>42.3.3</pgsql.version>    
-    <mybatis.version>3.5.9</mybatis.version>
-    <h2.version>2.1.212</h2.version>
+    <secutils.version>3.2.5</secutils.version>
+    <jetty.version>9.4.48.v20220622</jetty.version>
+    <seclib.version>5.3.6</seclib.version>
+    <mysql.version>8.0.29</mysql.version>
+    <pgsql.version>42.4.0</pgsql.version>    
+    <mybatis.version>3.5.10</mybatis.version>
+    <h2.version>2.1.214</h2.version>
 
   </properties>
 
@@ -53,13 +53,13 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13.1</version>
+        <version>4.13.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>
 	<groupId>org.jmock</groupId>
 	<artifactId>jmock-junit3</artifactId>
-	<version>2.5.1</version>
+	<version>2.12.0</version>
 	<scope>test</scope>
       </dependency>
       <dependency>
@@ -181,7 +181,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-expression</artifactId>
-        <version>3.1.1.RELEASE</version>
+        <version>5.3.21</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

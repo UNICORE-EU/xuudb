@@ -36,7 +36,7 @@ public class EvaluationEngine {
 			Rule r = rules.get(i);
 			StandardEvaluationContext spelCtx = createSpelContext(ctx);
 			if (checkCondition(r.getCondition(), spelCtx, i)) {
-				log.debug("Rule " + i + " condition hit.");
+				log.debug("Rule{} condition hit.", i);
 				List<Mapping> mappings = r.getActions();
 				for (Mapping map: mappings) {
 					if (skip(map.getType(), ctx, r.isOverwrite()))
@@ -44,7 +44,7 @@ public class EvaluationEngine {
 					map.applyAttributes(ctx, r.isOverwrite(), dryRun);
 				}
 			} else
-				log.debug("Rule " + i + " condition was not hit.");
+				log.debug("Rule {}{} condition was not hit.", i);
 		}
 	}
 	
@@ -107,8 +107,7 @@ public class EvaluationEngine {
 			return false;
 		}
 		boolean result = (Boolean) condResult;
-		if (log.isDebugEnabled())
-			log.debug("Rule number " + i + " condition returned " + result);
+		log.debug("Rule number {} condition returned {}", i, result);
 		return result;
 	}
 }

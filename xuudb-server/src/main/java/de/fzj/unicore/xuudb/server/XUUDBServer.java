@@ -47,7 +47,7 @@ public class XUUDBServer {
 	
 	private ScheduledExecutorService executorService;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		checkLogSystem();
 		if(args.length==0)
 			XUUDBServer.printUsage();
@@ -55,29 +55,21 @@ public class XUUDBServer {
 			new XUUDBServer().run(args);
 	}
 	
-	private void run(String[] args) {
-		if (args.length==0)
-			printUsage();
+	private void run(String[] args) throws Exception {
 		executorService = Executors.newScheduledThreadPool(5);
 		String configFile = new File("conf", "xuudb_server.conf").getPath();
-		
 		if(args[0].equalsIgnoreCase("--start")) {
 			if(args.length>1){
 				configFile=args[1];
 			}
-			try {
-				logger.info("Starting XUUDB server with configuration from <"+configFile+">");
-				System.out.println("Starting XUUDB server with configuration from <"+configFile+">");
-				new HttpsServer(configFile, executorService).start();
-				logger.info("XUUDB server startup completed");
-				System.out.println("XUUDB server startup completed");
-			} catch (Exception e) {
-				logger.error("Problem starting the server", e);
-				e.printStackTrace();
-				System.out.println("Cannot start XUUDB.");
-				System.exit(1);
-			}
-		}		
+		}
+		else {
+			configFile=args[0];
+		}
+		logger.info("Starting XUUDB server with configuration from <{}>", configFile);
+		new HttpsServer(configFile, executorService).start();
+		logger.info("XUUDB server startup completed");
+		System.out.println("XUUDB server startup completed");
 	}
 	
 	/**
