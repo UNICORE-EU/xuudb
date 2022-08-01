@@ -23,10 +23,11 @@
   </scm>
 
   <properties>
-    <secutils.version>3.2.5</secutils.version>
-    <jetty.version>9.4.48.v20220622</jetty.version>
-    <seclib.version>5.3.6</seclib.version>
-    <mysql.version>8.0.29</mysql.version>
+    <secutils.version>3.3.0</secutils.version>
+    <jetty.version>10.0.11</jetty.version>
+    <seclib.version>5.4.0</seclib.version>
+    <slf.version>1.7.36</slf.version>
+    <mysql.version>8.0.30</mysql.version>
     <pgsql.version>42.4.0</pgsql.version>    
     <mybatis.version>3.5.10</mybatis.version>
     <h2.version>2.1.214</h2.version>
@@ -61,6 +62,11 @@
 	<artifactId>jmock-junit3</artifactId>
 	<version>2.12.0</version>
 	<scope>test</scope>
+      </dependency>
+      <dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-api</artifactId>
+	<version>${slf.version}</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
@@ -181,7 +187,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-expression</artifactId>
-        <version>5.3.21</version>
+        <version>5.3.22</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
