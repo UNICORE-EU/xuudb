@@ -43,7 +43,7 @@ import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.invoker.BeanInvoker;
 import org.apache.logging.log4j.Logger;
 
-import de.fzj.unicore.xuudb.AbstractConfiguration;
+import de.fzj.unicore.xuudb.CommonConfiguration;
 import de.fzj.unicore.xuudb.Log;
 import de.fzj.unicore.xuudb.interfaces.IAdmin;
 import de.fzj.unicore.xuudb.interfaces.IDAPAdmin;
@@ -94,7 +94,7 @@ public class HttpsServer implements IShutdownable {
 			throw new Exception("Cannot get configuration from " + cf + 
 				"\n*** Create a default configuration with tha 'init' admin command", e);
 		}
-		String v=AbstractConfiguration.class.getPackage().getImplementationVersion();
+		String v = CommonConfiguration.class.getPackage().getImplementationVersion();
 		
 		logger.info("");
 		logger.info("*********************************************");
@@ -109,9 +109,9 @@ public class HttpsServer implements IShutdownable {
 	public void start() throws Exception {
 		// Start the HTTP/HTTPS server		
 		HttpServerProperties jettyProperties = new HttpServerProperties(config.getProperties(), 
-				AbstractConfiguration.PROP_PREFIX+HttpServerProperties.DEFAULT_PREFIX);
+				CommonConfiguration.PROP_PREFIX+HttpServerProperties.DEFAULT_PREFIX);
 		
-		String address = config.getValue(AbstractConfiguration.PROP_ADDRESS);
+		String address = config.getValue(CommonConfiguration.PROP_ADDRESS);
 		URL serverUrl = new URL(address);
 
 		AuthnAndTrustProperties secProperties = null;
@@ -119,8 +119,8 @@ public class HttpsServer implements IShutdownable {
 		if (serverUrl.getProtocol().equals("https")) {
 			logger.info("Setting up Jetty server in SSL mode.");
 			secProperties = new AuthnAndTrustProperties(config.getProperties(), 
-					AbstractConfiguration.PROP_PREFIX + TruststoreProperties.DEFAULT_PREFIX,
-					AbstractConfiguration.PROP_PREFIX + CredentialProperties.DEFAULT_PREFIX);
+					CommonConfiguration.PROP_PREFIX + TruststoreProperties.DEFAULT_PREFIX,
+					CommonConfiguration.PROP_PREFIX + CredentialProperties.DEFAULT_PREFIX);
 		} else {
 			logger.info("Setting up Jetty server in non-SSL mode.");
 		}

@@ -51,7 +51,7 @@ import de.fzJuelich.unicore.xuudb.CheckCertificateResponseDocument;
 import de.fzJuelich.unicore.xuudb.CheckDNDocument;
 import de.fzJuelich.unicore.xuudb.CheckDNResponseDocument;
 import de.fzJuelich.unicore.xuudb.LoginDataType;
-import de.fzj.unicore.xuudb.AbstractConfiguration;
+import de.fzj.unicore.xuudb.CommonConfiguration;
 import de.fzj.unicore.xuudb.Log;
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.interfaces.IPublic;
@@ -63,7 +63,7 @@ public class PublicImpl implements IPublic {
 	
 	private IClassicStorage db;
 	
-	public PublicImpl(AbstractConfiguration co, IClassicStorage backend) throws Exception {
+	public PublicImpl(CommonConfiguration co, IClassicStorage backend) throws Exception {
 		this.db = backend;
 	}
 

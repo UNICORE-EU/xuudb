@@ -11,9 +11,8 @@ import java.util.Properties;
 import org.apache.logging.log4j.Logger;
 import org.h2.Driver;
 
-import de.fzj.unicore.xuudb.AbstractConfiguration;
+import de.fzj.unicore.xuudb.CommonConfiguration;
 import de.fzj.unicore.xuudb.Log;
-
 import eu.unicore.util.configuration.ConfigurationException;
 import eu.unicore.util.configuration.DocumentationReferenceMeta;
 import eu.unicore.util.configuration.DocumentationReferencePrefix;
@@ -35,10 +34,10 @@ public class DatabaseProperties extends PropertiesHelper
 	public static String CHARSET = "charset";
 
 	@DocumentationReferencePrefix
-	public static final String PROP_PREFIX = AbstractConfiguration.PROP_PREFIX+DBPropertiesHelper.PREFIX;
+	public static final String PROP_PREFIX = CommonConfiguration.PROP_PREFIX+DBPropertiesHelper.PREFIX;
 	
 	@DocumentationReferenceMeta
-	public final static Map<String, PropertyMD> DEFAULTS = new HashMap<String, PropertyMD>();
+	public final static Map<String, PropertyMD> DEFAULTS = new HashMap<>();
 	static 
 	{
 		DEFAULTS.putAll(DBPropertiesHelper.getMetadata(Driver.class, "jdbc:h2:data/xuudb2", DbDialect.h2, ""));

@@ -11,7 +11,7 @@ import java.util.Properties;
 
 import org.junit.Test;
 
-import de.fzj.unicore.xuudb.AbstractConfiguration;
+import de.fzj.unicore.xuudb.CommonConfiguration;
 import de.fzj.unicore.xuudb.client.ClientConfiguration;
 import de.fzj.unicore.xuudb.client.ServiceFactory;
 import de.fzj.unicore.xuudb.interfaces.IAdmin;
@@ -21,12 +21,12 @@ import eu.unicore.security.canl.CredentialProperties;
 import eu.unicore.util.httpclient.ClientProperties;
 
 public class TestServiceFactory {
-	private static final String P = AbstractConfiguration.PROP_PREFIX;
+	private static final String P = CommonConfiguration.PROP_PREFIX;
 	
 	@Test
 	public void testServiceFactory() throws Exception {
 		Properties newone = new Properties();
-		newone.setProperty(P + AbstractConfiguration.PROP_ADDRESS, "http://localhost:9999");
+		newone.setProperty(P + CommonConfiguration.PROP_ADDRESS, "http://localhost:9999");
 		
 		newone.setProperty(P + CredentialProperties.DEFAULT_PREFIX + 
 				CredentialProperties.PROP_LOCATION, "src/test/resources/xuudb.p12");

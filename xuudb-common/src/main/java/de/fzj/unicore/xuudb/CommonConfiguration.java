@@ -31,59 +31,39 @@
  *********************************************************************************/
 
 
-package de.fzj.unicore.xuudb.client;
+package de.fzj.unicore.xuudb;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.logging.log4j.Logger;
 
-import de.fzj.unicore.xuudb.CommonConfiguration;
-import de.fzj.unicore.xuudb.Log;
-
-import eu.unicore.security.canl.CredentialProperties;
-import eu.unicore.security.canl.TruststoreProperties;
-import eu.unicore.util.configuration.FilePropertiesHelper;
+import eu.unicore.util.configuration.ConfigurationException;
+import eu.unicore.util.configuration.PropertiesHelper;
 import eu.unicore.util.configuration.PropertyMD;
-import eu.unicore.util.httpclient.ClientProperties;
 
 /**
- * Client configuration
- *
+ * Defines common things for client's and server's configuration classes.
+ * 
  * @author K. Benedyczak
  */
-public class ClientConfiguration extends CommonConfiguration {
+public abstract class CommonConfiguration extends PropertiesHelper {
 
-	private static final Logger logger = Log.getLogger(Log.CONFIGURATION, ClientConfiguration.class);
-
-	public static final String PROP_BATCH = "batch";
+	public static final String PROP_PREFIX = "xuudb.";
 	
-	public final static Map<String, PropertyMD> DEFAULTS = new HashMap<>();
-	static 
+	public static final String PROP_ADDRESS = "address";
+
+	public static final String DEFAULT_ADDRESS = "http://localhost:34463";
+
+	public CommonConfiguration(String prefix, Properties properties,
+			Map<String, PropertyMD> defaults, Logger log)
+			throws ConfigurationException
 	{
-		DEFAULTS.put(PROP_ADDRESS, new PropertyMD(DEFAULT_ADDRESS));
-		DEFAULTS.put(PROP_BATCH, new PropertyMD("false"));
-		DEFAULTS.put(TruststoreProperties.DEFAULT_PREFIX, new PropertyMD().setCanHaveSubkeys().setHidden().
-				setDescription("Properties with this prefix are used to configure the server's credential. See separate documentation for details."));
-		DEFAULTS.put(CredentialProperties.DEFAULT_PREFIX, new PropertyMD().setCanHaveSubkeys().setHidden().
-				setDescription("Properties with this prefix are used to configure trust and certificate validation settings. See separate documentation for details."));
-		DEFAULTS.put(ClientProperties.DEFAULT_PREFIX, new PropertyMD().setCanHaveSubkeys().setHidden().
-				setDescription("Properties with this prefix are used to configure advanced HTTP client settings. See separate documentation for details."));
+		super(prefix, properties, defaults, log);
 	}
 
-	public ClientConfiguration(File config) throws IOException {
-		super(PROP_PREFIX, FilePropertiesHelper.load(config), DEFAULTS, logger);
-	}
-	
-	public ClientConfiguration(Properties p) {
-		super(PROP_PREFIX, p, DEFAULTS, logger);
-	}
-
-	public boolean isBatch() {
-		return getBooleanValue(PROP_BATCH);
+	public Properties getProperties() {
+		return properties;
 	}
 }
 

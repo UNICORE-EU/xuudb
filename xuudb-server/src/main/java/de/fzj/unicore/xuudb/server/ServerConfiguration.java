@@ -41,9 +41,8 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.Logger;
 
-import de.fzj.unicore.xuudb.AbstractConfiguration;
+import de.fzj.unicore.xuudb.CommonConfiguration;
 import de.fzj.unicore.xuudb.Log;
-
 import eu.unicore.security.canl.CredentialProperties;
 import eu.unicore.security.canl.TruststoreProperties;
 import eu.unicore.util.configuration.DocumentationReferenceMeta;
@@ -51,14 +50,14 @@ import eu.unicore.util.configuration.FilePropertiesHelper;
 import eu.unicore.util.configuration.PropertyMD;
 import eu.unicore.util.db.DBPropertiesHelper;
 import eu.unicore.util.jetty.HttpServerProperties;
-import static eu.unicore.security.canl.TruststoreProperties.*;
 
 /**
- * Provides access to server configuration and for generating hints on converting 
- * the old configuration syntax to the new one.
+ * Server configuration
+ *
  * @author K. Benedyczak
  */
-public class ServerConfiguration extends AbstractConfiguration {
+public class ServerConfiguration extends CommonConfiguration {
+
 	private static final Logger logger = Log.getLogger(Log.CONFIGURATION, ServerConfiguration.class);
 
 	public enum XuudbModes {dn};
@@ -96,42 +95,12 @@ public class ServerConfiguration extends AbstractConfiguration {
 
 	public ServerConfiguration(File config) throws IOException {
 		super(PROP_PREFIX, FilePropertiesHelper.load(config), DEFAULTS, logger);
-		checkConfigFile(config);
 	}
 	
 	public ServerConfiguration(Properties p) {
 		super(PROP_PREFIX, p, DEFAULTS, logger);
 	}
 
-	private void checkConfigFile(File config) throws IOException {
-		String updateInfo = createConfigUpdateHint();
-		if (updateInfo.length() > 0) {
-			logger.warn("The configuration in the " + config + " file uses deprecated properties. " +
-					"You should remove:\n" +
-					updateInfo);
-		}
-		logger.info("Loaded Configuration from file: " + config.getPath());
-	}
-
-	protected String createConfigUpdateHint() {
-		StringBuilder newOnes = new StringBuilder();
-		StringBuilder oldOnes = new StringBuilder();
-		
-		createCommonConfigUpdateHint(newOnes, oldOnes);
-		
-		final String XUUDBTYPE = "xuudb.type";
-		
-		if (properties.contains(XUUDBTYPE)) {
-			oldOnes.append(XUUDBTYPE).append("\n");
-			newOnes.append(DEFAULT_PREFIX + 
-				PROP_XUUDBTYPE + "=" + properties.getProperty(XUUDBTYPE));
-		}
-		if (oldOnes.length() > 0)
-			return "Entries to be removed from the config file:\n" + oldOnes + 
-					"\nEntries to be added:\n" + newOnes;
-		else
-			return "";
-	}
 }
 
 

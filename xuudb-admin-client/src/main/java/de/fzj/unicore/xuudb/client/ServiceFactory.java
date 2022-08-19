@@ -37,7 +37,7 @@ import java.net.URL;
 
 import org.apache.logging.log4j.Logger;
 
-import de.fzj.unicore.xuudb.AbstractConfiguration;
+import de.fzj.unicore.xuudb.CommonConfiguration;
 import de.fzj.unicore.xuudb.Log;
 import de.fzj.unicore.xuudb.client.wsapi.IAdminExtInterface;
 import de.fzj.unicore.xuudb.client.wsapi.IDAPAdminExtInterface;
@@ -78,20 +78,20 @@ public class ServiceFactory {
 		logger.info("Creating ServiceFactory ... ");
 
 		IClientConfiguration secProperties = new ClientProperties(config.getProperties(), 
-				AbstractConfiguration.PROP_PREFIX + TruststoreProperties.DEFAULT_PREFIX,
-				AbstractConfiguration.PROP_PREFIX + CredentialProperties.DEFAULT_PREFIX,
-				AbstractConfiguration.PROP_PREFIX + ClientProperties.DEFAULT_PREFIX);
+				CommonConfiguration.PROP_PREFIX + TruststoreProperties.DEFAULT_PREFIX,
+				CommonConfiguration.PROP_PREFIX + CredentialProperties.DEFAULT_PREFIX,
+				CommonConfiguration.PROP_PREFIX + ClientProperties.DEFAULT_PREFIX);
 		WSClientFactory factory = new WSClientFactory(secProperties);
 		
-		URL adminEndpointURL = new URL(config.getValue(AbstractConfiguration.PROP_ADDRESS) + 
+		URL adminEndpointURL = new URL(config.getValue(CommonConfiguration.PROP_ADDRESS) + 
 			"/" + IAdmin.SERVICE_NAME);
-		URL publicEndpointURL = new URL(config.getValue(AbstractConfiguration.PROP_ADDRESS) + 
+		URL publicEndpointURL = new URL(config.getValue(CommonConfiguration.PROP_ADDRESS) + 
 			"/" + IPublic.SERVICE_NAME);
 
-		URL dapAdminEndpointURL = new URL(config.getValue(AbstractConfiguration.PROP_ADDRESS) + 
+		URL dapAdminEndpointURL = new URL(config.getValue(CommonConfiguration.PROP_ADDRESS) + 
 				"/" + IDAPAdmin.SERVICE_NAME);
 		
-		URL dapPublicEndpointURL = new URL(config.getValue(AbstractConfiguration.PROP_ADDRESS) + 
+		URL dapPublicEndpointURL = new URL(config.getValue(CommonConfiguration.PROP_ADDRESS) + 
 				"/" + IDynamicAttributesPublic.SERVICE_NAME);
 		
 
