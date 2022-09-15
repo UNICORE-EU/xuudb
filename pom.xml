@@ -25,10 +25,10 @@
   <properties>
     <secutils.version>3.3.1</secutils.version>
     <jetty.version>10.0.11</jetty.version>
-    <seclib.version>5.4.1</seclib.version>
+    <seclib.version>5.4.3</seclib.version>
     <slf.version>1.7.36</slf.version>
     <mysql.version>8.0.30</mysql.version>
-    <pgsql.version>42.4.1</pgsql.version>    
+    <pgsql.version>42.5.0</pgsql.version>
     <mybatis.version>3.5.10</mybatis.version>
     <h2.version>2.1.214</h2.version>
 
@@ -187,7 +187,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-expression</artifactId>
-        <version>5.3.22</version>
+        <version>5.3.23</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
