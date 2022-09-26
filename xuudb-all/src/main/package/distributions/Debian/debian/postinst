@@ -68,19 +68,7 @@ case "$1" in
 	chown unicore:unicore /var/log/unicore/xuudb
 	chmod 755 /var/log/unicore/xuudb
 	
-	chown unicore:unicore /var/run/unicore
-	chmod 755 /var/run/unicore
-
-        chmod 755 /usr/share/unicore/configurator
-        chmod 755 /usr/share/unicore/configurator/updater.d
-        chmod 644 /usr/share/unicore/configurator/updater.d/xuudb.py
-
-	
-	if [ -e /sbin/insserv ]
-    then
-      /sbin/insserv unicore-xuudb
-    fi 
-	;;
+    ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;

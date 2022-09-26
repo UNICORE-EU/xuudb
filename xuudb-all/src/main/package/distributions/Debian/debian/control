@@ -1,7 +1,7 @@
 Source: @component-prefix@@component-name@@component-suffix@
 Section: contrib/misc
 Priority: extra
-Maintainer: Piotr Piernik <unicore-support@lists.sourceforge.net> 
+Maintainer: Bernd Schuller <unicore-support@lists.sourceforge.net> 
 Standards-Version: 3.6.2
 Homepage: https://www.unicore.eu
 @build_depends@
@@ -13,8 +13,7 @@ Description: UNICORE (UNiform Interface to COmputing REsources)
  is a software suite for building federated systems, providing
  secure and seamless access to high-performance compute
  and data resources.
-
+ .
  This package contains the UNICORE user database which can be used
  to authorize federated users and to map them to local UNIX accounts.
  The command line client for administrators is also included.
-

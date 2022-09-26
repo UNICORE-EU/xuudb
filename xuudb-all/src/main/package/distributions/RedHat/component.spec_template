@@ -7,7 +7,7 @@ License: BSD
 Distribution: RedHat
 Group: System Environment/Daemons
 URL: https://www.unicore.eu
-Requires: java-1.@java-main-version@.0-openjdk
+Requires: java-11-openjdk
 BuildArch: @component-architecture@
 AutoReqProv: no
 Packager: UNICORE <unicore-support@lists.sourceforge.net>
@@ -64,14 +64,6 @@ The command line client for administrators is also included.
 %dir %attr(755 unicore unicore) "/var/run/unicore"
 
 
-#
-#unicore-configurator
-#
-%dir %attr(755 root root) "/usr/share/unicore/configurator"
-%dir %attr(755 root root) "/usr/share/unicore/configurator/updater.d"
-%attr(644 root root) "/usr/share/unicore/configurator/updater.d/xuudb.py"
-
-
 %pre
 /usr/sbin/groupadd -r unicore 2>/dev/null || :
 /usr/sbin/useradd -c "UNICORE" -g unicore \
@@ -82,7 +74,6 @@ The command line client for administrators is also included.
 
 %preun
 if [ "$1" = "0" ]; then                                                                                                       
-    /etc/init.d/unicore-xuudb stop >/dev/null 2>&1
+    systemctl stop unicore-xuudb.service || :
     /sbin/chkconfig --del unicore-xuudb
 fi
-
