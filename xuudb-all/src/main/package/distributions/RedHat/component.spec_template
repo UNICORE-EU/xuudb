@@ -7,7 +7,7 @@ License: BSD
 Distribution: RedHat
 Group: System Environment/Daemons
 URL: https://www.unicore.eu
-Requires: java-11-openjdk
+Requires: java-11-openjdk-headless
 BuildArch: @component-architecture@
 AutoReqProv: no
 Packager: UNICORE <unicore-support@lists.sourceforge.net>
@@ -61,8 +61,6 @@ The command line client for administrators is also included.
 %dir %attr(750 unicore unicore) "/var/lib/unicore/xuudb/data"
 %dir %attr(755 unicore unicore) "/var/log/unicore/xuudb"
 %dir %attr(755 unicore unicore) "/var/log/unicore"
-%dir %attr(755 unicore unicore) "/var/run/unicore"
-
 
 %pre
 /usr/sbin/groupadd -r unicore 2>/dev/null || :

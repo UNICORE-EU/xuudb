@@ -32,18 +32,17 @@
 
 package de.fzj.unicore.xuudb.client;
 
+import eu.unicore.util.Log;
 
 public class XUUDBClient {
 
 	public static void main(String[] args) {
-		boolean consoleError = false;
 		try {
 			CLCExecutor clc = new CLCExecutor();
 			if (!clc.processCommandLineArgs(args)) {
 				System.exit(1);
 			}
-			consoleError = clc.isConsoleError();
-
+		
 			clc.registerHelpActions();
 			clc.readConfig();
 
@@ -60,16 +59,7 @@ public class XUUDBClient {
 				clc.parseLine(clc.getParsedLine());
 
 		} catch (Exception e) {
-			if (consoleError) {
-				e.printStackTrace();
-			} else {
-				System.out.println("Error: " + e.toString());
-				if (e.getMessage() != null)
-					System.out.println(e.getMessage());
-				if (e.getCause() != null && e.getCause().getMessage() != null)
-					System.out.println(e.getCause().getMessage());
-			}
-
+			System.out.println(Log.createFaultMessage("Error: ", e));
 			System.exit(1);
 		}
 

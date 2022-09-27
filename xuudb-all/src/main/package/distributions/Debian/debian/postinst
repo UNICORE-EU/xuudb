@@ -45,7 +45,6 @@ case "$1" in
 	chmod 755 /usr/sbin/unicore-xuudb-stop
 	chmod 755 /usr/sbin/unicore-xuudb-admin
 	chmod 755 /usr/sbin/unicore-xuudb-status
-	chmod 755 /etc/init.d/unicore-xuudb
 
 	chmod 755 /usr/share/doc/unicore/xuudb/
 	chmod 644 /usr/share/doc/unicore/xuudb/*

@@ -2,6 +2,7 @@ package de.fzj.unicore.xuudb.server;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.cert.X509Certificate;
@@ -34,24 +35,15 @@ public class ACLHandler extends AbstractSoapInterceptor {
 
 	private final File aclFile;
 	private final FileWatcher watchDog;
-	private final boolean active;
 	private final Set<String>acceptedDNs = new HashSet<>();
-
-	public ACLHandler(ScheduledExecutorService executor)throws IOException{
-		this(new File("conf","xuudb.acl"), executor);
-	}
 
 	public ACLHandler(File aclFile, ScheduledExecutorService executor)throws IOException{
 		super(Phase.PRE_INVOKE);
 		this.aclFile=aclFile;
 		if(!aclFile.exists()){
-			logger.warn("ACL not active: file <{}> does not exist", aclFile);
-			active=false;
-			watchDog=null;
-			return;
+			throw new FileNotFoundException("ACL file <"+aclFile.getPath()+"> not found!");
 		}
 		else{
-			active=true;
 			logger.info("XUUDB using ACL file {}", aclFile);
 			readACL();
 			watchDog=new FileWatcher(aclFile, new Runnable(){
@@ -59,7 +51,7 @@ public class ACLHandler extends AbstractSoapInterceptor {
 					readACL();
 				}
 			});
-			executor.schedule(watchDog, 3000, TimeUnit.MILLISECONDS);
+			executor.schedule(watchDog, 5, TimeUnit.SECONDS);
 		}
 	}
 
@@ -100,8 +92,6 @@ public class ACLHandler extends AbstractSoapInterceptor {
 			logger.error("Can't get user name from request. No ssl?",ex);
 		}
 		logger.info("Admin access from {}", userName);
-
-		if(!active)return;
 
 		try{
 			checkAccess(userName);

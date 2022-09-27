@@ -36,7 +36,6 @@ public class CLCExecutor {
 	private String configFile = null;
 	private Map<String, AbstractAction> actions;
 	private String[] parsedLine;
-	private boolean consoleError;
 
 	public CLCExecutor() {
 		actions = new HashMap<>();
@@ -60,10 +59,6 @@ public class CLCExecutor {
 
 	public String[] getParsedLine() {
 		return parsedLine;
-	}
-
-	public boolean isConsoleError() {
-		return consoleError;
 	}
 
 	public void init() throws Exception {
@@ -164,13 +159,6 @@ public class CLCExecutor {
 			return false;
 		}
 
-		if (args[0].equalsIgnoreCase("-e")) {
-			consoleError = true;
-			String[] shiftedArgs = new String[args.length - 1];
-			System.arraycopy(args, 1, shiftedArgs, 0, args.length - 1);
-			args = shiftedArgs;
-		}
-
 		if (args[0].equalsIgnoreCase("--config") && args.length > 1) {
 			configFile = args[1];
 			if (args.length > 2) {
@@ -195,7 +183,7 @@ public class CLCExecutor {
 	public void printXUUDBUsage() {
 		System.out.println("This is a command line client which operates on a "
 				+ "UNICORE XUUDB system.\nThe basic syntax is:\n"
-				+ "   admin.??? [-e] [--config <configFile>] <COMMAND ...>\n\n"
+				+ "   admin.??? [--config <configFile>] <COMMAND ...>\n\n"
 
 				+ "Options are:\n" + "     -e   Print errors\n"
 				+ "Without options this help message is printed. "
@@ -275,9 +263,9 @@ public class CLCExecutor {
 
 		@Override
 		public boolean invoke(String[] args, boolean isBatch) {
-			System.out.println("This is command line client which operates on "
-					+ "UNICORE XUUDB system. Type 'help <CMD>' to get help on "
-					+ "every command. Available commands are:");
+			System.out.println("This is a command line client which operates on the "
+					+ "UNICORE XUUDB. Type 'help <CMD>' to get help on "
+					+ "a command. Available commands are:");
 			Iterator<AbstractAction> it = actions.values().iterator();
 			List<AbstractAction> list = new ArrayList<>();
 			while (it.hasNext()) {

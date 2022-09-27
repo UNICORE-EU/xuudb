@@ -61,26 +61,24 @@ public class ServerConfiguration extends CommonConfiguration {
 	private static final Logger logger = Log.getLogger(Log.CONFIGURATION, ServerConfiguration.class);
 
 	public enum XuudbModes {dn};
-	/**
-	 * type of XUUDB: "dn" checks DNs only, while "normal" checks the certificate
-	 */
+	
 	public static final String PROP_XUUDBTYPE = "type";
 	public static final String PROP_ACL_FILE = "aclFile";
 	public static final String PROP_PROTECT_ALL = "protectAll";
 	public static final String PROP_DAP_FILE = "dynamicAttributesConfig";
 	
 	@DocumentationReferenceMeta
-	public final static Map<String, PropertyMD> DEFAULTS = new HashMap<String, PropertyMD>();
+	public final static Map<String, PropertyMD> DEFAULTS = new HashMap<>();
 	static 
 	{
 		DEFAULTS.put(PROP_ADDRESS, new PropertyMD(DEFAULT_ADDRESS).
 				setDescription("HTTPS or HTTP URL where the server should listen."));
-		DEFAULTS.put(PROP_XUUDBTYPE, new PropertyMD(XuudbModes.dn).
-				setDescription("DEPRECATED and no longer required."));
+		DEFAULTS.put(PROP_XUUDBTYPE, new PropertyMD().setDeprecated().
+				setDescription("DEPRECATED - no longer required."));
 		DEFAULTS.put(PROP_DAP_FILE, new PropertyMD("conf/dynamicAttributesCfg.xml").setPath().
 				setDescription("File with configuration of the dynamic part of the XUUDB."));
-		DEFAULTS.put(PROP_ACL_FILE, new PropertyMD().setPath().
-				setDescription("File with DNs of clients authorised to access protected XUUDB services."));
+		DEFAULTS.put(PROP_ACL_FILE, new PropertyMD().setPath().setMandatory().
+				setDescription("File with DNs of servers/clients authorised to access protected XUUDB services."));
 		DEFAULTS.put(PROP_PROTECT_ALL, new PropertyMD("false").
 				setDescription("If true then access to both query and modify operations are protected by ACL. If false then only modification operations are protected."));
 		DEFAULTS.put(DBPropertiesHelper.PREFIX, new PropertyMD().setCanHaveSubkeys().

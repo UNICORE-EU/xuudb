@@ -135,13 +135,9 @@ public class HttpsServer implements IShutdownable {
 		IStorage storage = StorageFactory.getDatabase(config, hook);
 
 		String acl=config.getValue(ServerConfiguration.PROP_ACL_FILE);
-		ACLHandler aclHandler = acl!=null ?
-			    new ACLHandler(new File(acl), executor):
-				new ACLHandler(executor);
-		
-	
+		ACLHandler aclHandler = new ACLHandler(new File(acl), executor);
+
 		createPublicService(aclHandler, storage);
-	
 		createAdminService(aclHandler,storage);		
 		
 		File dapConfigFile = config.getFileValue(ServerConfiguration.PROP_DAP_FILE, false);

@@ -49,10 +49,12 @@ public class XUUDBServer {
 	
 	public static void main(String[] args) throws Exception {
 		checkLogSystem();
-		if(args.length==0)
+		if(args.length==0) {
 			XUUDBServer.printUsage();
-		else
+		}
+		else {
 			new XUUDBServer().run(args);
+		}
 	}
 	
 	private void run(String[] args) throws Exception {
@@ -67,9 +69,15 @@ public class XUUDBServer {
 			configFile=args[0];
 		}
 		logger.info("Starting XUUDB server with configuration from <{}>", configFile);
-		new HttpsServer(configFile, executorService).start();
-		logger.info("XUUDB server startup completed");
-		System.out.println("XUUDB server startup completed");
+		try {
+			new HttpsServer(configFile, executorService).start();
+			logger.info("XUUDB server startup completed");
+			System.out.println("XUUDB server startup completed");
+		}catch(Exception ex) {
+			logger.error("XUUDB server NOT started.", ex);
+			ex.printStackTrace();
+			System.exit(1);
+		}
 	}
 	
 	/**
