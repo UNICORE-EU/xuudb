@@ -42,8 +42,7 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-
-import org.apache.commons.codec.binary.Base64;
+import java.util.Base64;
 
 import eu.emi.security.authn.x509.impl.CertificateUtils;
 import eu.emi.security.authn.x509.impl.CertificateUtils.Encoding;
@@ -109,15 +108,11 @@ public class X509Utils {
 	 * @throws CertificateEncodingException
 	 */
 	public static String getPEMStringFromX509(Certificate x509) throws IOException {
-		String ret;
-		byte[] coded;
 		try {
-			coded = x509.getEncoded();
+			byte[] base64 = Base64.getEncoder().encode(x509.getEncoded());
+			return new String(base64);
 		} catch (CertificateEncodingException e) {
 			throw new IOException("Can't encode the certificate, shouldn't happen", e);
 		}
-		byte[] base64 = Base64.encodeBase64(coded);
-		ret=new String(base64);
-		return ret;
 	}
 }

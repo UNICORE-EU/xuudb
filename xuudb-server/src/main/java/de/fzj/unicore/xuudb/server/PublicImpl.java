@@ -39,8 +39,8 @@ import java.security.cert.CertPath;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.logging.log4j.Logger;
 
@@ -95,7 +95,7 @@ public class PublicImpl implements IPublic {
 			String gcid = xml.getCheckCertificateChain().getGcID();
 			String base64 = xml.getCheckCertificateChain().getEncodedChain();
 
-			byte[] cpb=Base64.decodeBase64(base64.getBytes());
+			byte[] cpb = Base64.getDecoder().decode(base64.getBytes());
 			InputStream is = new ByteArrayInputStream(cpb);
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
 			CertPath cp=cf.generateCertPath(is);                    
