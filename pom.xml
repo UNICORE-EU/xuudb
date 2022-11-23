@@ -28,7 +28,7 @@
     <seclib.version>6.0.0</seclib.version>
     <slf.version>1.7.36</slf.version>
     <mysql.version>8.0.31</mysql.version>
-    <pgsql.version>42.5.0</pgsql.version>
+    <pgsql.version>42.5.1</pgsql.version>
     <mybatis.version>3.5.11</mybatis.version>
     <h2.version>2.1.214</h2.version>
 
