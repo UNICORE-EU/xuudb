@@ -23,9 +23,9 @@
   </scm>
 
   <properties>
-    <secutils.version>3.4.0</secutils.version>
-    <jetty.version>10.0.12</jetty.version>
-    <seclib.version>6.0.4</seclib.version>
+    <secutils.version>3.4.1</secutils.version>
+    <jetty.version>10.0.13</jetty.version>
+    <seclib.version>6.0.5</seclib.version>
     <slf.version>1.7.36</slf.version>
     <mysql.version>8.0.31</mysql.version>
     <pgsql.version>42.5.1</pgsql.version>

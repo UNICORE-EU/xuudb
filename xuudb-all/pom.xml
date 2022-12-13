@@ -18,6 +18,16 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.fzj.unicore.xuudb</groupId>
+      <artifactId>xuudb-server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>de.fzj.unicore.xuudb</groupId>
       <artifactId>xuudb-common</artifactId>
       <version>${project.version}</version>
@@ -25,11 +35,6 @@
     <dependency>
       <groupId>de.fzj.unicore.xuudb</groupId>
       <artifactId>xuudb-admin-client</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>de.fzj.unicore.xuudb</groupId>
-      <artifactId>xuudb-server</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
