@@ -149,21 +149,6 @@
 	</exclusions>
       </dependency>
       <dependency>
-        <groupId>org.apache.xmlbeans</groupId>
-        <artifactId>xmlbeans-jdk8</artifactId>
-        <version>2.6.0</version>
-	<exclusions>
-	  <exclusion>
-	    <groupId>net.sf.saxon</groupId>
-	    <artifactId>Saxon-HE</artifactId>
-	  </exclusion>
-	  <exclusion>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-          </exclusion>
-	</exclusions>
-      </dependency>
-      <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>
         <version>${mybatis.version}</version>
