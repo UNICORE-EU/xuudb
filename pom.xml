@@ -23,15 +23,15 @@
   </scm>
 
   <properties>
-    <secutils.version>3.4.2</secutils.version>
+    <secutils.version>3.4.3</secutils.version>
     <jetty.version>10.0.15</jetty.version>
-    <seclib.version>6.0.8</seclib.version>
+    <seclib.version>6.0.9</seclib.version>
     <slf.version>1.7.36</slf.version>
-    <mysql.version>8.0.33</mysql.version>
+    <mysql.version>8.1.0</mysql.version>
     <pgsql.version>42.6.0</pgsql.version>
     <mybatis.version>3.5.13</mybatis.version>
-    <h2.version>2.1.214</h2.version>
-    <spring.version>5.3.23</spring.version>
+    <h2.version>2.2.220</h2.version>
+    <spring.version>5.3.29</spring.version>
   </properties>
 
   <modules>

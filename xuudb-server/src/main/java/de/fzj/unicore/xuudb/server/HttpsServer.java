@@ -34,10 +34,8 @@
 package de.fzj.unicore.xuudb.server;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
-import java.util.concurrent.ScheduledExecutorService;
 
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.invoker.BeanInvoker;
@@ -63,45 +61,33 @@ public class HttpsServer implements IShutdownable {
 	private static final Logger logger = Log.getLogger(Log.XUUDB_SERVER, HttpsServer.class);
 	
 	private JettyServer server;
-	private ServerConfiguration config;
-	private ScheduledExecutorService executor;
-	
+	private final ServerConfiguration config;
 	private IAdmin adminImpl;
 	private IDAPAdmin dapAdminImpl;
 	private IPublic publicImpl;
 	private IDynamicAttributesPublic dapPublicImpl;
 
 	/**
-	 * creates a XUUDB Http(s)Server like defined in the Properties prop
+	 * creates a XUUDB Http(s)Server configured using the given properties
+	 *
 	 * @param p
 	 * @throws Exception
 	 */
-	public HttpsServer(Properties p, ScheduledExecutorService executor) throws Exception {
+	public HttpsServer(Properties p) throws Exception {
 		config = new ServerConfiguration(p);
-		this.executor = executor;
 	}
 	
 	/**
-	 * creates a XUUDB Http(s)Server like defined in the PropertiesFile cf
+	 * creates a XUUDB Http(s)Server configured using the given properties file
+	 *
 	 * @param cf
 	 * @throws Exception
 	 */
-	public HttpsServer(String cf, ScheduledExecutorService executor) throws Exception {
-		this.executor = executor;
-		try {
-			config = new ServerConfiguration(new File(cf));
-		} catch (IOException e) {
-			throw new Exception("Cannot get configuration from " + cf + 
-				"\n*** Create a default configuration with tha 'init' admin command", e);
-		}
-		String v = CommonConfiguration.class.getPackage().getImplementationVersion();
-		
-		logger.info("");
+	public HttpsServer(String cf) throws Exception {
+		config = new ServerConfiguration(new File(cf));
 		logger.info("*********************************************");
 		logger.info("*    UNICORE XUUDB USER ATTRIBUTES SERVICE");
-		if(v!=null){
-			logger.info("*    Version "+v);
-		}
+		logger.info("*    Version {}", CommonConfiguration.class.getPackage().getImplementationVersion());
 		logger.info("*    https://www.unicore.eu");
 		logger.info("**********************************************");
 	}	
@@ -135,14 +121,13 @@ public class HttpsServer implements IShutdownable {
 		IStorage storage = StorageFactory.getDatabase(config, hook);
 
 		String acl=config.getValue(ServerConfiguration.PROP_ACL_FILE);
-		ACLHandler aclHandler = new ACLHandler(new File(acl), executor);
+		ACLHandler aclHandler = new ACLHandler(new File(acl));
 
 		createPublicService(aclHandler, storage);
 		createAdminService(aclHandler,storage);		
 		
 		File dapConfigFile = config.getFileValue(ServerConfiguration.PROP_DAP_FILE, false);
-		DAPConfiguration dapConfiguration = new DAPConfiguration(dapConfigFile, storage.getPoolStorage(), 
-				executor);
+		DAPConfiguration dapConfiguration = new DAPConfiguration(dapConfigFile, storage.getPoolStorage());
 		
 		createDAPPublicService(dapConfiguration,aclHandler);
 		

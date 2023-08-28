@@ -34,8 +34,6 @@
 package de.fzj.unicore.xuudb.server;
 
 import java.io.File;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import org.apache.logging.log4j.Logger;
 
@@ -44,9 +42,7 @@ import de.fzj.unicore.xuudb.Log;
 public class XUUDBServer {
 	
 	private static final Logger logger=Log.getLogger(Log.XUUDB_SERVER, XUUDBServer.class);
-	
-	private ScheduledExecutorService executorService;
-	
+
 	public static void main(String[] args) throws Exception {
 		checkLogSystem();
 		if(args.length==0) {
@@ -58,7 +54,6 @@ public class XUUDBServer {
 	}
 	
 	private void run(String[] args) throws Exception {
-		executorService = Executors.newScheduledThreadPool(5);
 		String configFile = new File("conf", "xuudb_server.conf").getPath();
 		if(args[0].equalsIgnoreCase("--start")) {
 			if(args.length>1){
@@ -70,7 +65,7 @@ public class XUUDBServer {
 		}
 		logger.info("Starting XUUDB server with configuration from <{}>", configFile);
 		try {
-			new HttpsServer(configFile, executorService).start();
+			new HttpsServer(configFile).start();
 			logger.info("XUUDB server startup completed");
 			System.out.println("XUUDB server startup completed");
 		}catch(Exception ex) {

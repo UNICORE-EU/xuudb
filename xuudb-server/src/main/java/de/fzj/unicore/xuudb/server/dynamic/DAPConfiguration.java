@@ -54,17 +54,15 @@ public class DAPConfiguration
 	private Map<String, Pool> pools;
 	private ScheduledExecutorService poolsWatchdogExecutor;
 	private IPoolStorage storage;
-	private ScheduledExecutorService executor;
 
-	public DAPConfiguration(File file, IPoolStorage storage, ScheduledExecutorService executor) 
+	public DAPConfiguration(File file, IPoolStorage storage) 
 			throws IOException, ConfigurationException {
-		this(file, storage, DEF_UPDATE_CHECK, executor);
+		this(file, storage, DEF_UPDATE_CHECK);
 	}
 	
-	public DAPConfiguration(File file, IPoolStorage storage, int updateInterval, ScheduledExecutorService executor) 
+	public DAPConfiguration(File file, IPoolStorage storage, int updateInterval) 
 			throws IOException, ConfigurationException {
 		this.file = file;
-		this.executor = executor;
 		poolsWatchdogExecutor = Executors.newSingleThreadScheduledExecutor();
 		spelParser = new SpelExpressionParser();
 		this.storage = storage;
@@ -81,7 +79,7 @@ public class DAPConfiguration
 			startConfigWatcher(updateInterval);
 	}
 
-	private void startConfigWatcher(long interval)
+	private void startConfigWatcher(int interval)
 	{
 		Runnable updater = new Runnable()
 		{
@@ -99,7 +97,7 @@ public class DAPConfiguration
 				}
 			}
 		};
-		Runnable r;
+		FileWatcher r;
 		try
 		{
 			r = new FileWatcher(file, updater);
@@ -109,7 +107,7 @@ public class DAPConfiguration
 			return;
 		}
 		log.info("Config file monitoring enabled with interval: " + interval + "ms");
-		executor.scheduleWithFixedDelay(r, interval, interval, TimeUnit.MILLISECONDS);
+		r.schedule(interval, TimeUnit.MILLISECONDS);
 	}
 
 	

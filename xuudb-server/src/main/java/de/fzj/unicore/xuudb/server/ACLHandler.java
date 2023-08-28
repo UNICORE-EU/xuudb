@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.security.cert.X509Certificate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +36,7 @@ public class ACLHandler extends AbstractSoapInterceptor {
 	private final FileWatcher watchDog;
 	private final Set<String>acceptedDNs = new HashSet<>();
 
-	public ACLHandler(File aclFile, ScheduledExecutorService executor)throws IOException{
+	public ACLHandler(File aclFile)throws IOException{
 		super(Phase.PRE_INVOKE);
 		this.aclFile=aclFile;
 		if(!aclFile.exists()){
@@ -46,12 +45,8 @@ public class ACLHandler extends AbstractSoapInterceptor {
 		else{
 			logger.info("XUUDB using ACL file {}", aclFile);
 			readACL();
-			watchDog=new FileWatcher(aclFile, new Runnable(){
-				public void run(){
-					readACL();
-				}
-			});
-			executor.schedule(watchDog, 5, TimeUnit.SECONDS);
+			watchDog = new FileWatcher(aclFile, ()->readACL());
+			watchDog.schedule(5, TimeUnit.SECONDS);
 		}
 	}
 

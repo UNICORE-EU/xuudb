@@ -14,7 +14,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
-import java.util.concurrent.Executors;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -53,7 +52,7 @@ public class TestDAPIntegration {
 					"src/test/resources/xuudb_server.conf"));
 			//for sure
 			p.setProperty("xuudb.db.jdbcUrl","jdbc:h2:./target/data/xuudb222");
-			server = new HttpsServer(p, Executors.newScheduledThreadPool(5));
+			server = new HttpsServer(p);
 			server.start();
 
 			IDAPAdmin admin = server.getDapAdminImpl();

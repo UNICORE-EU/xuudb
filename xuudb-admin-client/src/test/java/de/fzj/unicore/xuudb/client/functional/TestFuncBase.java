@@ -3,7 +3,6 @@ package de.fzj.unicore.xuudb.client.functional;
 import java.io.File;
 import java.security.cert.X509Certificate;
 import java.util.Properties;
-import java.util.concurrent.Executors;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,35 +42,24 @@ public abstract class TestFuncBase {
 	
 	@BeforeClass
 	public static void setUp() throws Exception {
-
 		Properties p = FilePropertiesHelper.load(serverConfigFile);
-		//CHECK 
-		server=new HttpsServer(p,Executors.newScheduledThreadPool(5));
+		server = new HttpsServer(p);
 		server.start();
-
-		ClientConfiguration conf = new ClientConfiguration(new File(
-				clientConfigFile));
+		ClientConfiguration conf = new ClientConfiguration(new File(clientConfigFile));
 		ServiceFactory serviceFac = new ServiceFactory(conf);
-
 		admin = serviceFac.getAdminAPI();
 		query = serviceFac.getPublicAPI();
 		dap = serviceFac.getDAPAdminAPI();
-		
-		
-		X509Certificate x509 = null;
-		
-		x509 = X509Utils.loadCertificate(pemFile);
+		X509Certificate x509 = X509Utils.loadCertificate(pemFile);
 		certPem = X509Utils.getPEMStringFromX509(x509);
-		
-
 	}
-	
+
 	@After
 	public void cleanup() throws Exception {
 		System.out.println("Clear database");
 		admin.remove(LoginDataType.Factory.newInstance());
 	}
-	
+
 	@AfterClass
 	public static void tearDown() throws Exception {
 		server.shutdown();
