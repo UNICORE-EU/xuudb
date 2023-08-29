@@ -48,12 +48,12 @@ public class DAPConfiguration
 	private static final int DEF_UPDATE_CHECK = 10000;
 	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, DAPConfiguration.class);
 
-	private File file;
-	private ExpressionParser spelParser;
+	private final File file;
+	private final ExpressionParser spelParser;
 	private List<Rule> rules;
 	private Map<String, Pool> pools;
 	private ScheduledExecutorService poolsWatchdogExecutor;
-	private IPoolStorage storage;
+	private final IPoolStorage storage;
 
 	public DAPConfiguration(File file, IPoolStorage storage) 
 			throws IOException, ConfigurationException {
@@ -79,35 +79,21 @@ public class DAPConfiguration
 			startConfigWatcher(updateInterval);
 	}
 
-	private void startConfigWatcher(int interval)
+	private void startConfigWatcher(int interval) throws FileNotFoundException
 	{
-		Runnable updater = new Runnable()
+		FileWatcher r = new FileWatcher(file, ()->
 		{
-			public void run() 
-			{
-				try
-				{
-					log.debug("Configuration file change detected, reloading...");
-					parse();
-					log.info("Successfully reloaded the configuration file");
-				} catch (Exception e)
-				{
-					Log.logException("Updated configuration file is invalid, " +
-							"using the old configuration.", e, log);
-				}
+			try {
+				log.debug("Configuration file change detected, reloading...");
+				parse();
+				log.info("Successfully reloaded the configuration file");
+			} catch (Exception e) {
+				Log.logException("Updated configuration file is invalid, " +
+						"using the old configuration.", e, log);
 			}
-		};
-		FileWatcher r;
-		try
-		{
-			r = new FileWatcher(file, updater);
-		} catch (FileNotFoundException e)
-		{
-			log.error("Can't start config file watcher as it was removed: " + e.toString());
-			return;
-		}
-		log.info("Config file monitoring enabled with interval: " + interval + "ms");
+		});
 		r.schedule(interval, TimeUnit.MILLISECONDS);
+		log.info("Config file monitoring enabled with interval: " + (interval/1000) + "s");
 	}
 
 	
@@ -115,7 +101,7 @@ public class DAPConfiguration
 	{
 		DynamicAttributesDocument mainDoc = DynamicAttributesDocument.Factory.parse(
 				new BufferedInputStream(new FileInputStream(file)));
-		List<?> validationErrors = new ArrayList<Object>();
+		List<?> validationErrors = new ArrayList<>();
 		boolean valid = mainDoc.validate(new XmlOptions().setErrorListener(validationErrors));
 		if (!valid)
 			throw new ParseException(validationErrors.toString(), -1);
@@ -170,7 +156,7 @@ public class DAPConfiguration
 	private Map<String, Pool> parsePools(Pools xmlPools, Configuration generalConfiguration) 
 			throws ParseException, IOException
 	{
-		Map<String, Pool> ret = new HashMap<String, Pool>();
+		Map<String, Pool> ret = new HashMap<>();
 		if (xmlPools == null)
 			return ret;
 		de.fzj.unicore.xuudb.server.dynamic.xbeans.Pool[] xmlPoolA = xmlPools.getPoolArray();
@@ -268,11 +254,11 @@ public class DAPConfiguration
 	
 	private void loadFileIds(List<String> where, String file) throws IOException
 	{
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		String line;
-		while ((line = br.readLine()) != null)
-			where.add(line.trim());
-		br.close();
+		try(BufferedReader br = new BufferedReader(new FileReader(file))){
+			String line;
+			while ((line = br.readLine()) != null)
+				where.add(line.trim());
+		}
 	}
 	
 	private MappingType getMappingType(String s) throws ParseException

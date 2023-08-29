@@ -36,7 +36,7 @@ public class EvaluationEngine {
 			Rule r = rules.get(i);
 			StandardEvaluationContext spelCtx = createSpelContext(ctx);
 			if (checkCondition(r.getCondition(), spelCtx, i)) {
-				log.debug("Rule{} condition hit.", i);
+				log.debug("Rule {} condition hit.", i);
 				List<Mapping> mappings = r.getActions();
 				for (Mapping map: mappings) {
 					if (skip(map.getType(), ctx, r.isOverwrite()))
@@ -44,7 +44,7 @@ public class EvaluationEngine {
 					map.applyAttributes(ctx, r.isOverwrite(), dryRun);
 				}
 			} else
-				log.debug("Rule {}{} condition was not hit.", i);
+				log.debug("Rule {} condition was not hit.", i);
 		}
 	}
 	
@@ -66,7 +66,7 @@ public class EvaluationEngine {
 	
 	private StandardEvaluationContext createSpelContext(EvaluationContext ctx) {
 		SpelContextBean root = new SpelContextBean();
-		Map<String, Set<String>> attributes = new HashMap<String, Set<String>>();
+		Map<String, Set<String>> attributes = new HashMap<>();
 		SimplifiedAttributeType[] attributesXml = ctx.getExtraAttributes();
 		for (SimplifiedAttributeType xmlA: attributesXml) {
 			Set<String> values = new HashSet<String>();

@@ -16,8 +16,8 @@ import de.fzj.unicore.xuudb.server.db.IPoolStorage;
  */
 public class PoolsWatchdog implements Runnable
 {
-	private IPoolStorage storage;
-	private Collection<Pool> pools;
+	private final IPoolStorage storage;
+	private final Collection<Pool> pools;
 	
 	public PoolsWatchdog(IPoolStorage storage, Collection<Pool> pools)
 	{

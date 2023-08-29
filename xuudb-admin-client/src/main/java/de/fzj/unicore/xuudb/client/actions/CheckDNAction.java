@@ -19,18 +19,9 @@ public class CheckDNAction extends AbstractAction {
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
 		logArguments(args);
-
-		String dn = null;
 		System.out.print("Validation of DN : " + args[1]);
-		try {
-			dn = X500NameUtils.getReadableForm(args[1]);
-			System.out.println("           OK \n");
-		} catch (IllegalArgumentException e) {
-			String msg = ("DN format error");
-			logger.error(msg, e);
-			throw new IllegalArgumentException(msg);
-		}
-
+		String dn = X500NameUtils.getReadableForm(args[1]);
+		System.out.println("           OK \n");
 		XUUDBResponse resp = cm.query.checkDN(args[0], dn);
 
 		LoginDataType data = resp.getData()[0];

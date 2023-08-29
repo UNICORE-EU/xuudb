@@ -47,8 +47,8 @@ import de.fzj.unicore.xuudb.server.dynamic.Pool;
 public class DAPAdminImpl implements IDAPAdmin
 {
 	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, DAPPublicImpl.class);
-	private IPoolStorage backend;
-	private DAPConfiguration configuration;
+	private final IPoolStorage backend;
+	private final DAPConfiguration configuration;
 	
 	public DAPAdminImpl(IPoolStorage backend, DAPConfiguration configuration) 
 			throws IOException, XmlException, ParseException
@@ -61,11 +61,11 @@ public class DAPAdminImpl implements IDAPAdmin
 	public ListMappingResponseDocument listMappings(ListMappingRequestDocument xml)
 	{
 		ListMappingRequestType request = xml.getListMappingRequest();
-		
+
 		String poolName = request.getPoolId();
 		String mappingType = request.getMappingType();
-		log.debug("listMappings invoked for pool: " + poolName + " type: " + mappingType);
-		
+		log.debug("listMappings invoked for pool: {} type: {}", poolName, mappingType);
+
 		MappingStatus status;
 		try
 		{
@@ -87,7 +87,7 @@ public class DAPAdminImpl implements IDAPAdmin
 	public FindMappingResponseDocument findMapping(FindMappingRequestDocument xml)
 	{
 		FindMappingRequestType req = xml.getFindMappingRequest();
-		log.debug("findMapping invoked for type: " + req.getType() + " value: " + req.getValue());
+		log.debug("findMapping invoked for type: {} value: {}", req.getType(), req.getValue());
 		List<MappingBean> mappings = backend.listMappingsByValue(req.getType(), req.getValue());
 		FindMappingResponseDocument retDoc = FindMappingResponseDocument.Factory.newInstance();
 		convertToListResponse(mappings, retDoc.addNewFindMappingResponse());
@@ -99,8 +99,7 @@ public class DAPAdminImpl implements IDAPAdmin
 			FindReverseMappingRequestDocument xml)
 	{
 		FindMappingRequestType req = xml.getFindReverseMappingRequest();
-		log.debug("findReverseMapping invoked for type: " + req.getType() + 
-				" value: " + req.getValue());
+		log.debug("findReverseMapping invoked for type: {} value {}", req.getType(), req.getValue());
 		List<MappingBean> mappings = backend.listMappingsByKey(req.getType(), req.getValue());
 		FindReverseMappingResponseDocument retDoc = FindReverseMappingResponseDocument.Factory.newInstance();
 		convertToListResponse(mappings, retDoc.addNewFindReverseMappingResponse());
@@ -114,7 +113,8 @@ public class DAPAdminImpl implements IDAPAdmin
 		Calendar older = req.getDate();
 		String id = req.getId();
 		String poolName = req.getPoolId();
-		log.debug("freezeMapping invoked for id: " + id + " pool: " + poolName + " older: " + older);
+		log.debug("freezeMapping invoked for id: {} pool: {} older: {} pool:  older than: {}",
+				id, poolName, older);
 
 		if (older != null && id != null)
 			throw new IllegalArgumentException("Ambiguous arguments: either time or mapping " +
@@ -139,8 +139,8 @@ public class DAPAdminImpl implements IDAPAdmin
 		Calendar older = req.getDate();
 		String id = req.getId();
 		String poolName = req.getPoolId();
-		log.debug("removeFrozenMapping invoked for id: " + id + " pool: " + poolName + " older: " + older);
-
+		log.debug("removeFrozenMapping invoked for id: {} pool: {} older: {} pool:  older than: {}",
+				id, poolName, older);
 		if (older != null && id != null)
 			throw new IllegalArgumentException("Ambiguous arguments: either time or mapping " +
 					"id can be specified");
@@ -161,7 +161,7 @@ public class DAPAdminImpl implements IDAPAdmin
 	public void removePool(RemovePoolRequestDocument xml)
 	{
 		String poolName = xml.getRemovePoolRequest().getPoolId();
-		log.debug("removePool invoked for pool: " + poolName);
+		log.debug("removePool invoked for pool: {}", poolName);
 		if (getPool(poolName) != null)
 			throw new IllegalArgumentException("The pool is not disabled in configuraiton." +
 					" It must be removed from configuration first.");

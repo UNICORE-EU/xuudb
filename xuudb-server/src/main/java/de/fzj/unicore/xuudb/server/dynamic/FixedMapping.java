@@ -22,9 +22,8 @@ public class FixedMapping extends Mapping
 {
 	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, FixedMapping.class);
 	public static final String ID = "fixed";
-	private String[] values;
-	
-	
+	private final String[] values;
+
 	public FixedMapping(String configuration, MappingType maps)
 	{
 		super(configuration, maps);
@@ -42,20 +41,20 @@ public class FixedMapping extends Mapping
 	{
 		switch (getType()) {
 		case uid:
-			log.debug("Setting xlogin to: " + values[0]);
+			log.debug("Setting xlogin to: {}", values[0]);
 			context.setXlogin(values[0]);
 			break;
 		case gid:
-			log.debug("Setting gid to: " + values[0]);
+			log.debug("Setting gid to: {}", values[0]);
 			context.setGid(values[0]);
 			break;
 		case supplementaryGids:
 			if (overwrite) {
 				context.setSupplementaryGids(Arrays.asList(values));
-				log.debug("Setting supplementary groups to: " + context.getSupplementaryGids());
+				log.debug("Setting supplementary groups to: {}", context.getSupplementaryGids());
 			} else {
 				Collections.addAll(context.getSupplementaryGids(), values);
-				log.debug("Adding the following supplementary groups: " + Arrays.toString(values));
+				log.debug("Adding the following supplementary groups: {}", Arrays.toString(values));
 			}
 			break;
 		}

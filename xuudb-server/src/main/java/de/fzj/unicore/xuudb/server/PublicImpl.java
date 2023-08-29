@@ -29,7 +29,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************************/
- 
+
 
 package de.fzj.unicore.xuudb.server;
 
@@ -41,9 +41,6 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
 
-import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.logging.log4j.Logger;
-
 import de.fzJuelich.unicore.xuudb.CheckCertChainResponseDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateChainDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateDocument;
@@ -52,91 +49,55 @@ import de.fzJuelich.unicore.xuudb.CheckDNDocument;
 import de.fzJuelich.unicore.xuudb.CheckDNResponseDocument;
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.CommonConfiguration;
-import de.fzj.unicore.xuudb.Log;
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.interfaces.IPublic;
 import de.fzj.unicore.xuudb.server.db.IClassicStorage;
 
 public class PublicImpl implements IPublic {
 
-	private static final Logger logger=Log.getLogger(Log.XUUDB_SERVER, PublicImpl.class);
-	
-	private IClassicStorage db;
-	
+	private final IClassicStorage db;
+
 	public PublicImpl(CommonConfiguration co, IClassicStorage backend) throws Exception {
 		this.db = backend;
 	}
 
 	public CheckCertificateResponseDocument checkCertificate(CheckCertificateDocument xml) {
-		try{
-			CheckCertificateResponseDocument ret =  CheckCertificateResponseDocument.Factory.newInstance();
-			String certinpem = xml.getCheckCertificate().getCertInPEM();
-			String gcid = xml.getCheckCertificate().getGcID();
-			LoginDataType data = db.checkToken(gcid, certinpem);
-			if(data==null){
-				data=LoginDataType.Factory.newInstance();
-			}
-			ret.setCheckCertificateResponse(data);
-			return ret;
-		} catch (IllegalArgumentException e) {
-			logger.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, logger);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
+		CheckCertificateResponseDocument ret =  CheckCertificateResponseDocument.Factory.newInstance();
+		String certinpem = xml.getCheckCertificate().getCertInPEM();
+		String gcid = xml.getCheckCertificate().getGcID();
+		LoginDataType data = db.checkToken(gcid, certinpem);
+		if(data==null){
+			data=LoginDataType.Factory.newInstance();
 		}
+		ret.setCheckCertificateResponse(data);
+		return ret;
 	}
 
 	public CheckCertChainResponseDocument checkCertificateChain(CheckCertificateChainDocument xml) {
-		try{
-			CheckCertChainResponseDocument ret =  CheckCertChainResponseDocument.Factory.newInstance();
-			String gcid = xml.getCheckCertificateChain().getGcID();
-			String base64 = xml.getCheckCertificateChain().getEncodedChain();
-
-			byte[] cpb = Base64.getDecoder().decode(base64.getBytes());
-			InputStream is = new ByteArrayInputStream(cpb);
+		CheckCertChainResponseDocument ret =  CheckCertChainResponseDocument.Factory.newInstance();
+		String gcid = xml.getCheckCertificateChain().getGcID();
+		String base64 = xml.getCheckCertificateChain().getEncodedChain();
+		byte[] cpb = Base64.getDecoder().decode(base64.getBytes());
+		InputStream is = new ByteArrayInputStream(cpb);
+		LoginDataType data=null;
+		try {
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
 			CertPath cp=cf.generateCertPath(is);                    
-			LoginDataType data=null;
 			Certificate o = cp.getCertificates().get(0);
 			data = db.checkToken(gcid, X509Utils.getPEMStringFromX509((X509Certificate)o));
-			ret.setCheckCertChainResponse(data);
-			return ret;
-		} catch (IllegalArgumentException e) {
-			logger.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, logger);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
-		} catch (Exception e)
-		{
-			String msg = "Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString();
-			logger.warn(msg);
-			throw new IllegalArgumentException(msg);
+		}catch(Exception ce) {
+			throw new RuntimeException(ce);
 		}
+		ret.setCheckCertChainResponse(data);
+		return ret;
 	}
 
 	public CheckDNResponseDocument checkDN(CheckDNDocument xml) {
-		try{
-			CheckDNResponseDocument ret =  CheckDNResponseDocument.Factory.newInstance();
-			String gcid = xml.getCheckDN().getGcID();
-			String dn = xml.getCheckDN().getDistinguishedName();
-			LoginDataType data = db.checkDN(gcid, dn);
-			ret.setCheckDNResponse(data);
-			return ret;
-		} catch (IllegalArgumentException e) {
-			logger.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, logger);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
-		}
+		CheckDNResponseDocument ret =  CheckDNResponseDocument.Factory.newInstance();
+		String gcid = xml.getCheckDN().getGcID();
+		String dn = xml.getCheckDN().getDistinguishedName();
+		LoginDataType data = db.checkDN(gcid, dn);
+		ret.setCheckDNResponse(data);
+		return ret;
 	}
 }

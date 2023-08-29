@@ -26,14 +26,9 @@ public class MyBatisClassicDB implements IClassicStorage {
 	
 	public MyBatisClassicDB(MyBatisSessionFactory factory, String charset) {
 		this.factory = factory;
-	
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			session.update(ST_CREATE_TABLE, charset);
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 	
@@ -41,43 +36,34 @@ public class MyBatisClassicDB implements IClassicStorage {
 	public String add(LoginDataType addRequest)
 			throws IllegalArgumentException, PersistenceException
 	{
-		log.debug("Adding into UUDB");
 		LoginBean bean = new LoginBean(addRequest);
-		SqlSession session = factory.openSession(true);
 		if (bean.getGcid() == null || bean.getToken() == null)
 			throw new IllegalArgumentException("Token and GCID must be set when adding an entry");
 		if (bean.getGcid() == "*")
 			throw new IllegalArgumentException("Token and GCID must not be '*'");
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
 			LoginBean existing = mapper.getRecord(bean.getGcid(), bean.getToken());
-
 			if (existing != null) 
 			{
-				log.debug("Found existing entry, will update it instead of adding a duplicate");
-				
 				Xlogin xlogin = new Xlogin(existing.getXlogin());
 				boolean added = xlogin.addLogin(bean.getXlogin());
 				String ret = "OK";
 				if (added)
 				{
-					log.debug("Adding new xlogin <" + bean.getXlogin() + "> to existing entry.");
+					log.debug("Adding new xlogin <{}> to existing entry", bean.getXlogin());
 					bean.setXlogin(xlogin.getEncoded());
 					int updated = mapper.updateRecord(bean.getGcid(), bean.getToken(), bean);
 					ret = "Updated " + updated + " rows";
 				} else {
-					log.debug("Xlogin <" + bean.getXlogin() +
-							"> already exists in entry, skipping update.");
+					log.debug("Xlogin <{}> already exists in entry, skipping update", bean.getXlogin());
 				}
 				session.commit();
 				return ret;
 			}
 			mapper.insertRecord(bean);
 			session.commit();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 		return "OK.";
 	}
@@ -90,11 +76,10 @@ public class MyBatisClassicDB implements IClassicStorage {
 		LoginDataType[] logins = db.getDatabaseArray();
 		int occuredErrors=0;
 		boolean clear=false;
-		if (idd.getImportDatabase().isSetClean())
+		if (idd.getImportDatabase().isSetClean()) {
 			clear=idd.getImportDatabase().getClean();
-		
-		SqlSession session = factory.openSession(true);
-		try
+		}
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
 			if(clear)
@@ -102,7 +87,6 @@ public class MyBatisClassicDB implements IClassicStorage {
 				log.info("Clearing database before import.");
 				mapper.removeRecords(new LoginBean());
 			}
-			
 			for(int i = 0; i<logins.length; i++) {
 				try
 				{
@@ -118,9 +102,6 @@ public class MyBatisClassicDB implements IClassicStorage {
 			return (logins.length-occuredErrors) + 
 					"   certificates from   "  + logins.length + 
 					"   were imported into the XUUDB.";
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -128,10 +109,8 @@ public class MyBatisClassicDB implements IClassicStorage {
 	public LoginDataType[] listDB(LoginDataType query) 
 			throws IllegalArgumentException, PersistenceException
 	{
-		log.debug("Listing UUDB contents");
 		LoginBean bean = new LoginBean(query);
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
 			List<LoginBean> result = mapper.queryRecords(bean);
@@ -139,9 +118,6 @@ public class MyBatisClassicDB implements IClassicStorage {
 			for (int i=0; i<ret.length; i++)
 				ret[i] = result.get(i).getAsLoginDataType();
 			return ret;
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -149,14 +125,11 @@ public class MyBatisClassicDB implements IClassicStorage {
 	public String remove(LoginDataType removeArg)
 			throws IllegalArgumentException, PersistenceException
 	{
-		log.debug("Removing records or xlogins from UUDB");
 		LoginBean bean = new LoginBean(removeArg);
-		SqlSession session = factory.openSession(true);
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
-			
-			List<LoginBean> existing = new ArrayList<LoginBean>();
+			List<LoginBean> existing = new ArrayList<>();
 			if (bean.getToken() != null && bean.getXlogin() != null)
 			{
 				if (bean.getGcid() == null || bean.getGcid().equals("*"))
@@ -182,18 +155,14 @@ public class MyBatisClassicDB implements IClassicStorage {
 					Xlogin toRemove = new Xlogin(bean.getXlogin());
 					for (String login: toRemove)
 					{
-						boolean removedL = xlogin.removeLogin(login);
-						if (!removedL)
-							log.debug("Xlogin " + login + " not found in entry " +
-									xlogin + ", ignoring.");
+						xlogin.removeLogin(login);
 					}
 					if (xlogin.getNumberOfLogins() == 0)
 					{
-						log.debug("Removing entry");
 						removed += mapper.removeRecords(lb);
 					} else
 					{
-						log.debug("Updating xlogin to <" + xlogin + ">.");
+						log.debug("Updating xlogin to <{}>", xlogin);
 						lb.setXlogin(xlogin.getEncoded());
 						updated += mapper.updateRecord(lb.getGcid(), lb.getToken(), lb);
 					}
@@ -204,9 +173,6 @@ public class MyBatisClassicDB implements IClassicStorage {
 			}
 			session.commit();
 			return "Removed records: " + removed + "; updated records: " + updated;
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -214,19 +180,14 @@ public class MyBatisClassicDB implements IClassicStorage {
 	public LoginDataType checkToken(String gcid, String token)
 			throws IllegalArgumentException, PersistenceException
 	{
-		log.debug("Checking if token is present in UUDB");
 		SecurityToken stok = new SecurityToken(token);
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
-			LoginBean existing = mapper.getRecord(gcid, stok.getToken());
+			LoginBean existing = mapper.getRecord(gcid, stok.toString());
 			if (existing == null)
 				return LoginDataType.Factory.newInstance();
 			return existing.getAsLoginDataType();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -241,21 +202,14 @@ public class MyBatisClassicDB implements IClassicStorage {
 	public String update(String gcid, String token, LoginDataType login)
 			throws IllegalArgumentException, PersistenceException
 	{
-		log.debug("Updateing UUDB");
-		SecurityToken stok;
-		stok = new SecurityToken(token);
-
-		SqlSession session = factory.openSession(true);
-		try
+		SecurityToken stok = new SecurityToken(token);
+		try(SqlSession session = factory.openSession(true))
 		{
 			LoginBean bean = new LoginBean(login);
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
-			int updated = mapper.updateRecord(gcid, stok.getToken(), bean);
+			int updated = mapper.updateRecord(gcid, stok.toString(), bean);
 			session.commit();
 			return "Updated   " + updated + "   rows." ;
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -263,15 +217,10 @@ public class MyBatisClassicDB implements IClassicStorage {
 	public List<String> listGCIDs()
 			throws IllegalArgumentException, PersistenceException
 	{
-		log.debug("Listing GCIDs");
-		SqlSession session = factory.openSession(true);
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
 			return mapper.listGcids();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 }

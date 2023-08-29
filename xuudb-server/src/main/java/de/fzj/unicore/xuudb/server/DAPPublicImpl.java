@@ -32,8 +32,8 @@ import de.fzj.unicore.xuudb.server.dynamic.DAPConfiguration;
 public class DAPPublicImpl implements IDynamicAttributesPublic
 {
 	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, DAPPublicImpl.class);
-	private DAPConfiguration config;
-	private EvaluationEngine engine;
+	private final DAPConfiguration config;
+	private final EvaluationEngine engine;
 	
 	public DAPPublicImpl(DAPConfiguration config) 
 			throws IOException, XmlException, ParseException
@@ -44,7 +44,7 @@ public class DAPPublicImpl implements IDynamicAttributesPublic
 	
 	@Override
 	public GetAttributesResponseDocument getAttributes(GetAttributesRequestDocument reqDoc) {
-		log.debug("getAttributes invoked for DN: " + reqDoc.getGetAttributesRequest().getUserDN());
+		log.debug("getAttributes invoked for DN: {}", reqDoc.getGetAttributesRequest().getUserDN());
 		GetAttributesResponseDocument respDoc = GetAttributesResponseDocument.Factory.newInstance();
 		commonGet(reqDoc.getGetAttributesRequest(), respDoc.addNewGetAttributesResponse(), false);
 		return respDoc;
@@ -54,8 +54,7 @@ public class DAPPublicImpl implements IDynamicAttributesPublic
 	public SimulateGetAttributesResponseDocument simulateGetAttributes(
 			SimulateGetAttributesRequestDocument xml)
 	{
-		log.debug("simulateGetAttributes invoked for DN: " + 
-				xml.getSimulateGetAttributesRequest().getUserDN());
+		log.debug("simulateGetAttributes invoked for DN: {}", xml.getSimulateGetAttributesRequest().getUserDN());
 		SimulateGetAttributesResponseDocument respDoc = SimulateGetAttributesResponseDocument.Factory.newInstance();
 		commonGet(xml.getSimulateGetAttributesRequest(), respDoc.addNewSimulateGetAttributesResponse(), true);
 		log.debug("RESP: " + respDoc.xmlText(new XmlOptions().setSavePrettyPrint()));

@@ -1,6 +1,5 @@
 package de.fzj.unicore.xuudb.client.actions;
 
-import java.io.IOException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
@@ -27,20 +26,10 @@ public class AddAction extends AbstractAction {
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
 		logArguments(args);
-
-		String certPem = null;
-		X509Certificate x509 = null;
-		try {
-			System.out.print("Reading cert from file: " + args[1]);
-			x509 = X509Utils.loadCertificate(args[1]);
-			certPem = X509Utils.getPEMStringFromX509(x509);
-			System.out.println("           OK \n");
-		} catch (Exception e) {
-			String msg = "Can't read certificate file:" + args[1];
-			logger.error(msg, e);
-			throw new IOException(msg, e);
-		}
-
+		System.out.print("Reading cert from file: " + args[1]);
+		X509Certificate x509 = X509Utils.loadCertificate(args[1]);
+		String certPem = X509Utils.getPEMStringFromX509(x509);
+		System.out.println("           OK \n");
 		// check validity of cert
 		System.out.print("Checking validity of : " + args[1]);
 		try {
@@ -82,7 +71,6 @@ public class AddAction extends AbstractAction {
 				logger.debug(msg);
 				System.out.println(msg);
 				return true;
-
 			}
 		}
 

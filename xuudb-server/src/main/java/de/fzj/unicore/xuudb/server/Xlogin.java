@@ -50,7 +50,7 @@ public class Xlogin implements Serializable, Iterable<String>{
 
 	private static final long serialVersionUID = 1L;
 
-	private final List<String> logins;
+	private final List<String> logins=new ArrayList<>();
 	
 	/**
 	 * constructs a new Xlogin instance from the supplied ":"-separated
@@ -59,16 +59,10 @@ public class Xlogin implements Serializable, Iterable<String>{
 	 * @param encoded
 	 */
 	public Xlogin(String encoded){
-		this();
 		//quick&dirty parsing...
-		String[] ls=encoded.split(":");
-		for(String l: ls)logins.add(l);
+		for(String l: encoded.split(":"))logins.add(l);
 	}
-	
-	public Xlogin(){
-		logins=new ArrayList<String>();
-	}
-	
+
 	/**
 	 * adds a login
 	 * 

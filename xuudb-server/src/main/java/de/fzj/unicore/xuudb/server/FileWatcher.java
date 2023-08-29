@@ -54,7 +54,7 @@ public class FileWatcher implements Runnable{
 				@Override
 				public Thread newThread(Runnable r) {
 					Thread t = new Thread(r);
-					t.setName("GWFileWatcherThread");
+					t.setName("FileWatcherThread");
 					return t;
 				}
 			});

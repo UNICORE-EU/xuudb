@@ -33,7 +33,7 @@ public class LoginBean
 		if (src.getToken() != null)
 		{
 			SecurityToken stok = new SecurityToken(src.getToken());
-			this.token = stok.getToken();
+			this.token = stok.toString();
 		}
 		this.gcid = src.getGcID();
 		this.role = src.getRole();

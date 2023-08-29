@@ -17,14 +17,14 @@ public abstract class AbstractAction implements Comparable<AbstractAction> {
 
 	protected enum Category {classic, dynamic, other}; 
 	private static final DateFormat SHORT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
-	protected String cmd;
+	protected final ConnectionManager cm;
+	protected final String cmd;
+	protected final String help;
 	protected String category;
 	protected String[] aliases;
-	protected String help;
 	protected int minArgs;
 	protected int maxArgs;
-	protected ConnectionManager cm;
-
+	
 	protected AbstractAction(ConnectionManager cm, String cmd, String help) {
 		this.cm = cm;
 		this.cmd = cmd;

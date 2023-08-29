@@ -28,7 +28,7 @@ public class ScriptMapping extends Mapping
 {
 	public static final Logger log = Log.getLogger(Log.XUUDB_SERVER, ScriptMapping.class);
 	public static final String ID = "script";
-	private int timeout;
+	private final int timeout;
 	
 	public ScriptMapping(String configuration, MappingType maps, int timeout)
 	{
@@ -64,13 +64,10 @@ public class ScriptMapping extends Mapping
 		String[] cmdLineTokens = SimplifiedCmdLineLexer.tokenizeString(cmdLine);
 		if (log.isDebugEnabled())
 		{
-			log.debug("Will run the following command " +
-					"line (comma is used to separate arguments):\n" + 
+			log.debug("Will run the following command line (comma is used to separate arguments): {}",
 					Arrays.toString(cmdLineTokens));
 		}
-		
-		
-		
+
 		ProcessInvoker invoker = new ProcessInvoker(timeout);
 		TimeLimitedThread tlt;
 		try
@@ -90,8 +87,7 @@ public class ScriptMapping extends Mapping
 					+ ", the stdErr was: " + tlt.getStderr());
 			return;
 		}
-		
-		
+
 		String returned = tlt.getStdout();
 		log.debug("Got mapping for " + getType() + ": '" + returned + "'");
 		if (returned != null)
@@ -126,20 +122,21 @@ public class ScriptMapping extends Mapping
 		
 		switch (getType()) {
 		case uid:
-			log.debug("Setting xlogin to: " + returned);
+			log.debug("Setting xlogin to: {}", returned);
 			context.setXlogin(returned);
 			break;
 		case gid:
-			log.debug("Setting gid to: " + returned);
+			log.debug("Setting gid to: {}", returned);
 			context.setGid(returned);
 			break;
 		case supplementaryGids:
 			if (overwrite) {
 				context.setSupplementaryGids(Arrays.asList(gids));
-				log.debug("Setting supplementary groups to: " + context.getSupplementaryGids());
+				log.debug("Setting supplementary groups to: {}", context.getSupplementaryGids());
 			} else {
 				Collections.addAll(context.getSupplementaryGids(), gids);
-				log.debug("Adding the following supplementary groups: " + Arrays.toString(gids));
+				if(log.isDebugEnabled())
+					log.debug("Adding the following supplementary groups: {}", Arrays.toString(gids));
 			}
 			break;
 		}

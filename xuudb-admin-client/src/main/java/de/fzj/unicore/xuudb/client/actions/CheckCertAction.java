@@ -1,7 +1,5 @@
 package de.fzj.unicore.xuudb.client.actions;
 
-import java.io.IOException;
-
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.X509Utils;
 import de.fzj.unicore.xuudb.client.wsapi.XUUDBResponse;
@@ -21,18 +19,9 @@ public class CheckCertAction extends AbstractAction {
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
 		logArguments(args);
-
-		String cert = null;
-		try {
-
-			System.out.print("Reading cert from file: " + args[1]);
-			cert = X509Utils.getStringFromPEMFile(args[1]);
-			System.out.println("           OK \n");
-		} catch (IOException e) {
-			String msg = "Can't read certificate <" + args[1] + ">";
-			logger.error(msg, e);
-			throw new IOException(msg, e);
-		}
+		System.out.print("Reading cert from file: " + args[1]);
+		String cert = X509Utils.getStringFromPEMFile(args[1]);
+		System.out.println("           OK \n");
 
 		XUUDBResponse resp = cm.query.checkCert(args[0], cert);
 
@@ -44,18 +33,17 @@ public class CheckCertAction extends AbstractAction {
 				.printf("%-15s|%-64s|%-10s|%-10s|%-20s|\n", "     GcID",
 						"                            Token", "   Role", "  Xlogin",
 						"      Projects");
-		System.out
-				.println("----------------------------------------------------------------------------------------------------------------------------");
-		if (data.getToken().length() < 65)
-			System.out.printf("%15s|%64s|%10s|%10s|%20s|\n", data.getGcID(),
-					data.getToken(), data.getRole(), data.getXlogin(), data
-							.getProjects());
-
+		System.out.println(
+			"----------------------------------------------------------------------------------------------------------------------------");
+		if (data.getToken().length() < 65) {
+			System.out.printf("%15s|%64s|%10s|%10s|%20s|\n",
+					data.getGcID(),data.getToken(),
+					data.getRole(), data.getXlogin(),data.getProjects());
+		}
 		else {
 			System.out.printf("%15s|%64s|%10s|%10s|%20s|\n", data.getGcID(),
 					data.getToken().substring(0, 64), data.getRole(), data
 							.getXlogin(), data.getProjects());
-
 			for (int i = 64; i < data.getToken().length(); i=i+64) {
 				int end = i + 64;
 				if (end > data.getToken().length())
@@ -63,9 +51,7 @@ public class CheckCertAction extends AbstractAction {
 				System.out.printf("%15s|%-64s|%10s|%10s|%20s|\n", "", data
 						.getToken().substring(i, end), "", "", "");
 			}
-
 		}
 		return true;
-
 	}
 }

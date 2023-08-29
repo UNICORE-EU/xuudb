@@ -14,17 +14,16 @@ import org.springframework.expression.Expression;
 
 /**
  * Generic rule which can route a request to its Mapping. Immutable.
- * @author golbi
  *
+ * @author golbi
  */
 public class Rule
 {
-	private Expression condition;
-	private boolean overwrite;
-	private List<Mapping> actions;
+	private final Expression condition;
+	private final boolean overwrite;
+	private final List<Mapping> actions;
 
-	public Rule(Expression condition, boolean overwrite, 
-			List<? extends Mapping> mappings)
+	public Rule(Expression condition, boolean overwrite, List<? extends Mapping> mappings)
 	{
 		this.condition = condition;
 		this.overwrite = overwrite;

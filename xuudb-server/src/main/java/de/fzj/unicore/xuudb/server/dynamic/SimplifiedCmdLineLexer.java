@@ -26,7 +26,7 @@ public class SimplifiedCmdLineLexer
 {
 	public static String[] tokenizeString(String origStr)
 	{
-		List<String> tokens = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
 		boolean inCitation = false;
 		StringBuilder token = new StringBuilder();
 		

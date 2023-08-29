@@ -57,15 +57,8 @@ public class ListAction extends AbstractAction {
 			for (int i = 0; i < rdata.length; i++) {
 				String dn = "Error resolving DN :/";
 				try {
-					dn = X500NameUtils.getReadableForm(rdata[i].getToken()); // user-friendly
-					// form,
-					// not
-					// the
-					// one
-					// really
-					// stored
-					// in
-					// XUUDB
+					// user-friendly form, not the one really stored in XUUDB
+					dn = X500NameUtils.getReadableForm(rdata[i].getToken()); 
 				} catch (Exception pe) {
 					try {
 						X509Certificate cert = X509Utils

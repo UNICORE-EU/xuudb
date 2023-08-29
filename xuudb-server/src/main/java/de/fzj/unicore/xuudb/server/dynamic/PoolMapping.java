@@ -43,16 +43,15 @@ public class PoolMapping extends Mapping
 			log.warn("Pool " + pool.getId() + " is empty. The mapping is skipped.");
 			return;
 		}
-		log.debug("Value of the key of type " + pool.getKeyType() + " used by the pool " + pool.getId() + 
-				" is: " + poolValue);
-		
+		log.debug("Value of the key of type {} used by the pool {} is: {}",
+				pool.getKeyType(), pool.getId(), poolValue);
 		if (pool.getType().equals(MappingType.uid))
 		{
-			log.debug("Setting xlogin to " + poolValue);
+			log.debug("Setting xlogin to {}", poolValue);
 			context.setXlogin(poolValue);
 		} else if (pool.getType().equals(MappingType.gid))
 		{
-			log.debug("Setting gid to " + poolValue);
+			log.debug("Setting gid to {}", poolValue);
 			context.setGid(poolValue);			
 		} else 
 			throw new RuntimeException("Bug: pool configured with a type which is " +
@@ -101,14 +100,12 @@ public class PoolMapping extends Mapping
 		}
 		if (key == null || key.equals(""))
 		{
-			log.debug("Key of type " + pool.getKeyType() + " used by pool " + pool.getId() + 
-					" is not available. The mapping is skipped.");
+			log.debug("Key of type {} used by pool {} is not available. The mapping is skipped.",
+					pool.getKeyType(), pool.getId());
 			return null;
 		}
-		
-		log.debug("Key of type " + pool.getKeyType() + " used by pool " + pool.getId() + 
-				" value is: " + key);
+		log.debug("Key of type {} used by pool {} value is: {}",
+				pool.getKeyType(), pool.getId(), key);
 		return key;
 	}
-	
 }

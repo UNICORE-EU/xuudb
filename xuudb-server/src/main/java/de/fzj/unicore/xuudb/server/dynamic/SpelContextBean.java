@@ -66,12 +66,12 @@ public class SpelContextBean {
 		return gids;
 	}
 	public void setGids(Set<String> gids) {
-		this.gids = (gids == null) ? new HashSet<String>() : gids;
+		this.gids = (gids == null) ? new HashSet<>() : gids;
 	}
 	public Map<String, Set<String>> getAttributes() {
 		return attributes;
 	}
 	public void setAttributes(Map<String, Set<String>> attributes) {
-		this.attributes = (attributes == null) ? new HashMap<String, Set<String>>() : attributes;
+		this.attributes = (attributes == null) ? new HashMap<>() : attributes;
 	}
 }

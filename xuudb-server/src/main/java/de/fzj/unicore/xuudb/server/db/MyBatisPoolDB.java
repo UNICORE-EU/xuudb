@@ -33,14 +33,10 @@ public class MyBatisPoolDB implements IPoolStorage
 	public MyBatisPoolDB(MyBatisSessionFactory factory, String charset) 
 	{
 		this.factory = factory;
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			session.update(ST_CREATE_TABLE_POOLS, charset);
 			session.update(ST_CREATE_TABLE_MAPPINGS, charset);
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -48,8 +44,7 @@ public class MyBatisPoolDB implements IPoolStorage
 	public void initializePools(Iterable<Pool> pools) throws ConfigurationException
 	{
 		log.debug("Initializing pools in the database");
-		SqlSession session = factory.openBatchSession(true);
-		try
+		try(SqlSession session = factory.openBatchSession(true))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			for (Pool pool: pools) 
@@ -57,7 +52,7 @@ public class MyBatisPoolDB implements IPoolStorage
 				MappingBean bean = mapper.checkPoolExistence(pool.getId());
 				if (bean == null)
 				{
-					log.debug("Adding pool " + pool.getId() + " to the database");
+					log.debug("Adding pool <{}> to the database", pool.getId());
 					MappingBean input = new MappingBean();
 					input.setPoolName(pool.getId());
 					input.setMappingKeyType(pool.getKeyTypeCode());
@@ -65,12 +60,12 @@ public class MyBatisPoolDB implements IPoolStorage
 					mapper.createPool(input);
 					session.flushStatements();
 					int newKey = input.getId();
-					log.debug("New pool DB id is " + newKey);
+					log.debug("New pool DB id is <{}>", newKey);
 					pool.setDbKey(newKey);
 					populatePool(pool, mapper);
 				} else
 				{
-					log.debug("Pool " + pool.getId() + " already exists in the database");
+					log.debug("Pool {} already exists in the database", pool.getId());
 					if (!pool.getKeyTypeCode().equals(bean.getMappingKeyType()))
 						throw new ConfigurationException("Inconsistency between database " +
 								"and configuration detected. Pool " + pool.getId() + 
@@ -85,9 +80,6 @@ public class MyBatisPoolDB implements IPoolStorage
 				}
 			}
 			session.commit();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 	
@@ -95,16 +87,14 @@ public class MyBatisPoolDB implements IPoolStorage
 	@Override
 	public String getOrCreateMapping(Pool pool, String key, boolean dryRun) 
 	{
-		log.debug("Trying to find mapping of " + key + " in pool " + pool.getId());
-		SqlSession session = factory.openSession(true);
-		try
+		log.debug("Trying to find mapping of <{}> in pool <{}>", key, pool.getId());
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			MappingBean mapping = mapper.getAliveMapping(pool.getDbKey(), key);
 			if (mapping != null) 
 			{
-				log.debug("Mapping of " + key + " in pool " + pool.getId() + " was found: " + 
-						mapping.getEntry());
+				log.debug("Mapping of {} in pool {} was found: {}",	key, pool.getId(), mapping.getEntry());
 				if (!dryRun)
 				{
 					mapper.updateAccessTime(mapping.getId());
@@ -112,30 +102,28 @@ public class MyBatisPoolDB implements IPoolStorage
 				}
 				return mapping.getEntry();
 			}
-			log.debug("Mapping of " + key + " in pool " + pool.getId() + " wasn't found, creating a new one.");
+			log.debug("Mapping of {} in pool {} wasn't found, creating a new one.",
+					key, pool.getId());
 			MappingBean freeMappingKey = mapper.getFreeMapping(pool.getDbKey());
 			if (freeMappingKey == null)
 			{
-				log.debug("Pool " + pool.getId() + " is empty, can't create a new mapping");
+				log.debug("Pool {} is empty, can't create a new mapping", pool.getId());
 				return null;
 			}
-			log.debug("New mapping of " + key + " in pool " + pool.getId() + 
-					" was established: " + freeMappingKey.getEntry());
+			log.debug("New mapping of {} in pool {} was established: {}",
+					key, pool.getId(), freeMappingKey.getEntry());
 			if (!dryRun)
 			{
 				if (!runCreateHandler(freeMappingKey.getEntry(), key, pool))
 				{
-					log.debug("Handler returned that this mapping should not be created: "
-							 + key + " -> " + freeMappingKey.getEntry());
+					log.debug("Handler returned that this mapping should not be created: {} -> {}",
+							key, freeMappingKey.getEntry());
 					return null;
 				}
 				mapper.addMapping(key, freeMappingKey.getId());
 				session.commit();
 			}
 			return freeMappingKey.getEntry();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 	
@@ -144,13 +132,10 @@ public class MyBatisPoolDB implements IPoolStorage
 	@Override
 	public void freezeInactive(Pool pool, Date inactiveFrom)
 	{
-		log.debug("Freezing mappings inactive since " + inactiveFrom + " in pool " + pool.getId());
-		
+		log.debug("Freezing mappings inactive since {} in pool {}", inactiveFrom, pool.getId());
 		String handler = pool.getConfiguration().getHandlerAboutToFreeze();
 		ProcessInvoker invoker = new ProcessInvoker(pool.getConfiguration().getHandlerInvocationTimeLimit());
-		
-		SqlSession session = factory.openSession(true);
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			List<MappingBean> inactive = mapper.getInactiveMappings(pool.getDbKey(), inactiveFrom);
@@ -159,60 +144,43 @@ public class MyBatisPoolDB implements IPoolStorage
 			{
 				if (!runFreezingHandler(handler, invoker, bean, pool))
 				{
-					log.debug("Handler returned that this mapping should not be frozen: "
-							 + bean.getId() + " " + bean.getEntry());
 					continue;
 				}
-				log.debug("Freezing a mapping: " + bean.getId() + " " + bean.getEntry());
+				log.debug("Freezing a mapping: {} {}", bean.getId(), bean.getEntry());
 				mapper.freezeMapping(bean.getId());
 			}
 			session.commit();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
 	@Override
 	public void freezeSpecified(Pool pool, String value)
 	{
-		log.debug("Freezing mapping of " + value + " in pool " + pool.getId());
-		
+		log.debug("Freezing mapping of {} in pool {}", value, pool.getId());
 		String handler = pool.getConfiguration().getHandlerAboutToFreeze();
 		ProcessInvoker invoker = new ProcessInvoker(pool.getConfiguration().getHandlerInvocationTimeLimit());
-		
-		SqlSession session = factory.openSession(true);
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			MappingBean bean = mapper.getAliveMapping(pool.getDbKey(), value);
-			if (bean == null)
+			if (bean == null) {
 				throw new IllegalArgumentException("Mapping of " + value + 
 						" does not exist in the pool " + pool.getId() + " or is not alive");
-
-			if (!runFreezingHandler(handler, invoker, bean, pool))
-				log.warn("Handler returned that this mapping should not be frozen: "
-						 + bean.getId() + " " + bean.getEntry() + 
-						 ". Ignoring as freezeing was forced.");
-			log.debug("Freezing a mapping: " + bean.getId() + " " + bean.getEntry());
+			}
+			runFreezingHandler(handler, invoker, bean, pool);
+			log.debug("Freezing a mapping: {} {}", bean.getId(), bean.getEntry());
 			mapper.freezeMapping(bean.getId());
 			session.commit();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
 	@Override
 	public void deleteOld(Pool pool, Date inactiveFrom)
 	{
-		log.debug("Deleting mappings frozen since " + inactiveFrom + " in pool " + pool.getId());
-		
+		log.debug("Deleting mappings frozen since {} in pool {}", inactiveFrom, pool.getId());
 		String handler = pool.getConfiguration().getHandlerAboutToDelete();
 		ProcessInvoker invoker = new ProcessInvoker(pool.getConfiguration().getHandlerInvocationTimeLimit());
-		
-		SqlSession session = factory.openSession(true);
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			List<MappingBean> old = mapper.getOldMappings(pool.getDbKey(), inactiveFrom);
@@ -221,66 +189,45 @@ public class MyBatisPoolDB implements IPoolStorage
 			{
 				if (!runRemovalHandler(handler, invoker, bean, pool))
 				{
-					log.debug("Handler returned that this mapping should not be deleted: "
-							 + bean.getId() + " " + bean.getEntry());
 					continue;
 				}
-				log.debug("Removing a mapping: " + bean.getId() + " " + bean.getEntry());
+				log.debug("Removing a mapping: {} {}", bean.getId(), bean.getEntry());
 				mapper.removeMapping(bean.getId());
 			}
 			session.commit();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}	
 	
 	@Override
 	public void deleteSpecified(Pool pool, String value)
 	{
-		log.debug("Deleting mapping of " + value + " in pool " + pool.getId());
-		
+		log.debug("Deleting mapping of {} in pool {}", value, pool.getId());
 		String handler = pool.getConfiguration().getHandlerAboutToDelete();
 		ProcessInvoker invoker = new ProcessInvoker(pool.getConfiguration().getHandlerInvocationTimeLimit());
-		
-		SqlSession session = factory.openSession(true);
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			List<MappingBean> beans = mapper.getFrozenMappings(pool.getDbKey(), value);
 			if (beans == null || beans.size() == 0)
 				throw new IllegalArgumentException("Mapping of " + value + 
 						" does not exist in the pool " + pool.getId());
-			for (MappingBean bean: beans) 
-			{
-				if (!runRemovalHandler(handler, invoker, bean, pool))
-					log.warn("Handler returned that this mapping should not be deleted: "
-						 + bean.getId() + " " + bean.getEntry() + 
-						 ". Ignoring as removal was externally forced.");
-				log.debug("Removing a mapping: " + bean.getId() + " " + bean.getEntry());
+			for (MappingBean bean: beans){
+				runRemovalHandler(handler, invoker, bean, pool);
 				mapper.removeMapping(bean.getId());
 			}
 			session.commit();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 	
 	@Override
 	public void checkEmptiness(Pool pool, int warningThreshold)
 	{
-		SqlSession session = factory.openSession(false);
 		long occupied;
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			occupied = mapper.countOccupiedMappings(pool.getDbKey());
-		} finally 
-		{
-			factory.closeSession(session);
 		}
-		
 		ProcessInvoker invoker = new ProcessInvoker(pool.getConfiguration().getHandlerInvocationTimeLimit());
 		long remainingFree = pool.getRealEntries() - occupied; 
 		if (remainingFree < 0)
@@ -321,45 +268,33 @@ public class MyBatisPoolDB implements IPoolStorage
 	@Override
 	public List<MappingBean> listMappings(Integer poolId, MappingStatus statusEnum)
 	{
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			String status = null;
 			if (statusEnum != MappingStatus.any)
 				status = statusEnum.name();
 			return mapper.getMappings(poolId, status);
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
 	@Override
 	public List<MappingBean> listMappingsByValue(String valueType, String value)
 	{
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			return mapper.findMappingsByValue(value, valueType);
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
 	@Override
 	public List<MappingBean> listMappingsByKey(String keyType, String keyValue)
 	{
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			return mapper.findMappingsByKey(keyType, keyValue);
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -367,11 +302,9 @@ public class MyBatisPoolDB implements IPoolStorage
 	@Override
 	public void removePool(String poolName)
 	{
-		SqlSession session = factory.openSession(true);
-		try
+		try(SqlSession session = factory.openSession(true))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
-			
 			MappingBean poolInfo = mapper.checkPoolExistence(poolName);
 			if (poolInfo == null)
 				throw new IllegalArgumentException("Pool " + poolName + " does not exist in DB.");
@@ -392,9 +325,6 @@ public class MyBatisPoolDB implements IPoolStorage
 						e.toString());
 			}
 			session.commit();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 
@@ -402,14 +332,10 @@ public class MyBatisPoolDB implements IPoolStorage
 	@Override
 	public List<PoolInfoBean> listPools()
 	{
-		SqlSession session = factory.openSession(false);
-		try
+		try(SqlSession session = factory.openSession(false))
 		{
 			UudbPoolMapper mapper = session.getMapper(UudbPoolMapper.class);
 			return mapper.listPools();
-		} finally 
-		{
-			factory.closeSession(session);
 		}
 	}
 

@@ -33,14 +33,13 @@
 
 package de.fzj.unicore.xuudb.server;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
 
 import org.apache.logging.log4j.Logger;
 
 import de.fzj.unicore.xuudb.Log;
-
 
 /**
  * does things on VM shutdown. Client code can register with this class to
@@ -51,7 +50,7 @@ public class ShutdownHook extends Thread {
 	private Collection<IShutdownable> runners = null;
 	
 	public ShutdownHook() {
-		runners = new Vector<IShutdownable>();
+		runners = new ArrayList<>();
 		Runtime.getRuntime().addShutdownHook(this);
 	}
 

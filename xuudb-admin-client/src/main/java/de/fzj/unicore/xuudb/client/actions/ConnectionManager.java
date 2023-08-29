@@ -6,10 +6,10 @@ import de.fzj.unicore.xuudb.client.wsapi.IDAPPublicExtInterface;
 import de.fzj.unicore.xuudb.client.wsapi.IPublicExtInterface;
 
 public class ConnectionManager {
-	IAdminExtInterface admin;
-	IPublicExtInterface query;
-	IDAPAdminExtInterface dapAdmin;
-	IDAPPublicExtInterface dapPublic;
+	final IAdminExtInterface admin;
+	final IPublicExtInterface query;
+	final IDAPAdminExtInterface dapAdmin;
+	final IDAPPublicExtInterface dapPublic;
 
 	public ConnectionManager(IAdminExtInterface adm, IPublicExtInterface q,
 			IDAPAdminExtInterface da, IDAPPublicExtInterface dp) {
@@ -18,7 +18,6 @@ public class ConnectionManager {
 		query = q;
 		dapAdmin = da;
 		dapPublic = dp;
-
 	}
 
 }

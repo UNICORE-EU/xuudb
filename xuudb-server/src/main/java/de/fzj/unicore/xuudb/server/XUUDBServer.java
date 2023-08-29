@@ -89,8 +89,7 @@ public class XUUDBServer {
 
 	public static void printUsage() {
 		System.out.println(
-				"\n" +
-				"Usage: start_cmd  <command>  [parameters]\n" +
+				"\nUsage: start_cmd  <command>  [parameters]\n" +
 				"	--start  <configfile>   starts XUUDB server");
 	}
 }

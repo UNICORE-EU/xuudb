@@ -32,7 +32,6 @@
 
 package de.fzj.unicore.xuudb.server;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -49,10 +48,8 @@ import eu.unicore.util.configuration.ConfigurationException;
 import eu.unicore.util.jetty.HttpServerProperties;
 import eu.unicore.util.jetty.JettyServerBase;
 
-
 /**
- * a Jetty server hosting a servlet for handling web services 
- * 
+ *
  * @author schuller
  */
 public class JettyServer extends JettyServerBase {

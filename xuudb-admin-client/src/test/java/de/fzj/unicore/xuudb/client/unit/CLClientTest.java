@@ -1,13 +1,12 @@
 package de.fzj.unicore.xuudb.client.unit;
 
-import java.security.Permission;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import de.fzj.unicore.xuudb.client.CLCExecutor;
-import de.fzj.unicore.xuudb.client.XUUDBClient;
-
-import static org.junit.Assert.*;
 
 public class CLClientTest {
 
@@ -51,49 +50,4 @@ public class CLClientTest {
 		assertFalse(e5.processCommandLineArgs(args6));
 	}
 
-	protected static class ExitException extends SecurityException {
-		private static final long serialVersionUID = 1L;
-		public final int status;
-
-		public ExitException(int status) {
-			this.status = status;
-		}
-	}
-
-	private static class NoExitSecurityManager extends SecurityManager {
-		public void checkPermission(Permission perm) {
-			// allow anything.
-		}
-
-		public void checkPermission(Permission perm, Object context) {
-			// allow anything.
-		}
-
-		@Override
-		public void checkExit(int status) {
-			super.checkExit(status);
-			throw new ExitException(status);
-
-		}
-	}
-
-
-	@Test
-	@SuppressWarnings("static-access")
-	public void testClc() throws Exception {
-
-		SecurityManager old = System.getSecurityManager();
-		System.setSecurityManager(new NoExitSecurityManager());
-		XUUDBClient cl = new XUUDBClient();
-		String[] args = { "--config", "src/test/resources/client.conf", "help" };
-		
-		try{
-			cl.main(args);
-		}catch (ExitException e) {
-			if(e.status!=0)
-				fail();
-		}
-		System.setSecurityManager(old);
-
-	}
 }

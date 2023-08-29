@@ -29,12 +29,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************************/
- 
+
 
 package de.fzj.unicore.xuudb.server;
-
-import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.logging.log4j.Logger;
 
 import de.fzJuelich.unicore.xuudb.AddCertificateDocument;
 import de.fzJuelich.unicore.xuudb.AddCertificateResponseDocument;
@@ -48,54 +45,30 @@ import de.fzJuelich.unicore.xuudb.RemoveCertificateDocument;
 import de.fzJuelich.unicore.xuudb.RemoveCertificateResponseDocument;
 import de.fzJuelich.unicore.xuudb.UpdateCertificateDocument;
 import de.fzJuelich.unicore.xuudb.UpdateCertificateResponseDocument;
-import de.fzj.unicore.xuudb.Log;
 import de.fzj.unicore.xuudb.interfaces.IAdmin;
 import de.fzj.unicore.xuudb.server.db.IClassicStorage;
 
 public class AdminImpl implements IAdmin {
-	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, AdminImpl.class);
-	
-	private IClassicStorage xuudb;
-	private String version; 
-	
+
+	private final IClassicStorage xuudb;
+	private final String version; 
+
 	public AdminImpl(ServerConfiguration co, IClassicStorage backend) throws Exception {
 		this.xuudb = backend;
-		version=getClass().getPackage().getImplementationVersion();
-		if(version==null)
-			version="DEVELOPMENT";
+		this.version = getClass().getPackage().getImplementationVersion()!=null?
+				getClass().getPackage().getImplementationVersion() : "DEVELOPMENT";
 	}
-	
+
 	public AddCertificateResponseDocument addCertificate(AddCertificateDocument xml) {
 		AddCertificateResponseDocument ret = AddCertificateResponseDocument.Factory.newInstance();
-		try {
-			String ans = xuudb.add(xml.getAddCertificate()); 
-			ret.setAddCertificateResponse(ans);
-		} catch (IllegalArgumentException e) {
-			log.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, log);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
-		}
+		String ans = xuudb.add(xml.getAddCertificate()); 
+		ret.setAddCertificateResponse(ans);
 		return ret;
 	}
 
 	public ListDatabaseResponseDocument listDatabase(ListDatabaseDocument xml) {
 		ListDatabaseResponseDocument ret = ListDatabaseResponseDocument.Factory.newInstance();
-		LoginDataType[] ans = null;
-		try {
-			ans = xuudb.listDB(xml.getListDatabase());
-		} catch (IllegalArgumentException e) {
-			log.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, log);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
-		}
+		LoginDataType[] ans = xuudb.listDB(xml.getListDatabase());
 		DatabaseType data = DatabaseType.Factory.newInstance();
 		data.setDatabaseArray(ans);
 		data.setXUUDBInfo(getInfo());
@@ -106,18 +79,7 @@ public class AdminImpl implements IAdmin {
 
 	public RemoveCertificateResponseDocument removeCertificate(RemoveCertificateDocument xml) {
 		RemoveCertificateResponseDocument ret = RemoveCertificateResponseDocument.Factory.newInstance();
-		String ans = null;
-		try {
-			ans = xuudb.remove(xml.getRemoveCertificate());
-		} catch (IllegalArgumentException e) {
-			log.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, log);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
-		}
+		String ans = xuudb.remove(xml.getRemoveCertificate());
 		ret.setRemoveCertificateResponse(ans);
 		return ret;
 	}
@@ -126,41 +88,19 @@ public class AdminImpl implements IAdmin {
 		String gcid=xml.getUpdateCertificate().getGcID();
 		String token=xml.getUpdateCertificate().getToken();
 		UpdateCertificateResponseDocument ret = UpdateCertificateResponseDocument.Factory.newInstance();
-		try {
-			String ans = xuudb.update(gcid, token, xml.getUpdateCertificate().getData());
-			ret.setUpdateCertificateResponse(ans);
-		} catch (IllegalArgumentException e) {
-			log.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, log);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
-		}
+		String ans = xuudb.update(gcid, token, xml.getUpdateCertificate().getData());
+		ret.setUpdateCertificateResponse(ans);
 		return ret;
 	}
 
 	public ImportDatabaseResponseDocument importDatabase(ImportDatabaseDocument xml) {
-		try {
-			String erg = xuudb.import_csv(xml);
-			ImportDatabaseResponseDocument ret = ImportDatabaseResponseDocument.Factory.newInstance();
-			ret.setImportDatabaseResponse(erg);
-			return ret;
-		} catch (IllegalArgumentException e) {
-			log.warn("Got wrong/unparsable argument: " + xml.xmlText() + 
-					"\nError is: " + e.toString());
-			throw e;
-		} catch (PersistenceException e) {
-			Log.logException("Error in database code", e, log);
-			String msg = Log.createFaultMessage("Internal server error, database related", e);
-			throw new RuntimeException(msg);
-		}
+		String erg = xuudb.import_csv(xml);
+		ImportDatabaseResponseDocument ret = ImportDatabaseResponseDocument.Factory.newInstance();
+		ret.setImportDatabaseResponse(erg);
+		return ret;
 	}
-	
+
 	protected String getInfo(){
-		StringBuilder sb=new StringBuilder();
-		sb.append("XUUDB Server version ").append(version);
-		return sb.toString();
+		return "XUUDB Server version "+version;
 	}
 }

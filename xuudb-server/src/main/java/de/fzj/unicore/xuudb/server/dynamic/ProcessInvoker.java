@@ -25,7 +25,7 @@ public class ProcessInvoker
 	
 	public static final int MAX_TIMEOUT = 20000;
 	
-	private int maxTimeout = MAX_TIMEOUT;
+	private final int maxTimeout;
 	
 	public ProcessInvoker()
 	{
@@ -72,9 +72,7 @@ public class ProcessInvoker
 	
 	public Process invoke(String[] cmdLine) throws Exception
 	{
-		Runtime runtime = Runtime.getRuntime();
-		Process process = runtime.exec(cmdLine);
-		return process;
+		return Runtime.getRuntime().exec(cmdLine);
 	}
 	
 	public TimeLimitedThread invokeAndWait(String[] cmdLine) throws Exception
@@ -140,7 +138,7 @@ public class ProcessInvoker
 	
 	protected static class TimeLimitedThread implements Runnable
 	{
-		protected Process p;
+		protected final Process p;
 		protected String stderr, stdout;
 		protected Exception exc = null;
 		

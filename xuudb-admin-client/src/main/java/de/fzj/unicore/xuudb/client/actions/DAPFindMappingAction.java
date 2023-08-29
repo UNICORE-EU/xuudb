@@ -21,16 +21,13 @@ public class DAPFindMappingAction extends AbstractAction {
 
 	@Override
 	public boolean invoke(String[] args, boolean isBatch) throws Exception {
-
 		logger.debug("Command: findMapping ");
 		for (int i = 0; i < args.length; i++) {
 			logger.debug("Parameter " + i + ": " + args[i]);
 		}
 
 		MappingDataType[] resp = cm.dapAdmin.find(args[0], args[1]);
-
 		printMapping(resp);
-
 		return true;
 	}
 
