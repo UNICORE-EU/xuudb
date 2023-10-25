@@ -55,7 +55,7 @@ import de.fzj.unicore.xuudb.server.db.IStorage;
 import de.fzj.unicore.xuudb.server.db.StorageFactory;
 import de.fzj.unicore.xuudb.server.dynamic.DAPConfiguration;
 import de.fzj.unicore.xuudb.server.rest.XUUDBApplication;
-import de.fzj.unicore.xuudb.server.rest.XUUDBPublic;
+import de.fzj.unicore.xuudb.server.rest.RestXUUDB;
 import eu.unicore.security.canl.AuthnAndTrustProperties;
 import eu.unicore.security.canl.CredentialProperties;
 import eu.unicore.security.canl.TruststoreProperties;
@@ -236,14 +236,14 @@ public class HttpsServer implements IShutdownable {
 		return dapPublicImpl;
 	}
 	
-	private XUUDBPublic publicRESTImpl;
+	private RestXUUDB publicRESTImpl;
 	
 	protected void createREST(IStorage storage, File aclFile)throws Exception{
 		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
 				new XUUDBApplication(), true, false, false,
 				server.getRESTServlet().getBus());
 		factory.setAddress("/xuudb");
-		publicRESTImpl = new XUUDBPublic();
+		publicRESTImpl = new RestXUUDB();
 		publicRESTImpl.setStorage(storage.getRESTClassicStorage());
 		factory.setInvoker(new 
 				JAXRSInvoker() {

@@ -170,10 +170,10 @@ public class MyBatisJSONClassicDB implements IRESTClassicStorage {
 	}
 
 	@Override
-	public JSONObject checkToken(String gcid, String token)
+	public JSONObject checkDN(String gcid, String dn)
 			throws IllegalArgumentException, PersistenceException
 	{
-		SecurityToken stok = new SecurityToken(token);
+		SecurityToken stok = new SecurityToken(dn);
 		try(SqlSession session = factory.openSession(false))
 		{
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
@@ -185,17 +185,10 @@ public class MyBatisJSONClassicDB implements IRESTClassicStorage {
 	}
 
 	@Override
-	public JSONObject checkDN(String gcid, String dn)
+	public String update(String gcid, String dn, JSONObject login)
 			throws IllegalArgumentException, PersistenceException
 	{
-		return checkToken(gcid, dn);
-	}
-
-	@Override
-	public String update(String gcid, String token, JSONObject login)
-			throws IllegalArgumentException, PersistenceException
-	{
-		SecurityToken stok = new SecurityToken(token);
+		SecurityToken stok = new SecurityToken(dn);
 		try(SqlSession session = factory.openSession(true))
 		{
 			LoginBean bean = new LoginBean(login);

@@ -37,16 +37,6 @@ public interface IRESTClassicStorage {
 	public String remove(JSONObject query);
 
 	/**
-	 * reads login info from the database, by matching the given token to the database
-	 * entries
-	 * 
-	 * @param gcid
-	 * @param token
-	 * @return login info
-	 */
-	public JSONObject checkToken(String gcid, String token);
-
-	/**
 	 * reads login info from the database by checking DN
 	 * 
 	 * @param gcid
@@ -58,11 +48,11 @@ public interface IRESTClassicStorage {
 	/**
 	 * update an entry
 	 * @param gcid
-	 * @param token
+	 * @param dn
 	 * @param login
 	 * @return
 	 */
-	public String update(String gcid, String token, JSONObject login);
+	public String update(String gcid, String dn, JSONObject login);
 
 	/**
 	 * retrieve a list of all GCIDs currently in use by the XUUDB

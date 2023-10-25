@@ -15,7 +15,7 @@ public class XUUDBApplication extends Application {
 	@Override
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>>classes=new HashSet<>();
-		classes.add(XUUDBPublic.class);
+		classes.add(RestXUUDB.class);
 		return classes;
 	}
 	
