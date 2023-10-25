@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
 import org.apache.cxf.interceptor.Fault;
@@ -21,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import de.fzj.unicore.xuudb.Log;
 import eu.emi.security.authn.x509.impl.X500NameUtils;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 /**
@@ -98,7 +97,7 @@ public class ACLHandler extends AbstractSoapInterceptor {
 	protected X509Certificate[] getSSLCertPath(SoapMessage message)
 	{
 		HttpServletRequest req =(HttpServletRequest)message.get(AbstractHTTPDestination.HTTP_REQUEST);
-		return (X509Certificate[])req.getAttribute("javax.servlet.request.X509Certificate");
+		return (X509Certificate[])req.getAttribute("jakarta.servlet.request.X509Certificate");
 	}
 
 	protected void checkAccess(String userName)throws Exception{

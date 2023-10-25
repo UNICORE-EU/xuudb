@@ -21,6 +21,7 @@ public class MyBatisDatabase implements IShutdownable, IStorage
 	public static final String DEF_CONFIG_LOCATION = "mybatis/sqlconfig.xml";
 	
 	private MyBatisClassicDB classicDB;
+	private MyBatisJSONClassicDB classicJSONDB;
 	private MyBatisPoolDB poolDB;
 	private MyBatisSessionFactory factory;
 	
@@ -38,6 +39,8 @@ public class MyBatisDatabase implements IShutdownable, IStorage
 		log.debug("Using charset '{}'", charset);
 		classicDB = new MyBatisClassicDB(factory, charset);
 		poolDB = new MyBatisPoolDB(factory, charset);
+
+		classicJSONDB = new MyBatisJSONClassicDB(factory, charset);
 	}
 	
 	@Override
@@ -45,6 +48,11 @@ public class MyBatisDatabase implements IShutdownable, IStorage
 		return classicDB;
 	}
 
+	@Override
+	public IRESTClassicStorage getRESTClassicStorage() {
+		return classicJSONDB;
+	}
+	
 	@Override
 	public IPoolStorage getPoolStorage() {
 		return poolDB;

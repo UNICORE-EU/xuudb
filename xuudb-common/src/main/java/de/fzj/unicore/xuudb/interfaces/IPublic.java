@@ -33,21 +33,20 @@
 
 package de.fzj.unicore.xuudb.interfaces;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.ParameterStyle;
-import javax.jws.soap.SOAPBinding.Style;
-import javax.jws.soap.SOAPBinding.Use;
-
 import de.fzJuelich.unicore.xuudb.CheckCertChainResponseDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateChainDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateResponseDocument;
 import de.fzJuelich.unicore.xuudb.CheckDNDocument;
 import de.fzJuelich.unicore.xuudb.CheckDNResponseDocument;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.soap.SOAPBinding.ParameterStyle;
+import jakarta.jws.soap.SOAPBinding.Style;
+import jakarta.jws.soap.SOAPBinding.Use;
 
 /**
  * XUUDB query interface

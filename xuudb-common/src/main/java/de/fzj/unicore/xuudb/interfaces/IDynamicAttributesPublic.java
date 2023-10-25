@@ -4,19 +4,18 @@
  */ 
 package de.fzj.unicore.xuudb.interfaces;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.ParameterStyle;
-import javax.jws.soap.SOAPBinding.Style;
-import javax.jws.soap.SOAPBinding.Use;
-
 import de.fzJuelich.unicore.xuudb.GetAttributesRequestDocument;
 import de.fzJuelich.unicore.xuudb.GetAttributesResponseDocument;
 import de.fzJuelich.unicore.xuudb.SimulateGetAttributesRequestDocument;
 import de.fzJuelich.unicore.xuudb.SimulateGetAttributesResponseDocument;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.soap.SOAPBinding.ParameterStyle;
+import jakarta.jws.soap.SOAPBinding.Style;
+import jakarta.jws.soap.SOAPBinding.Use;
 
 /**
  * XUUDB dynamic attributes query interface

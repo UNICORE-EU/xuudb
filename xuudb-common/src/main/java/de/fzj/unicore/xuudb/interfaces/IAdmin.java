@@ -33,15 +33,6 @@
 
 package de.fzj.unicore.xuudb.interfaces;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.ParameterStyle;
-import javax.jws.soap.SOAPBinding.Style;
-import javax.jws.soap.SOAPBinding.Use;
-
 import de.fzJuelich.unicore.xuudb.AddCertificateDocument;
 import de.fzJuelich.unicore.xuudb.AddCertificateResponseDocument;
 import de.fzJuelich.unicore.xuudb.ImportDatabaseDocument;
@@ -52,6 +43,14 @@ import de.fzJuelich.unicore.xuudb.RemoveCertificateDocument;
 import de.fzJuelich.unicore.xuudb.RemoveCertificateResponseDocument;
 import de.fzJuelich.unicore.xuudb.UpdateCertificateDocument;
 import de.fzJuelich.unicore.xuudb.UpdateCertificateResponseDocument;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.soap.SOAPBinding.ParameterStyle;
+import jakarta.jws.soap.SOAPBinding.Style;
+import jakarta.jws.soap.SOAPBinding.Use;
 
 @WebService
 @SOAPBinding(parameterStyle=ParameterStyle.BARE, use=Use.LITERAL, style=Style.DOCUMENT)

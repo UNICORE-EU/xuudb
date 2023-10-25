@@ -37,7 +37,11 @@ import java.io.File;
 import java.net.URL;
 import java.util.Properties;
 
+import org.apache.cxf.jaxrs.JAXRSInvoker;
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.jaxrs.utils.ResourceUtils;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
+import org.apache.cxf.message.Exchange;
 import org.apache.cxf.service.invoker.BeanInvoker;
 import org.apache.logging.log4j.Logger;
 
@@ -50,6 +54,8 @@ import de.fzj.unicore.xuudb.interfaces.IPublic;
 import de.fzj.unicore.xuudb.server.db.IStorage;
 import de.fzj.unicore.xuudb.server.db.StorageFactory;
 import de.fzj.unicore.xuudb.server.dynamic.DAPConfiguration;
+import de.fzj.unicore.xuudb.server.rest.XUUDBApplication;
+import de.fzj.unicore.xuudb.server.rest.XUUDBPublic;
 import eu.unicore.security.canl.AuthnAndTrustProperties;
 import eu.unicore.security.canl.CredentialProperties;
 import eu.unicore.security.canl.TruststoreProperties;
@@ -126,6 +132,8 @@ public class HttpsServer implements IShutdownable {
 		createPublicService(aclHandler, storage);
 		createAdminService(aclHandler,storage);		
 		
+		createREST(storage, new File(acl));
+
 		File dapConfigFile = config.getFileValue(ServerConfiguration.PROP_DAP_FILE, false);
 		DAPConfiguration dapConfiguration = new DAPConfiguration(dapConfigFile, storage.getPoolStorage());
 		
@@ -182,7 +190,7 @@ public class HttpsServer implements IShutdownable {
 	private JaxWsServerFactoryBean getFactory(){
 		JaxWsServerFactoryBean factory=new JaxWsServerFactoryBean();
 		factory.setDataBinding(new XmlBeansDataBinding());
-		factory.setBus(server.getServlet().getBus());
+		factory.setBus(server.getWSServlet().getBus());
 		return factory;
 	}
 	
@@ -227,4 +235,27 @@ public class HttpsServer implements IShutdownable {
 	{
 		return dapPublicImpl;
 	}
+	
+	private XUUDBPublic publicRESTImpl;
+	
+	protected void createREST(IStorage storage, File aclFile)throws Exception{
+		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
+				new XUUDBApplication(), true, false, false,
+				server.getRESTServlet().getBus());
+		factory.setAddress("/xuudb");
+		publicRESTImpl = new XUUDBPublic();
+		publicRESTImpl.setStorage(storage.getRESTClassicStorage());
+		factory.setInvoker(new 
+				JAXRSInvoker() {
+				@Override
+			public Object getServiceObject(Exchange e) {
+					return publicRESTImpl;
+				}
+		});
+		if (config.getBooleanValue(ServerConfiguration.PROP_PROTECT_ALL)){
+		//	factory.getInInterceptors().add(aclHandler);
+		}
+		factory.create();	
+	}
+	
 }

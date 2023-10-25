@@ -4,6 +4,8 @@
  */
 package de.fzj.unicore.xuudb.server.db;
 
+import org.json.JSONObject;
+
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import de.fzj.unicore.xuudb.server.SecurityToken;
 
@@ -41,6 +43,19 @@ public class LoginBean
 		this.xlogin = src.getXlogin();
 	}
 	
+	public LoginBean(JSONObject src)
+	{
+		if (src.optString("token", null) != null)
+		{
+			SecurityToken stok = new SecurityToken(src.getString("token"));
+			this.token = stok.toString();
+		}
+		this.gcid = src.optString("gcid", null);
+		this.role = src.optString("role", null);
+		this.projects = src.optString("projects", null);
+		this.xlogin = src.optString("xlogin", null);
+	}
+
 	public LoginDataType getAsLoginDataType()
 	{
 		LoginDataType ret = LoginDataType.Factory.newInstance();
@@ -49,6 +64,17 @@ public class LoginBean
 		ret.setRole(role);
 		ret.setToken(token);
 		ret.setXlogin(xlogin);
+		return ret;
+	}
+
+	public JSONObject getAsJSON()
+	{
+		JSONObject ret = new JSONObject();
+		ret.put("gcid", gcid);
+		ret.put("projects", projects);
+		ret.put("role", role);
+		ret.put("token", token);
+		ret.put("xlogin", xlogin);
 		return ret;
 	}
 
