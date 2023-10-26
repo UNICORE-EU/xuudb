@@ -131,8 +131,7 @@ public class HttpsServer implements IShutdownable {
 
 		createPublicService(aclHandler, storage);
 		createAdminService(aclHandler,storage);		
-		
-		createREST(storage, new File(acl));
+		createRESTPublic(storage, aclHandler);
 
 		File dapConfigFile = config.getFileValue(ServerConfiguration.PROP_DAP_FILE, false);
 		DAPConfiguration dapConfiguration = new DAPConfiguration(dapConfigFile, storage.getPoolStorage());
@@ -238,11 +237,14 @@ public class HttpsServer implements IShutdownable {
 	
 	private RestXUUDB publicRESTImpl;
 	
-	protected void createREST(IStorage storage, File aclFile)throws Exception{
+	protected void createRESTPublic(IStorage storage, ACLHandler aclHandler)throws Exception{
 		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
 				new XUUDBApplication(), true, false, false,
 				server.getRESTServlet().getBus());
 		factory.setAddress("/xuudb");
+		if (config.getBooleanValue(ServerConfiguration.PROP_PROTECT_ALL)){
+			factory.setProvider(aclHandler);
+		}
 		publicRESTImpl = new RestXUUDB();
 		publicRESTImpl.setStorage(storage.getRESTClassicStorage());
 		factory.setInvoker(new 
@@ -252,9 +254,6 @@ public class HttpsServer implements IShutdownable {
 					return publicRESTImpl;
 				}
 		});
-		if (config.getBooleanValue(ServerConfiguration.PROP_PROTECT_ALL)){
-		//	factory.getInInterceptors().add(aclHandler);
-		}
 		factory.create();	
 	}
 	
