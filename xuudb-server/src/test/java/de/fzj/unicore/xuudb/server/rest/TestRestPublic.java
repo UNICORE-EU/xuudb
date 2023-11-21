@@ -1,7 +1,5 @@
 package de.fzj.unicore.xuudb.server.rest;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -19,7 +17,7 @@ import de.fzj.unicore.xuudb.server.HttpsServer;
 public class TestRestPublic {
 
 	@Test
-	public void testSetup() {
+	public void testSetup() throws Exception {
 		HttpsServer server = null;
 		try {
 			File dir = new File("target/data");
@@ -36,10 +34,6 @@ public class TestRestPublic {
 				System.out.println(new JSONObject(IOUtils.toString(in, "UTF-8"))
 						.toString(2));
 			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.toString());
 		} finally {
 			try {
 				server.shutdown();

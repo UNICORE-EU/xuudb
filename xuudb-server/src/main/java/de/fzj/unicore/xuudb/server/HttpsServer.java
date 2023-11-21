@@ -1,36 +1,3 @@
-/*********************************************************************************
- * Copyright (c) 2006 Forschungszentrum Juelich GmbH 
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * 
- * (1) Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the disclaimer at the end. Redistributions in
- * binary form must reproduce the above copyright notice, this list of
- * conditions and the following disclaimer in the documentation and/or other
- * materials provided with the distribution.
- * 
- * (2) Neither the name of Forschungszentrum Juelich GmbH nor the names of its 
- * contributors may be used to endorse or promote products derived from this 
- * software without specific prior written permission.
- * 
- * DISCLAIMER
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *********************************************************************************/
- 
-
 package de.fzj.unicore.xuudb.server;
 
 import java.io.File;
@@ -54,7 +21,7 @@ import de.fzj.unicore.xuudb.interfaces.IPublic;
 import de.fzj.unicore.xuudb.server.db.IStorage;
 import de.fzj.unicore.xuudb.server.db.StorageFactory;
 import de.fzj.unicore.xuudb.server.dynamic.DAPConfiguration;
-import de.fzj.unicore.xuudb.server.rest.XUUDBApplication;
+import de.fzj.unicore.xuudb.server.rest.RestDAPQuery;
 import de.fzj.unicore.xuudb.server.rest.RestXUUDB;
 import eu.unicore.security.canl.AuthnAndTrustProperties;
 import eu.unicore.security.canl.CredentialProperties;
@@ -70,9 +37,13 @@ public class HttpsServer implements IShutdownable {
 	private final ServerConfiguration config;
 	private IAdmin adminImpl;
 	private IDAPAdmin dapAdminImpl;
+
 	private IPublic publicImpl;
 	private IDynamicAttributesPublic dapPublicImpl;
 
+	private RestXUUDB publicRESTImpl;
+	private RestDAPQuery publicRESTDAP;
+	
 	/**
 	 * creates a XUUDB Http(s)Server configured using the given properties
 	 *
@@ -120,10 +91,9 @@ public class HttpsServer implements IShutdownable {
 		server = new JettyServer(serverUrl, secProperties, jettyProperties);
 		server.start();
 
-		//register with shutdownhook
 		ShutdownHook hook = new ShutdownHook();
 		hook.register(this);
-		
+
 		IStorage storage = StorageFactory.getDatabase(config, hook);
 
 		String acl=config.getValue(ServerConfiguration.PROP_ACL_FILE);
@@ -135,11 +105,8 @@ public class HttpsServer implements IShutdownable {
 
 		File dapConfigFile = config.getFileValue(ServerConfiguration.PROP_DAP_FILE, false);
 		DAPConfiguration dapConfiguration = new DAPConfiguration(dapConfigFile, storage.getPoolStorage());
-		
 		createDAPPublicService(dapConfiguration,aclHandler);
-		
-		createDAPAdminService(dapConfiguration,aclHandler,storage);
-				
+		createDAPAdminService(dapConfiguration,aclHandler,storage);		
 	}
 	
 	protected void createPublicService(ACLHandler aclHandler, IStorage storage)throws Exception{
@@ -235,11 +202,9 @@ public class HttpsServer implements IShutdownable {
 		return dapPublicImpl;
 	}
 	
-	private RestXUUDB publicRESTImpl;
-	
 	protected void createRESTPublic(IStorage storage, ACLHandler aclHandler)throws Exception{
 		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
-				new XUUDBApplication(), true, false, false,
+				new RestXUUDB.XUUDBApplication(), true, false, false,
 				server.getRESTServlet().getBus());
 		factory.setAddress("/xuudb");
 		if (config.getBooleanValue(ServerConfiguration.PROP_PROTECT_ALL)){
@@ -256,5 +221,25 @@ public class HttpsServer implements IShutdownable {
 		});
 		factory.create();	
 	}
-	
+
+	protected void createRESTDAPPublic(IStorage storage, ACLHandler aclHandler)throws Exception{
+		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
+				new RestDAPQuery.DAPApplication(), true, false, false,
+				server.getRESTServlet().getBus());
+		factory.setAddress("/dap");
+		if (config.getBooleanValue(ServerConfiguration.PROP_PROTECT_ALL)){
+			factory.setProvider(aclHandler);
+		}
+		publicRESTDAP = new RestDAPQuery();
+		publicRESTDAP.setStorage(storage.getRESTClassicStorage());
+		factory.setInvoker(new 
+				JAXRSInvoker() {
+				@Override
+			public Object getServiceObject(Exchange e) {
+					return publicRESTDAP;
+				}
+		});
+		factory.create();	
+	}
+
 }

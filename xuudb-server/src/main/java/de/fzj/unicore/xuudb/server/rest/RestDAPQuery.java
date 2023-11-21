@@ -22,11 +22,11 @@ import jakarta.ws.rs.core.Response;
  * @author schuller
  */
 @Path("/")
-public class RestXUUDB {
+public class RestDAPQuery {
 	
 	private IRESTClassicStorage storage;
 
-	public RestXUUDB() {}
+	public RestDAPQuery() {}
 	
 	public void setStorage(IRESTClassicStorage storage) {
 		this.storage = storage;
@@ -100,11 +100,11 @@ public class RestXUUDB {
 		return res.build();
 	}
 	
-	public static class XUUDBApplication extends Application {
+	public static class DAPApplication extends Application {
 		@Override
 		public Set<Class<?>> getClasses() {
 			Set<Class<?>>classes = new HashSet<>();
-			classes.add(RestXUUDB.class);
+			classes.add(RestDAPQuery.class);
 			return classes;
 		}
 	}

@@ -47,10 +47,9 @@ import de.fzj.unicore.xuudb.Log;
  */
 public class ShutdownHook extends Thread {
 	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, ShutdownHook.class);
-	private Collection<IShutdownable> runners = null;
+	private final Collection<IShutdownable> runners = new ArrayList<>();
 	
 	public ShutdownHook() {
-		runners = new ArrayList<>();
 		Runtime.getRuntime().addShutdownHook(this);
 	}
 
