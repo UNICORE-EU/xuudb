@@ -23,14 +23,14 @@
   </scm>
 
   <properties>
-    <secutils.version>4.0.0</secutils.version>
-    <jetty.version>11.0.16</jetty.version>
+    <secutils.version>4.0.1</secutils.version>
+    <jetty.version>11.0.18</jetty.version>
     <cxf.version>4.0.3</cxf.version>
     <seclib.version>7.0.0</seclib.version>
-    <mysql.version>8.1.0</mysql.version>
-    <pgsql.version>42.6.0</pgsql.version>
-    <mybatis.version>3.5.13</mybatis.version>
-    <h2.version>2.2.220</h2.version>
+    <mysql.version>8.2.0</mysql.version>
+    <pgsql.version>42.7.0</pgsql.version>
+    <mybatis.version>3.5.14</mybatis.version>
+    <h2.version>2.2.224</h2.version>
     <spring.version>5.3.29</spring.version>
   </properties>
 
@@ -95,10 +95,6 @@
         <version>${secutils.version}</version>
 	<exclusions>
 	  <exclusion>
-	    <groupId>org.apache.wss4j</groupId>
-	    <artifactId>wss4j-ws-security-dom</artifactId>
-	  </exclusion>
-	  <exclusion>
 	    <groupId>xalan</groupId>
 	    <artifactId>xalan</artifactId>
 	  </exclusion>
@@ -106,10 +102,6 @@
 	    <groupId>org.apache.santuario</groupId>
 	    <artifactId>xmlsec</artifactId>
 	  </exclusion>
-	  <exclusion>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-          </exclusion>
 	</exclusions>
       </dependency>
       <dependency>
