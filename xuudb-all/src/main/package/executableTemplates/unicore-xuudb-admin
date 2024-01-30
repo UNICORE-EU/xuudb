@@ -44,4 +44,4 @@ set_option "Dlog4j.configurationFile" "=@filePrefix@${LOCAL_DIR}/client_logging.
 CLASSPATH=.$(@cdRoot@find "${LIB}" -name *.jar -exec printf ":{}" \;)
 export CLASSPATH
 
-$JAVA "${Options[@]}" ${XUUDB_ADMIN_OPTS} de.fzj.unicore.xuudb.client.XUUDBClient "$@"
+$JAVA "${Options[@]}" ${XUUDB_ADMIN_OPTS} eu.unicore.xuudb.client.XUUDBClient "$@"

@@ -3,6 +3,6 @@
     <!-- Use the "namespace" element to map a namespace to the Java package-->
         
      <xb:namespace uri="http://unicore.eu/xuudb/dynamicAttributesRules">
-        <xb:package>de.fzj.unicore.xuudb.server.dynamic.xbeans</xb:package>
+        <xb:package>eu.unicore.xuudb.server.dynamic.xbeans</xb:package>
     </xb:namespace>
 </xb:config>

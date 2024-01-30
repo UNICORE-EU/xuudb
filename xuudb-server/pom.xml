@@ -71,7 +71,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <excludePackageNames>de.fzj.unicore.xuudb.server.dynamic.xbeans.*</excludePackageNames>
+          <excludePackageNames>eu.unicore.xuudb.server.dynamic.xbeans.*</excludePackageNames>
         </configuration>
       </plugin>
     </plugins>

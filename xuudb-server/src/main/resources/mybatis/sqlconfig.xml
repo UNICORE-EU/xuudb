@@ -6,7 +6,7 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias alias="LoginData" type="de.fzj.unicore.xuudb.server.db.LoginBean" />
+		<typeAlias alias="LoginData" type="eu.unicore.xuudb.server.db.LoginBean" />
 	</typeAliases>
 
 	<environments default="def">

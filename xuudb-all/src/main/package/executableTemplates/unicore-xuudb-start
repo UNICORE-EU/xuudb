@@ -38,7 +38,7 @@ fi
 #
 #go
 #
-nohup $JAVA ${MEM} ${OPTS} ${DEFS} de.fzj.unicore.xuudb.server.XUUDBServer ${PARAM}  > "$STARTLOG" 2>&1  & echo $! > "$PID"
+nohup $JAVA ${MEM} ${OPTS} ${DEFS} eu.unicore.xuudb.server.XUUDBServer ${PARAM}  > "$STARTLOG" 2>&1  & echo $! > "$PID"
 
 
 

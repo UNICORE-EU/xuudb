@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="de.fzj.unicore.xuudb.server.db.UudbClassicMapper">
+<mapper namespace="eu.unicore.xuudb.server.db.UudbClassicMapper">
 
 	<update id="create-records-table">
 		CREATE TABLE IF NOT EXISTS UUDB_CLASSIC (

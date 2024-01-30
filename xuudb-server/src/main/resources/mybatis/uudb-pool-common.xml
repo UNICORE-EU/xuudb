@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="de.fzj.unicore.xuudb.server.db.UudbPoolMapper">
+<mapper namespace="eu.unicore.xuudb.server.db.UudbPoolMapper">
 
-	<select id="getAliveMapping" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="getAliveMapping" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		select id, entry from UUDB_POOL_ENTRIES 
 		where pool = #{pool} AND poolKey = #{key} AND freezeTime IS NULL
 	</select>
 	
-	<select id="getFrozenMappings" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="getFrozenMappings" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		select id, entry from UUDB_POOL_ENTRIES 
 		where pool = #{pool} AND poolKey = #{key} AND freezeTime IS NOT NULL
 	</select>
@@ -19,7 +19,7 @@
 		WHERE id = #{id}
 	</update>
  
-	<select id="getFreeMapping" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="getFreeMapping" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		select id, entry from UUDB_POOL_ENTRIES 
 		WHERE pool = #{pool} AND poolKey IS NULL 
 		LIMIT 1 
@@ -30,7 +30,7 @@
 		WHERE id = #{id}
 	</update>
 
-	<select id="getInactiveMappings" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="getInactiveMappings" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		SELECT id, entry, lastAccess FROM UUDB_POOL_ENTRIES 
 		WHERE freezeTime IS NULL AND pool= #{pool} AND lastAccess &lt; #{since} AND poolKey IS NOT NULL
 	</select>
@@ -40,7 +40,7 @@
 		WHERE id = #{id}
 	</update>
 
-	<select id="getOldMappings" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="getOldMappings" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		SELECT id, entry, freezeTime FROM UUDB_POOL_ENTRIES 
 		WHERE freezeTime IS NOT NULL AND pool= #{pool} AND freezeTime &lt; #{since} AND poolKey IS NOT NULL
 	</select>
@@ -55,7 +55,7 @@
 		WHERE pool = #{pool} and poolKey IS NOT NULL
 	</select>
 
-	<select id="getMappings" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="getMappings" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		<include refid="getMappingsSelect"/> 
 		<where>
 			<if test="status != null &amp;&amp; status == 'live'"> 	UUDB_POOL_ENTRIES.freezeTime IS NULL </if> 
@@ -66,7 +66,7 @@
 		</where>
 	</select>
 
-	<select id="findMappingsByValue" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="findMappingsByValue" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		<include refid="getMappingsSelect"/> 
 		WHERE 
 			UUDB_POOL_ENTRIES.entry = #{value} AND
@@ -74,7 +74,7 @@
 			UUDB_POOLS.valueType = #{valueType}
 	</select>
 
-	<select id="findMappingsByKey" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="findMappingsByKey" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		<include refid="getMappingsSelect"/> 
 		WHERE 
 			UUDB_POOLS.keyType = #{keyType} AND
@@ -87,7 +87,7 @@
 		VALUES (#{pool}, #{entry}, NOW())
 	</insert>
 
-	<insert id="createPool" parameterType="de.fzj.unicore.xuudb.server.db.MappingBean" 
+	<insert id="createPool" parameterType="eu.unicore.xuudb.server.db.MappingBean" 
 						useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO UUDB_POOLS (name, keyType, valueType) 
 		VALUES (#{poolName}, #{mappingKeyType}, #{mappingValueType})
@@ -97,11 +97,11 @@
 		DELETE FROM UUDB_POOLS WHERE name = #{poolName}
 	</delete>
 	
-	<select id="checkPoolExistence" resultType="de.fzj.unicore.xuudb.server.db.MappingBean">
+	<select id="checkPoolExistence" resultType="eu.unicore.xuudb.server.db.MappingBean">
 		select id, keyType AS mappingKeyType, valueType AS mappingValueType from UUDB_POOLS where name = #{pool}
 	</select>
 	
-	<select id="listPools" resultType="de.fzj.unicore.xuudb.server.db.PoolInfoBean">
+	<select id="listPools" resultType="eu.unicore.xuudb.server.db.PoolInfoBean">
 		SELECT a.NAME AS poolName, a.keyType AS poolKeyType, a.valueType AS poolType, ALIVEMAPPINGS, FROZENMAPPINGS, FREESLOTS
  			FROM UUDB_POOLS a 
  			LEFT OUTER JOIN 
