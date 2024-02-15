@@ -24,7 +24,7 @@
 
   <properties>
     <secutils.version>4.0.1</secutils.version>
-    <jetty.version>11.0.19</jetty.version>
+    <jetty.version>11.0.20</jetty.version>
     <cxf.version>4.0.3</cxf.version>
     <seclib.version>7.0.0</seclib.version>
     <mysql.version>8.3.0</mysql.version>
