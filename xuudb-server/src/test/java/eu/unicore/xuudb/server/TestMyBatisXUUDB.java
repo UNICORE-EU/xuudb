@@ -1,9 +1,9 @@
 package eu.unicore.xuudb.server;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,13 +14,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import de.fzJuelich.unicore.xuudb.ImportDatabaseDocument;
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import eu.emi.security.authn.x509.impl.CertificateUtils;
 import eu.emi.security.authn.x509.impl.CertificateUtils.Encoding;
@@ -33,11 +31,13 @@ import eu.unicore.xuudb.server.db.MyBatisDatabase;
 
 public class TestMyBatisXUUDB {
 	
-	protected static IClassicStorage xuudb;
-	protected static IStorage db;
+	protected IClassicStorage xuudb;
+	protected IStorage db;
 	
-	@BeforeClass
-	public static void setUp()throws Exception{
+	@BeforeEach
+	public void setUp()throws Exception{
+		File dir = new File("target/data");
+		FileUtils.deleteDirectory(dir);
 		ShutdownHook hook = new ShutdownHook();
 		DatabaseProperties dbProps = new DatabaseProperties(FilePropertiesHelper.load(
 				"src/test/resources/xuudb_server.conf"));
@@ -46,24 +46,9 @@ public class TestMyBatisXUUDB {
 		xuudb.remove(LoginDataType.Factory.newInstance());
 	}
 
-	@After
-	public void cleanup() {
-		ImportDatabaseDocument i = ImportDatabaseDocument.Factory.newInstance();
-		i.addNewImportDatabase().setClean(true);
-		xuudb.import_csv(i);
-	}
-
-	@AfterClass
-	public static void tearDown() {
-		try
-		{
-			db.shutdown();
-			File dir = new File("target/data");
-			FileUtils.deleteDirectory(dir);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+	@AfterEach
+	public void tearDown() {
+		db.shutdown();
 	}
 	
 	@Test
@@ -204,7 +189,7 @@ public class TestMyBatisXUUDB {
 	}
 
 	@Test
-	@Ignore
+	@Disabled
 	public void testPerformance() throws Exception{
 		final int ITERATIONS = 10, DIFFERENT_QUERIES = 100, MULTIPLIER = 5;
 		final int RECORD_COUNT = DIFFERENT_QUERIES*MULTIPLIER;
@@ -238,7 +223,7 @@ public class TestMyBatisXUUDB {
 	}
 
 	@Test
-	@Ignore
+	@Disabled
 	public void testScalability() throws Exception{
 		final int ITERATIONS = 200, QUERY_THREADS = 40, CRUD_THREADS = 10;
 		final int RECORD_COUNT = 100;

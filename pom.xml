@@ -26,7 +26,10 @@
     <secutils.version>4.0.1</secutils.version>
     <jetty.version>11.0.22</jetty.version>
     <cxf.version>4.0.5</cxf.version>
-    <seclib.version>7.0.0</seclib.version>
+    <seclib.version>7.1.0</seclib.version>
+    <json.version>20240303</json.version>
+    <bc.version>1.78.1</bc.version>
+    <io.version>2.16.1</io.version>
     <mysql.version>9.0.0</mysql.version>
     <pgsql.version>42.7.3</pgsql.version>
     <mybatis.version>3.5.16</mybatis.version>
@@ -44,14 +47,14 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.10.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
 	<groupId>org.jmock</groupId>
-	<artifactId>jmock-junit3</artifactId>
+	<artifactId>jmock-junit5</artifactId>
 	<version>2.13.1</version>
 	<scope>test</scope>
       </dependency>
@@ -91,10 +94,34 @@
 	    <artifactId>xalan</artifactId>
 	  </exclusion>
 	  <exclusion>
+	    <groupId>xalan</groupId>
+	    <artifactId>serializer</artifactId>
+	  </exclusion>
+	  <exclusion>
 	    <groupId>org.apache.santuario</groupId>
 	    <artifactId>xmlsec</artifactId>
 	  </exclusion>
 	</exclusions>
+      </dependency>
+      <dependency>
+	<groupId>org.json</groupId>
+	<artifactId>json</artifactId>
+	<version>${json.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk18on</artifactId>
+        <version>${bc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcpkix-jdk18on</artifactId>
+        <version>${bc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${io.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -128,5 +155,18 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <excludePackageNames>de/fzJuelich/*:*/xbeans/*</excludePackageNames>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

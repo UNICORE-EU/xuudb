@@ -1,18 +1,18 @@
 package eu.unicore.xuudb.server;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.fzJuelich.unicore.xuudb.FindMappingRequestDocument;
 import de.fzJuelich.unicore.xuudb.FindMappingRequestType;
@@ -79,8 +79,7 @@ public class TestDAPIntegration {
 			req.setUserDN("CN=foo");
 			GetAttributesResponseType getResp = pub.getAttributes(reqDoc)
 					.getGetAttributesResponse();
-			assertTrue(getResp.getGid(), getResp.getGid()
-					.startsWith("grid-dyn"));
+			assertTrue(getResp.getGid().startsWith("grid-dyn"));
 			String assignedGid = getResp.getGid();
 
 			// ask again - should get the same
@@ -118,8 +117,7 @@ public class TestDAPIntegration {
 			req2.setUserDN("CN=foo");
 			GetAttributesResponseType getResp2 = pub.getAttributes(reqDoc2)
 					.getGetAttributesResponse();
-			assertTrue(getResp2.getGid(), getResp2.getGid().startsWith(
-					"grid-dyn"));
+			assertTrue(getResp2.getGid().startsWith("grid-dyn"));
 			assertNotSame(assignedGid, getResp2.getGid());
 
 			// check pool stats
@@ -292,7 +290,7 @@ public class TestDAPIntegration {
 			treq.setUserDN("CN=foo");
 			GetAttributesResponseType tgetResp = pub.getAttributes(treqDoc)
 					.getGetAttributesResponse();
-			assertTrue(tgetResp.getGid(), tgetResp.getGid().startsWith("times"));
+			assertTrue(tgetResp.getGid().startsWith("times"));
 
 			ListMappingRequestDocument tlistReqDoc2 = ListMappingRequestDocument.Factory
 					.newInstance();

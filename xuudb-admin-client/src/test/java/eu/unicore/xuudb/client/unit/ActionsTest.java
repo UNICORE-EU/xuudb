@@ -1,6 +1,6 @@
 package eu.unicore.xuudb.client.unit;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.security.cert.X509Certificate;
@@ -10,8 +10,9 @@ import java.util.Date;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.junit.Before;
-import org.junit.Test;
+import org.jmock.junit5.JUnit5Mockery;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.fzJuelich.unicore.xuudb.GetAttributesResponseType;
 import de.fzJuelich.unicore.xuudb.LoginDataType;
@@ -37,9 +38,9 @@ public class ActionsTest {
 
 	CLCExecutor clcExecutor;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		context = new Mockery();
+		context = new JUnit5Mockery();
 		query = context.mock(IPublicExtInterface.class);
 		admin = context.mock(IAdminExtInterface.class);
 		dapAdmin = context.mock(IDAPAdminExtInterface.class);

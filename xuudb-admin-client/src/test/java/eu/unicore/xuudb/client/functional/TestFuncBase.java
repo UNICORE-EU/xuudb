@@ -4,9 +4,9 @@ import java.io.File;
 import java.security.cert.X509Certificate;
 import java.util.Properties;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 
 import de.fzJuelich.unicore.xuudb.LoginDataType;
 import eu.unicore.util.configuration.FilePropertiesHelper;
@@ -20,6 +20,7 @@ import eu.unicore.xuudb.client.wsapi.IPublicExtInterface;
 import eu.unicore.xuudb.server.HttpsServer;
 
 public abstract class TestFuncBase {
+
 	protected static String serverConfigFile = "src/test/resources/server.conf";
 	protected static String clientConfigFile = "src/test/resources/client.conf";
 
@@ -40,7 +41,7 @@ public abstract class TestFuncBase {
 	protected static IDAPAdminExtInterface dap;
 	protected static HttpsServer server;
 	
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() throws Exception {
 		Properties p = FilePropertiesHelper.load(serverConfigFile);
 		server = new HttpsServer(p);
@@ -54,13 +55,13 @@ public abstract class TestFuncBase {
 		certPem = X509Utils.getPEMStringFromX509(x509);
 	}
 
-	@After
+	@AfterEach
 	public void cleanup() throws Exception {
 		System.out.println("Clear database");
 		admin.remove(LoginDataType.Factory.newInstance());
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void tearDown() throws Exception {
 		server.shutdown();
 	}

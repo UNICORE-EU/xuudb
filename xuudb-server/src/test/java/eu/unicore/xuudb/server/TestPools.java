@@ -1,11 +1,17 @@
 package eu.unicore.xuudb.server;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Test;
 
 import eu.unicore.util.configuration.FilePropertiesHelper;
 import eu.unicore.xuudb.server.db.DatabaseProperties;
@@ -19,10 +25,11 @@ import eu.unicore.xuudb.server.dynamic.Pool;
 import eu.unicore.xuudb.server.dynamic.PoolConfiguration;
 import eu.unicore.xuudb.server.dynamic.PoolMapping;
 import eu.unicore.xuudb.server.dynamic.xbeans.Configuration;
-import junit.framework.TestCase;
 
-public class TestPools extends TestCase 
+public class TestPools 
 {
+	
+	@Test
 	public void testExtrapolate()
 	{
 		String template = "xlogin";

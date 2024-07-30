@@ -1,10 +1,12 @@
 package eu.unicore.xuudb.server;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestSecurityToken extends TestCase {
+import org.junit.jupiter.api.Test;
 
+public class TestSecurityToken {
 
+	@Test
 	public void test1()throws Exception{
 		String dn="CN=foo, C=de, OU=bar.org, emailAddress=asd@q.org";
 		SecurityToken t1=new SecurityToken(dn);

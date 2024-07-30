@@ -1,12 +1,17 @@
 package eu.unicore.xuudb.server;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 
-import eu.unicore.xuudb.server.dynamic.ProcessInvoker;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class TestProcessInvoker extends TestCase {
+import eu.unicore.xuudb.server.dynamic.ProcessInvoker;
+
+public class TestProcessInvoker {
 	
+	@Test
 	public void testInvoke(){
 		
 		

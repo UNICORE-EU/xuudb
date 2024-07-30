@@ -1,7 +1,7 @@
 package eu.unicore.xuudb.server;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,8 +9,8 @@ import java.security.cert.X509Certificate;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
+	
 import de.fzJuelich.unicore.xuudb.AddCertificateDocument;
 import de.fzJuelich.unicore.xuudb.AddCertificateResponseDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateDocument;

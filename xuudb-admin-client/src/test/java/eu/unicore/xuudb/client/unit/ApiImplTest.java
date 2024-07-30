@@ -4,7 +4,8 @@ import java.util.Date;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.junit.Test;
+import org.jmock.junit5.JUnit5Mockery;
+import org.junit.jupiter.api.Test;
 
 import de.fzJuelich.unicore.xuudb.AddCertificateDocument;
 import de.fzJuelich.unicore.xuudb.CheckCertificateDocument;
@@ -38,7 +39,7 @@ public class ApiImplTest {
 	@Test
 	public void testPublic() throws Exception {
 
-		Mockery context = new Mockery();
+		Mockery context = new JUnit5Mockery();
 		final IPublic proxy = context.mock(IPublic.class);
 		IPublicExtInterface query = new IPublicExtImpl(proxy);
 
