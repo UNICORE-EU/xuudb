@@ -66,11 +66,10 @@ public class HttpsServer implements IShutdownable {
 		logger.info("*    UNICORE XUUDB USER ATTRIBUTES SERVICE");
 		logger.info("*    Version {}", CommonConfiguration.class.getPackage().getImplementationVersion());
 		logger.info("*    https://www.unicore.eu");
-		logger.info("**********************************************");
+		logger.info("*********************************************");
 	}	
 	
 	public void start() throws Exception {
-		// Start the HTTP/HTTPS server		
 		HttpServerProperties jettyProperties = new HttpServerProperties(config.getProperties(), 
 				CommonConfiguration.PROP_PREFIX+HttpServerProperties.DEFAULT_PREFIX);
 		

@@ -23,7 +23,7 @@
   </scm>
 
   <properties>
-    <secutils.version>4.0.1</secutils.version>
+    <secutils.version>4.1.0</secutils.version>
     <jetty.version>11.0.22</jetty.version>
     <cxf.version>4.0.5</cxf.version>
     <seclib.version>7.1.0</seclib.version>
