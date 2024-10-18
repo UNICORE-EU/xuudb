@@ -3,8 +3,6 @@ package eu.unicore.xuudb.server.dynamic;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.expression.Expression;
-
 /**
  * Generic rule which can route a request to its Mapping. Immutable.
  *
@@ -12,18 +10,18 @@ import org.springframework.expression.Expression;
  */
 public class Rule
 {
-	private final Expression condition;
+	private final String condition;
 	private final boolean overwrite;
 	private final List<Mapping> actions;
 
-	public Rule(Expression condition, boolean overwrite, List<? extends Mapping> mappings)
+	public Rule(String condition, boolean overwrite, List<? extends Mapping> mappings)
 	{
 		this.condition = condition;
 		this.overwrite = overwrite;
 		this.actions = Collections.unmodifiableList(mappings);
 	}
 
-	public Expression getCondition()
+	public String getCondition()
 	{
 		return condition;
 	}

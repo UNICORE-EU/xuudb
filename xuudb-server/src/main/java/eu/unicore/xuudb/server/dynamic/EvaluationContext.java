@@ -25,7 +25,7 @@ public class EvaluationContext
 	private boolean xloginSet = false;
 	private boolean gidSet = false;
 	
-	//for convenience - used by SpEl context when preparing arguments to scripts
+	//for convenience - used by ScriptMapping when preparing arguments to scripts
 	private boolean dryRun = false;
 
 	public EvaluationContext(String userDN, String issuerDN, String role, String vo,

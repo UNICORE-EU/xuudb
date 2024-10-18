@@ -60,8 +60,8 @@
       <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-expression</artifactId>
+      <groupId>org.mvel</groupId>
+      <artifactId>mvel2</artifactId>
     </dependency>
   </dependencies>
 

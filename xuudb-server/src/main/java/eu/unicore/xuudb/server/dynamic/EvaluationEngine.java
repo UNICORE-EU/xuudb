@@ -8,8 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
-import org.springframework.expression.Expression;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.mvel2.MVEL;
 
 import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
 import eu.unicore.xuudb.Log;
@@ -20,17 +19,19 @@ import eu.unicore.xuudb.Log;
  * @author K. Benedyczak
  */
 public class EvaluationEngine {
-	
+
 	private static final Logger log = Log.getLogger(Log.XUUDB_SERVER, EvaluationEngine.class);
 
 	/**
-	 * Performs the evaluation of context wrt rules. Context may be modified. 
+	 * Performs the evaluation of context wrt rules. Context may be modified
+	 * @param rules
 	 * @param ctx
+	 * @param dryRun
 	 */
 	public void evaluate(List<Rule> rules, EvaluationContext ctx, boolean dryRun) {
 		for (int i = 0; i < rules.size(); i++) {
 			Rule r = rules.get(i);
-			StandardEvaluationContext spelCtx = createSpelContext(ctx);
+			Map<String,Object> spelCtx = createContextVariables(ctx);
 			if (checkCondition(r.getCondition(), spelCtx, i)) {
 				log.debug("Rule {} condition hit.", i);
 				List<Mapping> mappings = r.getActions();
@@ -60,35 +61,39 @@ public class EvaluationEngine {
 	}
 
 	
-	private StandardEvaluationContext createSpelContext(EvaluationContext ctx) {
-		SpelContextBean root = new SpelContextBean();
+	public static Map<String,Object> createContextVariables(EvaluationContext ctx) {
+		Map<String,Object> root = new HashMap<>();
 		Map<String, Set<String>> attributes = new HashMap<>();
 		SimplifiedAttributeType[] attributesXml = ctx.getExtraAttributes();
 		for (SimplifiedAttributeType xmlA: attributesXml) {
-			Set<String> values = new HashSet<String>();
+			Set<String> values = new HashSet<>();
 			Collections.addAll(values, xmlA.getValueArray());
 			attributes.put(xmlA.getName(), values);
 		}
-		root.setAttributes(attributes);
-		root.setDn(ctx.getUserDN());
-		root.setGid(ctx.getGid());
-		Set<String> allGids = new HashSet<String>();
+		root.put("extraAttributes", attributes);
+		root.put("userDN", ctx.getUserDN());
+		root.put("gid", ctx.getGid());
+		root.put("gidSet", ctx.isGidSet());
+		Set<String> allGids = new HashSet<>();
 		allGids.add(ctx.getGid());
 		allGids.addAll(ctx.getSupplementaryGids());
-		root.setGids(allGids);
-		root.setIssuer(ctx.getIssuerDN());
-		root.setRole(ctx.getRole());
-		root.setVo(ctx.getVo());
-		root.setXlogin(ctx.getXlogin());
-		return new StandardEvaluationContext(root);
+		root.put("supplementaryGids", allGids);
+		root.put("issuerDN", ctx.getIssuerDN());
+		root.put("role", ctx.getRole());
+		root.put("vo", ctx.getVo());
+		root.put("xlogin", ctx.getXlogin());
+		root.put("xloginSet", ctx.isXloginSet());
+		root.put("dryRun", ctx.isDryRun());
+		
+		return root;
 	}
 	
-	private boolean checkCondition(Expression condition, StandardEvaluationContext ctx, int i)
+	private boolean checkCondition(String condition, Map<String,Object> ctx, int i)
 	{
 		Object condResult;
 		try
 		{
-			condResult = condition.getValue(ctx);
+			condResult = MVEL.eval(condition, ctx);
 		} catch (Exception e)
 		{
 			log.error("Skipping the rule number " + i + " as evaluation of its condition finished" +

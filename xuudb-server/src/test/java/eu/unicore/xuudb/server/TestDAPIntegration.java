@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -33,6 +34,7 @@ import de.fzJuelich.unicore.xuudb.SimulateGetAttributesRequestDocument;
 import de.fzJuelich.unicore.xuudb.SimulateGetAttributesResponseDocument;
 import eu.unicore.xuudb.interfaces.IDAPAdmin;
 import eu.unicore.xuudb.interfaces.IDynamicAttributesPublic;
+import eu.unicore.xuudb.server.dynamic.ScriptMapping;
 
 public class TestDAPIntegration {
 	
@@ -350,4 +352,13 @@ public class TestDAPIntegration {
 		}
 		return null;
 	}
+	
+	@Test
+	public void testTemplateExpansion() throws Exception {
+		String t = "Hello, ${name}";
+		var vars = new HashMap<String, Object>();
+		vars.put("name", "Johnny");
+		assertEquals("Hello, Johnny", ScriptMapping.evaluateTemplate(t, vars));
+	}
+	
 }

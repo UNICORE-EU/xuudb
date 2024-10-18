@@ -2,15 +2,10 @@ package eu.unicore.xuudb.server.dynamic;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
-import org.springframework.expression.EvaluationException;
-import org.springframework.expression.Expression;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.ParserContext;
-import org.springframework.expression.common.TemplateParserContext;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.mvel2.templates.TemplateRuntime;
 
 import eu.unicore.xuudb.Log;
 import eu.unicore.xuudb.server.dynamic.ProcessInvoker.TimeLimitedThread;
@@ -35,35 +30,13 @@ public class ScriptMapping extends Mapping
 	@Override
 	public void applyAttributes(EvaluationContext context, boolean overwrite, boolean dryRun)
 	{
-		org.springframework.expression.EvaluationContext spCtx = new StandardEvaluationContext(context);
-		Expression expression = parseSpEL(new SpelExpressionParser(),
-				getConfiguration(), new TemplateParserContext("${", "}"));
-		if (expression == null)
+		Map<String, Object>vars = EvaluationEngine.createContextVariables(context);
+		String script = evaluateTemplate(getConfiguration(), vars);
+		if (script == null)
 			return;
-		Object o;
-		try
-		{
-			o = expression.getValue(spCtx);
-		} catch (EvaluationException e)
-		{
-			log.warn("Script SpEL expression '" + expression.getExpressionString()
-					+ "' evaluation failed: " + e.getMessage());
-			return;
-		}
-		if (o == null)
-		{
-			log.warn("Script SpEL expression '" + expression.getExpressionString()
-					+ "' was evaluated to null");
-			return;
-		}
-		String cmdLine = o.toString();
-		String[] cmdLineTokens = SimplifiedCmdLineLexer.tokenizeString(cmdLine);
-		if (log.isDebugEnabled())
-		{
-			log.debug("Will run the following command line (comma is used to separate arguments): {}",
-					Arrays.toString(cmdLineTokens));
-		}
-
+		String[] cmdLineTokens = SimplifiedCmdLineLexer.tokenizeString(script);
+		log.debug("Will run the following command line (comma is used to separate arguments): {}",
+					()->Arrays.toString(cmdLineTokens));
 		ProcessInvoker invoker = new ProcessInvoker(timeout);
 		TimeLimitedThread tlt;
 		try
@@ -78,7 +51,7 @@ public class ScriptMapping extends Mapping
 		int exitCode = tlt.getP().exitValue(); 
 		if (exitCode != 0)
 		{
-			log.warn("Mapping program '" + expression.getExpressionString() + 
+			log.warn("Mapping program '" + script + 
 					"' finished with non-zero exit code " + exitCode
 					+ ", the stdErr was: " + tlt.getStderr());
 			return;
@@ -138,21 +111,17 @@ public class ScriptMapping extends Mapping
 		}
 	}
 	
-	private Expression parseSpEL(ExpressionParser spelParser, String expr, ParserContext parserCtx) 
+	public static String evaluateTemplate(String expr, Map<String,Object>vars) 
 	{
+		String mExpr = expr.replace("${", "@{");
 		try
 		{
-			return parserCtx == null ? spelParser.parseExpression(expr) : 
-				spelParser.parseExpression(expr, parserCtx);
-		} catch(org.springframework.expression.ParseException e)
+			return (String)TemplateRuntime.eval(mExpr, vars);
+		} catch(Exception e)
 		{
-			log.warn("Error parsing the SpEl expression: " + e.toDetailedString());
-			return null;
-		} catch(Exception ee)
-		{
-			log.warn("Other problem parsing SpEL expression '" + expr + "': " + ee.toString());
+			log.warn("Error parsing the expression '{}': {}", expr, Log.getDetailMessage(e));
 			return null;
 		}
 	}
-	
+
 }

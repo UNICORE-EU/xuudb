@@ -28,12 +28,13 @@
     <cxf.version>4.0.5</cxf.version>
     <seclib.version>7.1.2</seclib.version>
     <json.version>20240303</json.version>
-    <mysql.version>9.0.0</mysql.version>
+    <mysql.version>9.1.0</mysql.version>
     <pgsql.version>42.7.4</pgsql.version>
     <mybatis.version>3.5.16</mybatis.version>
     <h2.version>2.3.232</h2.version>
     <spring.version>5.3.29</spring.version>
-    <junit.version>5.11.1</junit.version>
+    <mvel.version>2.5.2.Final</mvel.version>
+    <junit.version>5.11.2</junit.version>
     <jmock.version>2.13.1</jmock.version>
   </properties>
 
@@ -134,10 +135,10 @@
 	<version>${pgsql.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-expression</artifactId>
-	<version>${spring.version}</version>
-      </dependency>
+      <groupId>org.mvel</groupId>
+      <artifactId>mvel2</artifactId>
+      <version>${mvel.version}</version>
+    </dependency>
     </dependencies>
   </dependencyManagement>
 
