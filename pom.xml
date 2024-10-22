@@ -19,7 +19,7 @@
     <connection>scm:git:git://github.com/UNICORE-EU/xuudb.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/UNICORE-EU/xuudb.git</developerConnection>
     <url>https://github.com/UNICORE-EU/xuudb</url>
-    <tag>HEAD</tag>
+    <tag>xuudb-parent-2.10.5</tag>
   </scm>
 
   <properties>
