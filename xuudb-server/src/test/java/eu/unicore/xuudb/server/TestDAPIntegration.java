@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
+import org.mvel2.PropertyAccessException;
 
 import de.fzJuelich.unicore.xuudb.FindMappingRequestDocument;
 import de.fzJuelich.unicore.xuudb.FindMappingRequestType;
@@ -39,7 +40,7 @@ import eu.unicore.xuudb.server.dynamic.ScriptMapping;
 public class TestDAPIntegration {
 	
 	@Test
-	public void test() {
+	public void test() throws Exception {
 		HttpsServer server = null;
 		try {
 			File dir = new File("target/data");
@@ -233,12 +234,9 @@ public class TestDAPIntegration {
 					.newInstance();
 			removePoolReqDoc.addNewRemovePoolRequest().setPoolId(
 					"biology-dynamic-gids-pool");
-			try {
+			assertThrows(IllegalArgumentException.class,()->{
 				admin.removePool(removePoolReqDoc);
-				fail("shouldn't remove a non empty pool");
-			} catch (IllegalArgumentException e) {
-				// ok
-			}
+			});
 
 			// freeze the 2nd one
 			FreezeMappingRequestDocument freezeReqDoc2 = FreezeMappingRequestDocument.Factory
@@ -250,12 +248,9 @@ public class TestDAPIntegration {
 			admin.freezeMapping(freezeReqDoc2);
 
 			// try to remove a pool (should fail as one mapping is frozen)
-			try {
+			assertThrows(IllegalArgumentException.class,()->{
 				admin.removePool(removePoolReqDoc);
-				fail("shouldn't remove a pool with frozen mapping");
-			} catch (IllegalArgumentException e) {
-				// ok
-			}
+			});
 
 			// remove the 2nd one
 			RemoveMappingRequestDocument removeReqDoc2 = RemoveMappingRequestDocument.Factory
@@ -335,14 +330,8 @@ public class TestDAPIntegration {
 
 			// won't work as pool is not removed from the configuration
 			// admin.removePool(removePoolReqDoc);
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.toString());
 		} finally {
-			try {
-				server.shutdown();
-			} catch (Exception e) { /* ignored */
-			}
+			try { server.shutdown(); } catch (Exception e) {}
 		}
 	}
 
@@ -359,6 +348,9 @@ public class TestDAPIntegration {
 		var vars = new HashMap<String, Object>();
 		vars.put("name", "Johnny");
 		assertEquals("Hello, Johnny", ScriptMapping.evaluateTemplate(t, vars));
+		// check missing variables lead to an error
+		final String t2 = "Hello, ${foo}";
+		assertThrows(PropertyAccessException.class,
+				()->ScriptMapping.evaluateTemplate(t2, vars));
 	}
-	
 }

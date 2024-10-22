@@ -30,29 +30,27 @@ public class ScriptMapping extends Mapping
 	@Override
 	public void applyAttributes(EvaluationContext context, boolean overwrite, boolean dryRun)
 	{
-		Map<String, Object>vars = EvaluationEngine.createContextVariables(context);
-		String script = evaluateTemplate(getConfiguration(), vars);
-		if (script == null)
-			return;
-		String[] cmdLineTokens = SimplifiedCmdLineLexer.tokenizeString(script);
-		log.debug("Will run the following command line (comma is used to separate arguments): {}",
-					()->Arrays.toString(cmdLineTokens));
-		ProcessInvoker invoker = new ProcessInvoker(timeout);
 		TimeLimitedThread tlt;
 		try
 		{
+			Map<String, Object>vars = EvaluationEngine.createContextVariables(context);
+			String script = evaluateTemplate(getConfiguration(), vars);
+			String[] cmdLineTokens = SimplifiedCmdLineLexer.tokenizeString(script);
+			log.debug("Will run the following command line (comma is used to separate arguments): {}",
+						()->Arrays.toString(cmdLineTokens));
+			ProcessInvoker invoker = new ProcessInvoker(timeout);
 			tlt = invoker.invokeAndWait(cmdLineTokens);
 		} catch (Exception e)
 		{
-			Log.logException("Execution of command line: " + Arrays.toString(cmdLineTokens) + 
-					" finished with an error: " + e.toString(), e, log);
+			Log.logException("Execution of <"+getConfiguration()+ 
+					"> finished with an error: " + e.toString(), e, log);
 			return;
 		}
 		int exitCode = tlt.getP().exitValue(); 
 		if (exitCode != 0)
 		{
-			log.warn("Mapping program '" + script + 
-					"' finished with non-zero exit code " + exitCode
+			log.warn("Execution of <" + getConfiguration()+ 
+					"> finished with non-zero exit code " + exitCode
 					+ ", the stdErr was: " + tlt.getStderr());
 			return;
 		}
@@ -111,17 +109,10 @@ public class ScriptMapping extends Mapping
 		}
 	}
 	
-	public static String evaluateTemplate(String expr, Map<String,Object>vars) 
+	public static String evaluateTemplate(String expr, Map<String,Object>vars) throws Exception
 	{
 		String mExpr = expr.replace("${", "@{");
-		try
-		{
-			return (String)TemplateRuntime.eval(mExpr, vars);
-		} catch(Exception e)
-		{
-			log.warn("Error parsing the expression '{}': {}", expr, Log.getDetailMessage(e));
-			return null;
-		}
+		return (String)TemplateRuntime.eval(mExpr, vars);
 	}
 
 }

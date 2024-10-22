@@ -70,7 +70,7 @@ public class EvaluationEngine {
 			Collections.addAll(values, xmlA.getValueArray());
 			attributes.put(xmlA.getName(), values);
 		}
-		root.put("extraAttributes", attributes);
+		root.put("attributes", attributes);
 		root.put("userDN", ctx.getUserDN());
 		root.put("gid", ctx.getGid());
 		root.put("gidSet", ctx.isGidSet());

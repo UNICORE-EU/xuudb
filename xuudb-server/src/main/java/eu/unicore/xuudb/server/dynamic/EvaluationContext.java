@@ -17,7 +17,7 @@ public class EvaluationContext
 	private final String issuerDN;
 	private final String role;
 	private final String vo;
-	private final SimplifiedAttributeType[] extraAttributes;
+	private final SimplifiedAttributeType[] attributes;
 	
 	private String xlogin;
 	private String gid;
@@ -36,12 +36,12 @@ public class EvaluationContext
 		this.role = role;
 		this.vo = vo;
 		if (extraAttributes != null)
-			this.extraAttributes = extraAttributes;
+			this.attributes = extraAttributes;
 		else
-			this.extraAttributes = new SimplifiedAttributeType[0];
+			this.attributes = new SimplifiedAttributeType[0];
 		this.xlogin = xlogin;
 		this.gid = gid;
-		this.supplementaryGids = new ArrayList<String>();
+		this.supplementaryGids = new ArrayList<>();
 		if (supplementaryGids != null)
 			Collections.addAll(this.supplementaryGids, supplementaryGids);
 	}
@@ -79,7 +79,7 @@ public class EvaluationContext
 		return vo;
 	}
 	public SimplifiedAttributeType[] getExtraAttributes() {
-		return extraAttributes;
+		return attributes;
 	}
 	public boolean isXloginSet() {
 		return xloginSet;
