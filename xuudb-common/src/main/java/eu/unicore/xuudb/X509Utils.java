@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
 
@@ -34,8 +33,8 @@ public class X509Utils {
 	/**
 	 * Same as invoking loadCertificate and then getPEMStringFromX509
 	 * @param pemFile
-	 * @return a string which contains the PEM encoded cert
-	 * @throws IOException 
+	 * @return a string which contains the BASE64 encoded cert
+	 * @throws IOException
 	 */
 	public static String getStringFromPEMFile(String pemFile) throws IOException {
 		X509Certificate cert = loadCertificate(pemFile);
@@ -46,7 +45,7 @@ public class X509Utils {
 	 * Reads certificate from a string, which must be a Base64 encoded PEM, without start and end delimiter lines.
 	 * @param pemstr
 	 * @return instance of X509Certificate from pemstr
-	 * @throws CertificateException
+	 * @throws IOException
 	 */
 	public static X509Certificate getX509FromPEMString(String pemstr) throws IOException {
 		if(pemstr == null) return null;
@@ -59,12 +58,11 @@ public class X509Utils {
 	/**
 	 * @param x509
 	 * @return a certificate base64 encoded (i.e. not a real PEM!)
-	 * @throws CertificateEncodingException
+	 * @throws IOException
 	 */
 	public static String getPEMStringFromX509(Certificate x509) throws IOException {
 		try {
-			byte[] base64 = Base64.getEncoder().encode(x509.getEncoded());
-			return new String(base64);
+			return new String(Base64.getEncoder().encode(x509.getEncoded()));
 		} catch (CertificateEncodingException e) {
 			throw new IOException("Can't encode the certificate, shouldn't happen", e);
 		}

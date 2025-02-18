@@ -105,7 +105,8 @@ public class HttpsServer implements IShutdownable {
 		File dapConfigFile = config.getFileValue(ServerConfiguration.PROP_DAP_FILE, false);
 		DAPConfiguration dapConfiguration = new DAPConfiguration(dapConfigFile, storage.getPoolStorage());
 		createDAPPublicService(dapConfiguration,aclHandler);
-		createDAPAdminService(dapConfiguration,aclHandler,storage);		
+		createDAPAdminService(dapConfiguration,aclHandler,storage);
+		createRESTDAPPublic(dapConfiguration, aclHandler);
 	}
 	
 	protected void createPublicService(ACLHandler aclHandler, IStorage storage)throws Exception{
@@ -221,7 +222,8 @@ public class HttpsServer implements IShutdownable {
 		factory.create();	
 	}
 
-	protected void createRESTDAPPublic(IStorage storage, ACLHandler aclHandler)throws Exception{
+	protected void createRESTDAPPublic(DAPConfiguration dapConfiguration, ACLHandler aclHandler)
+			throws Exception{
 		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
 				new RestDAPQuery.DAPApplication(), true, false, false,
 				server.getRESTServlet().getBus());
@@ -230,7 +232,7 @@ public class HttpsServer implements IShutdownable {
 			factory.setProvider(aclHandler);
 		}
 		publicRESTDAP = new RestDAPQuery();
-		publicRESTDAP.setStorage(storage.getRESTClassicStorage());
+		publicRESTDAP.setConfig(dapConfiguration);
 		factory.setInvoker(new 
 				JAXRSInvoker() {
 				@Override
