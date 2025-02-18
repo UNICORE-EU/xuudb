@@ -1,5 +1,6 @@
 package eu.unicore.xuudb.server.rest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,13 +19,13 @@ import org.junit.jupiter.api.Test;
 
 import eu.unicore.xuudb.server.HttpsServer;
 
-public class TestRestPublic {
+public class TestRestDAP {
 
 	@Test
 	public void testSetup() throws Exception {
 		HttpsServer server = setup();
 		try {
-			URL u = new URL("http://localhost:34463/rest/xuudb/info");
+			URL u = new URL("http://localhost:34463/rest/dap/info");
 			HttpURLConnection conn = (HttpURLConnection)u.openConnection();
 			try(InputStream in = conn.getInputStream()){
 				System.out.println(new JSONObject(IOUtils.toString(in, "UTF-8"))
@@ -44,13 +45,18 @@ public class TestRestPublic {
 			URIBuilder ub = new URIBuilder();
 			ub.setScheme("http");
 			ub.setHost("localhost").setPort(34463);
-			ub.setPath("/rest/xuudb/query/test");
+			ub.setPath("/rest/dap/query");
 			ub.addParameter("dn", "CN=demouser");
+			ub.addParameter("role", "user");
+			ub.addParameter("vo", "/biology/dynamic/foo");
 			URL u = ub.build().toURL();
 			HttpURLConnection conn = (HttpURLConnection)u.openConnection();
 			try(InputStream in = conn.getInputStream()){
-				System.out.println(new JSONObject(IOUtils.toString(in, "UTF-8"))
-						.toString(2));
+				JSONObject res = new JSONObject(IOUtils.toString(in, "UTF-8"));
+				System.out.println(res.toString(2));
+				assertEquals("uid1", res.getString("xlogin"));
+				assertEquals("grid-dyn1", res.getString("group"));
+				
 			}
 		} finally {
 			try {
@@ -64,8 +70,8 @@ public class TestRestPublic {
 	public void testQueryError() throws Exception {
 		HttpsServer server = setup();
 		try {
-			URL u = new URL("http://localhost:34463/rest/xuudb/query/test");
-			// no DN - expect 400 error
+			URL u = new URL("http://localhost:34463/rest/dap/query");
+			// no DN/role- expect 400 error
 			Exception e = assertThrows(Exception.class, ()->{
 				HttpURLConnection conn = (HttpURLConnection)u.openConnection();
 				try(InputStream in = conn.getInputStream()){

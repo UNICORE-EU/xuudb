@@ -29,16 +29,14 @@ public class ShutdownHook extends Thread {
 	public void run() {
 		Iterator<IShutdownable> it = runners.iterator();
 		while(it.hasNext()) {
-			IShutdownable now = it.next();
-			log.info("Shutting down <" + now.getNameOfService() + "> ...");
 			try {
+				IShutdownable now = it.next();
+				log.info("Shutting down <" + now.getNameOfService() + "> ...");
 				now.shutdown();
+				log.info("Done");
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				log.info("Done");
 			}
 		}
-		log.info("Bye.");
 	}
 }

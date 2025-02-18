@@ -12,7 +12,7 @@
   <parent>
     <artifactId>unicore-parent</artifactId>
     <groupId>eu.unicore</groupId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
   </parent>
 
   <scm>
@@ -28,8 +28,8 @@
     <cxf.version>4.0.6</cxf.version>
     <seclib.version>7.1.2</seclib.version>
     <json.version>20250107</json.version>
-    <mysql.version>9.1.0</mysql.version>
-    <pgsql.version>42.7.4</pgsql.version>
+    <mysql.version>9.2.0</mysql.version>
+    <pgsql.version>42.7.5</pgsql.version>
     <mybatis.version>3.5.19</mybatis.version>
     <h2.version>2.3.232</h2.version>
     <spring.version>5.3.29</spring.version>
