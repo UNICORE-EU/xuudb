@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.emi.security.authn.x509.impl.CertificateUtils;
 import eu.emi.security.authn.x509.impl.CertificateUtils.Encoding;
 import eu.unicore.util.configuration.FilePropertiesHelper;

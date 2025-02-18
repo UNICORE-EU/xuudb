@@ -2,7 +2,7 @@ package eu.unicore.xuudb.client.actions;
 
 import org.apache.logging.log4j.Logger;
 
-import de.fzJuelich.unicore.xuudb.MappingDataType;
+import eu.unicore.xuudb.xbeans.MappingDataType;
 import eu.unicore.xuudb.Log;
 
 public class DAPFindMappingAction extends AbstractAction {

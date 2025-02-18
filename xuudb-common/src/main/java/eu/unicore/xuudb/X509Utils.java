@@ -3,7 +3,6 @@ package eu.unicore.xuudb;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
@@ -22,28 +21,21 @@ public class X509Utils {
 	/**
 	 * Loads a certificate from a given file.
 	 * @param file
-	 * @return
+	 * @return X509Certificate
 	 * @throws IOException
 	 */
 	public static X509Certificate loadCertificate(String file) throws IOException
 	{
-		BufferedInputStream bis = null;
-		try {
-			bis = new BufferedInputStream(new FileInputStream(file));
+		try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))){
 			return CertificateUtils.loadCertificate(bis , Encoding.PEM);
-		} finally {
-			if (bis != null)
-				bis.close();
 		}
 	}
 	
 	/**
 	 * Same as invoking loadCertificate and then getPEMStringFromX509
 	 * @param pemFile
-	 * @return a string which contains the BASE64 encoded cert
-	 * @throws CertificateEncodingException 
-	 * @throws FileNotFoundException
-	 * @throws link IllegalArgumentException
+	 * @return a string which contains the PEM encoded cert
+	 * @throws IOException 
 	 */
 	public static String getStringFromPEMFile(String pemFile) throws IOException {
 		X509Certificate cert = loadCertificate(pemFile);
@@ -57,15 +49,10 @@ public class X509Utils {
 	 * @throws CertificateException
 	 */
 	public static X509Certificate getX509FromPEMString(String pemstr) throws IOException {
-		if( pemstr == null )
-			return null;
+		if(pemstr == null) return null;
 		String work = X509BEGIN_TOKEN + pemstr + X509END_TOKEN;
-		ByteArrayInputStream bis = new ByteArrayInputStream(work.getBytes()); 
-		try {
-			return CertificateUtils.loadCertificate(bis , Encoding.PEM);
-		} finally {
-			if (bis != null)
-				bis.close();
+		try (ByteArrayInputStream bis = new ByteArrayInputStream(work.getBytes())){
+			return CertificateUtils.loadCertificate(bis, Encoding.PEM);
 		}
 	}
 

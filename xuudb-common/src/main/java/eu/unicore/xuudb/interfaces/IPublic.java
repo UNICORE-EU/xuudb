@@ -1,11 +1,11 @@
 package eu.unicore.xuudb.interfaces;
 
-import de.fzJuelich.unicore.xuudb.CheckCertChainResponseDocument;
-import de.fzJuelich.unicore.xuudb.CheckCertificateChainDocument;
-import de.fzJuelich.unicore.xuudb.CheckCertificateDocument;
-import de.fzJuelich.unicore.xuudb.CheckCertificateResponseDocument;
-import de.fzJuelich.unicore.xuudb.CheckDNDocument;
-import de.fzJuelich.unicore.xuudb.CheckDNResponseDocument;
+import eu.unicore.xuudb.xbeans.CheckCertChainResponseDocument;
+import eu.unicore.xuudb.xbeans.CheckCertificateChainDocument;
+import eu.unicore.xuudb.xbeans.CheckCertificateDocument;
+import eu.unicore.xuudb.xbeans.CheckCertificateResponseDocument;
+import eu.unicore.xuudb.xbeans.CheckDNDocument;
+import eu.unicore.xuudb.xbeans.CheckDNResponseDocument;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebResult;

@@ -3,7 +3,7 @@ package eu.unicore.xuudb.client.actions;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.emi.security.authn.x509.impl.X500NameUtils;
 import eu.unicore.xuudb.X509Utils;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;

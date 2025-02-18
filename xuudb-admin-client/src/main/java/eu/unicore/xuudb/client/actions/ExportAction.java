@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;
 
 public class ExportAction extends AbstractAction {

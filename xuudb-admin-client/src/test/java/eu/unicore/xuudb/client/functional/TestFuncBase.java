@@ -8,7 +8,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
 import eu.unicore.util.configuration.FilePropertiesHelper;
 import eu.unicore.xuudb.X509Utils;
 import eu.unicore.xuudb.client.CLCExecutor;
@@ -18,6 +17,7 @@ import eu.unicore.xuudb.client.wsapi.IAdminExtInterface;
 import eu.unicore.xuudb.client.wsapi.IDAPAdminExtInterface;
 import eu.unicore.xuudb.client.wsapi.IPublicExtInterface;
 import eu.unicore.xuudb.server.HttpsServer;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 
 public abstract class TestFuncBase {
 

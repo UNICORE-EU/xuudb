@@ -14,11 +14,11 @@ import org.jmock.junit5.JUnit5Mockery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.fzJuelich.unicore.xuudb.GetAttributesResponseType;
-import de.fzJuelich.unicore.xuudb.LoginDataType;
-import de.fzJuelich.unicore.xuudb.MappingDataType;
-import de.fzJuelich.unicore.xuudb.PoolInfoType;
-import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
+import eu.unicore.xuudb.xbeans.GetAttributesResponseType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
+import eu.unicore.xuudb.xbeans.MappingDataType;
+import eu.unicore.xuudb.xbeans.PoolInfoType;
+import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
 import eu.unicore.xuudb.X509Utils;
 import eu.unicore.xuudb.client.CLCExecutor;
 import eu.unicore.xuudb.client.actions.ConnectionManager;

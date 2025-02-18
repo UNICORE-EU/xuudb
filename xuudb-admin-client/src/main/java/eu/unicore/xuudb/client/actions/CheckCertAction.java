@@ -1,6 +1,6 @@
 package eu.unicore.xuudb.client.actions;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.unicore.xuudb.X509Utils;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.fzJuelich.unicore.xuudb.MappingDataType;
+import eu.unicore.xuudb.xbeans.MappingDataType;
 
 public class DAPListMappingAction extends AbstractAction {
 

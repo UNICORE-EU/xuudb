@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 
 public class TestFuncQuery extends TestFuncBase {
 

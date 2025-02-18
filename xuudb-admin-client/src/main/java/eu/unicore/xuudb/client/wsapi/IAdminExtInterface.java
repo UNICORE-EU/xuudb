@@ -1,6 +1,6 @@
 package eu.unicore.xuudb.client.wsapi;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 
 
 public interface IAdminExtInterface {

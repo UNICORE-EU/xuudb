@@ -2,13 +2,13 @@ package eu.unicore.xuudb.client.wsapi.impl;
 
 import org.apache.logging.log4j.Logger;
 
-import de.fzJuelich.unicore.xuudb.CheckCertificateDocument;
-import de.fzJuelich.unicore.xuudb.CheckCertificateResponseDocument;
-import de.fzJuelich.unicore.xuudb.CheckDNDataType;
-import de.fzJuelich.unicore.xuudb.CheckDNDocument;
-import de.fzJuelich.unicore.xuudb.CheckDNResponseDocument;
-import de.fzJuelich.unicore.xuudb.CheckDataType;
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.CheckCertificateDocument;
+import eu.unicore.xuudb.xbeans.CheckCertificateResponseDocument;
+import eu.unicore.xuudb.xbeans.CheckDNDataType;
+import eu.unicore.xuudb.xbeans.CheckDNDocument;
+import eu.unicore.xuudb.xbeans.CheckDNResponseDocument;
+import eu.unicore.xuudb.xbeans.CheckDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.unicore.xuudb.Log;
 import eu.unicore.xuudb.client.wsapi.IPublicExtInterface;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;

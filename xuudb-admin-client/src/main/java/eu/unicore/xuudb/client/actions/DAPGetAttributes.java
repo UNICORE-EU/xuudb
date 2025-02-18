@@ -1,7 +1,7 @@
 package eu.unicore.xuudb.client.actions;
 
-import de.fzJuelich.unicore.xuudb.GetAttributesResponseType;
-import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
+import eu.unicore.xuudb.xbeans.GetAttributesResponseType;
+import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
 
 public class DAPGetAttributes extends DAPSimulateGetAttributes {
 

@@ -2,8 +2,8 @@ package eu.unicore.xuudb.client.wsapi;
 
 import java.util.Date;
 
-import de.fzJuelich.unicore.xuudb.MappingDataType;
-import de.fzJuelich.unicore.xuudb.PoolInfoType;
+import eu.unicore.xuudb.xbeans.MappingDataType;
+import eu.unicore.xuudb.xbeans.PoolInfoType;
 
 public interface IDAPAdminExtInterface {
 

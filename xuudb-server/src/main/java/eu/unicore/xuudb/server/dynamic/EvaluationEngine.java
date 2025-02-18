@@ -10,7 +10,7 @@ import java.util.Set;
 import org.apache.logging.log4j.Logger;
 import org.mvel2.MVEL;
 
-import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
+import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
 import eu.unicore.xuudb.Log;
 
 
