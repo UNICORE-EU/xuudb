@@ -23,10 +23,10 @@
   </scm>
 
   <properties>
-    <secutils.version>4.2.0-SNAPSHOT</secutils.version>
-    <jetty.version>11.0.24</jetty.version>
+    <secutils.version>4.2.0</secutils.version>
+    <jetty.version>11.0.25</jetty.version>
     <cxf.version>4.0.6</cxf.version>
-    <seclib.version>7.2.0-SNAPSHOT</seclib.version>
+    <seclib.version>7.2.0</seclib.version>
     <xmlbeans.version>5.3.0</xmlbeans.version>
     <json.version>20250107</json.version>
     <mysql.version>9.2.0</mysql.version>
