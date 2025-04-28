@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xb:config xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+ 
+    <xb:namespace uri="http://www.fz-juelich.de/unicore/xuudb">
+        <xb:package>eu.unicore.xuudb.xbeans</xb:package>
+    </xb:namespace>
+
+</xb:config>

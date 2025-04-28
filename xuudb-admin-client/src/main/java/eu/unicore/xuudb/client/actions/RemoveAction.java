@@ -2,7 +2,7 @@ package eu.unicore.xuudb.client.actions;
 
 import java.io.FileNotFoundException;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;
 
 public class RemoveAction extends AbstractAction {

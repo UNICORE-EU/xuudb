@@ -38,13 +38,7 @@
 	<xsd:element name="GetAttributesRequest" type="xuudb:GetAttributesRequestType" />
 	<xsd:element name="GetAttributesResponse" type="xuudb:GetAttributesResponseType" />
 	
-	
-	
-	
 	 <!-- used by the DAP admin interface -->
-
-	
-
 
 	<xsd:complexType name="SimplifiedAttributesListType">
 		<xsd:sequence>

@@ -1,6 +1,6 @@
 package eu.unicore.xuudb.client.actions;
 
-import de.fzJuelich.unicore.xuudb.PoolInfoType;
+import eu.unicore.xuudb.xbeans.PoolInfoType;
 
 public class DAPListPoolsAction extends AbstractAction {
 	

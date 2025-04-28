@@ -2,7 +2,7 @@ package eu.unicore.xuudb.server.db;
 
 import org.json.JSONObject;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.unicore.xuudb.server.SecurityToken;
 
 /**

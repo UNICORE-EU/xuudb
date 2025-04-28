@@ -1,9 +1,9 @@
 package eu.unicore.xuudb.interfaces;
 
-import de.fzJuelich.unicore.xuudb.GetAttributesRequestDocument;
-import de.fzJuelich.unicore.xuudb.GetAttributesResponseDocument;
-import de.fzJuelich.unicore.xuudb.SimulateGetAttributesRequestDocument;
-import de.fzJuelich.unicore.xuudb.SimulateGetAttributesResponseDocument;
+import eu.unicore.xuudb.xbeans.GetAttributesRequestDocument;
+import eu.unicore.xuudb.xbeans.GetAttributesResponseDocument;
+import eu.unicore.xuudb.xbeans.SimulateGetAttributesRequestDocument;
+import eu.unicore.xuudb.xbeans.SimulateGetAttributesResponseDocument;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebResult;

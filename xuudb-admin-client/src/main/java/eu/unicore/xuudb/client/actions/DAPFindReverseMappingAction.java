@@ -1,6 +1,6 @@
 package eu.unicore.xuudb.client.actions;
 
-import de.fzJuelich.unicore.xuudb.MappingDataType;
+import eu.unicore.xuudb.xbeans.MappingDataType;
 
 public class DAPFindReverseMappingAction extends AbstractAction {
 

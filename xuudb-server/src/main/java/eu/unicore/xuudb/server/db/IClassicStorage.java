@@ -2,8 +2,8 @@ package eu.unicore.xuudb.server.db;
 
 import java.util.List;
 
-import de.fzJuelich.unicore.xuudb.ImportDatabaseDocument;
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.ImportDatabaseDocument;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 
 public interface IClassicStorage {
 

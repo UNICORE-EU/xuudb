@@ -7,12 +7,14 @@
   <parent>
     <groupId>eu.unicore.xuudb</groupId>
     <artifactId>xuudb-parent</artifactId>
-    <version>2.10.6-SNAPSHOT</version>
+    <version>2.11.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <properties>
     <automatic.module.name>eu.unicore.xuudb.common</automatic.module.name>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -40,31 +42,30 @@
 	<artifactId>jacoco-maven-plugin</artifactId>
 	<configuration>
           <excludes>
-	    <exclude>de/fzJuelich/unicore/**/*</exclude>
-	    <exclude>schemaorg_apache_xmlbeans/**/*</exclude>
+	    <exclude>eu/unicore/xuudb/xbeans/**/*</exclude>
+	    <exclude>org/apache/xmlbeans/metadata/**/*</exclude>
           </excludes>
 	</configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>xmlbeans-maven-plugin</artifactId>
-        <version>2.3.3</version>
+        <groupId>org.apache.xmlbeans</groupId>
+        <artifactId>xmlbeans</artifactId>
+        <version>${xmlbeans.version}</version>
         <executions>
           <execution>
             <goals>
-              <goal>xmlbeans</goal>
+              <goal>compile</goal>
             </goals>
           </execution>
         </executions>
         <inherited>true</inherited>
-        <configuration>
-	  <javaSource>1.8</javaSource>
-          <schemaDirectory>src/main/schema</schemaDirectory>
-          <xmlConfigs>
-            <xmlConfig implementation="java.io.File">src/main/schema/xmlbeans_config.xsdconfig</xmlConfig>
-          </xmlConfigs>
-          <noUpa>true</noUpa>
-          <outputJar>target/beans.jar</outputJar>
+	 <configuration>
+          <name>xuudbtypes</name>
+          <repackage>org.apache.xmlbeans.metadata</repackage>
+          <sourceSchemas>*.xsd</sourceSchemas>
+	  <sourceOnly>false</sourceOnly>
+	  <xmlConfigs>${project.basedir}/src/main/schema/xmlbeans_config.xml</xmlConfigs>
+	  <outputJar>target/beans.jar</outputJar>
         </configuration>
       </plugin>
     </plugins>

@@ -1,11 +1,11 @@
 package eu.unicore.xuudb.client.functional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 
 public class TestFuncAdmin extends TestFuncBase {
 

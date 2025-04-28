@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
+import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
 
 /**
  * Contains input-output attributes which are being evaluated and modified

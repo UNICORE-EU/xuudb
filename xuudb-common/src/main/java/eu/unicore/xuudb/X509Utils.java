@@ -20,18 +20,13 @@ public class X509Utils {
 	/**
 	 * Loads a certificate from a given file.
 	 * @param file
-	 * @return
+	 * @return X509Certificate
 	 * @throws IOException
 	 */
 	public static X509Certificate loadCertificate(String file) throws IOException
 	{
-		BufferedInputStream bis = null;
-		try {
-			bis = new BufferedInputStream(new FileInputStream(file));
+		try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))){
 			return CertificateUtils.loadCertificate(bis , Encoding.PEM);
-		} finally {
-			if (bis != null)
-				bis.close();
 		}
 	}
 	
@@ -53,11 +48,10 @@ public class X509Utils {
 	 * @throws IOException
 	 */
 	public static X509Certificate getX509FromPEMString(String pemstr) throws IOException {
-		if( pemstr == null )
-			return null;
+		if(pemstr == null) return null;
 		String work = X509BEGIN_TOKEN + pemstr + X509END_TOKEN;
 		try (ByteArrayInputStream bis = new ByteArrayInputStream(work.getBytes())){
-			return CertificateUtils.loadCertificate(bis , Encoding.PEM);
+			return CertificateUtils.loadCertificate(bis, Encoding.PEM);
 		}
 	}
 

@@ -1,15 +1,15 @@
 package eu.unicore.xuudb.interfaces;
 
-import de.fzJuelich.unicore.xuudb.AddCertificateDocument;
-import de.fzJuelich.unicore.xuudb.AddCertificateResponseDocument;
-import de.fzJuelich.unicore.xuudb.ImportDatabaseDocument;
-import de.fzJuelich.unicore.xuudb.ImportDatabaseResponseDocument;
-import de.fzJuelich.unicore.xuudb.ListDatabaseDocument;
-import de.fzJuelich.unicore.xuudb.ListDatabaseResponseDocument;
-import de.fzJuelich.unicore.xuudb.RemoveCertificateDocument;
-import de.fzJuelich.unicore.xuudb.RemoveCertificateResponseDocument;
-import de.fzJuelich.unicore.xuudb.UpdateCertificateDocument;
-import de.fzJuelich.unicore.xuudb.UpdateCertificateResponseDocument;
+import eu.unicore.xuudb.xbeans.AddCertificateDocument;
+import eu.unicore.xuudb.xbeans.AddCertificateResponseDocument;
+import eu.unicore.xuudb.xbeans.ImportDatabaseDocument;
+import eu.unicore.xuudb.xbeans.ImportDatabaseResponseDocument;
+import eu.unicore.xuudb.xbeans.ListDatabaseDocument;
+import eu.unicore.xuudb.xbeans.ListDatabaseResponseDocument;
+import eu.unicore.xuudb.xbeans.RemoveCertificateDocument;
+import eu.unicore.xuudb.xbeans.RemoveCertificateResponseDocument;
+import eu.unicore.xuudb.xbeans.UpdateCertificateDocument;
+import eu.unicore.xuudb.xbeans.UpdateCertificateResponseDocument;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebResult;

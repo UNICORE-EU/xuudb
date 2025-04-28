@@ -5,7 +5,7 @@
   <artifactId>xuudb-parent</artifactId>
   <packaging>pom</packaging>
   <name>XUUDB</name>
-  <version>2.10.6-SNAPSHOT</version>
+  <version>2.11.0-SNAPSHOT</version>
   <description>XUUDB attribute source for UNICORE</description>
   <inceptionYear>2006</inceptionYear>
 
@@ -23,10 +23,11 @@
   </scm>
 
   <properties>
-    <secutils.version>4.1.2</secutils.version>
+    <secutils.version>4.2.0-SNAPSHOT</secutils.version>
     <jetty.version>11.0.24</jetty.version>
     <cxf.version>4.0.6</cxf.version>
-    <seclib.version>7.1.2</seclib.version>
+    <seclib.version>7.2.0-SNAPSHOT</seclib.version>
+    <xmlbeans.version>5.3.0</xmlbeans.version>
     <json.version>20250107</json.version>
     <mysql.version>9.2.0</mysql.version>
     <pgsql.version>42.7.5</pgsql.version>

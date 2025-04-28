@@ -2,7 +2,7 @@ package eu.unicore.xuudb;
 
 import org.junit.jupiter.api.Test;
 
-import de.fzJuelich.unicore.xuudb.CheckCertificateChainDocument;
+import eu.unicore.xuudb.xbeans.CheckCertificateChainDocument;	
 
 public class TestBeans {
 

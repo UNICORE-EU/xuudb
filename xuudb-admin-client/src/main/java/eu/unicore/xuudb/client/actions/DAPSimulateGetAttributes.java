@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 
-import de.fzJuelich.unicore.xuudb.GetAttributesResponseType;
-import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
+import eu.unicore.xuudb.xbeans.GetAttributesResponseType;
+import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
 import eu.emi.security.authn.x509.impl.X500NameUtils;
 
 public class DAPSimulateGetAttributes extends AbstractAction {

@@ -18,6 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Logger;
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
 
@@ -92,7 +93,7 @@ public class DAPConfiguration
 	{
 		DynamicAttributesDocument mainDoc = DynamicAttributesDocument.Factory.parse(
 				new BufferedInputStream(new FileInputStream(file)));
-		List<?> validationErrors = new ArrayList<>();
+		List<XmlError> validationErrors = new ArrayList<>();
 		boolean valid = mainDoc.validate(new XmlOptions().setErrorListener(validationErrors));
 		if (!valid)
 			throw new ParseException(validationErrors.toString(), -1);

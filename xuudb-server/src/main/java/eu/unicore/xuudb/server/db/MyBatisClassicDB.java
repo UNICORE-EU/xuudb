@@ -7,9 +7,9 @@ import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.logging.log4j.Logger;
 
-import de.fzJuelich.unicore.xuudb.DatabaseType;
-import de.fzJuelich.unicore.xuudb.ImportDatabaseDocument;
-import de.fzJuelich.unicore.xuudb.LoginDataType;
+import eu.unicore.xuudb.xbeans.DatabaseType;
+import eu.unicore.xuudb.xbeans.ImportDatabaseDocument;
+import eu.unicore.xuudb.xbeans.LoginDataType;
 import eu.unicore.xuudb.Log;
 import eu.unicore.xuudb.server.SecurityToken;
 import eu.unicore.xuudb.server.Xlogin;

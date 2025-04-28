@@ -6,8 +6,8 @@ import java.text.DateFormat;
 
 import org.apache.logging.log4j.Logger;
 
-import de.fzJuelich.unicore.xuudb.LoginDataType;
-import de.fzJuelich.unicore.xuudb.MappingDataType;
+import eu.unicore.xuudb.xbeans.LoginDataType;
+import eu.unicore.xuudb.xbeans.MappingDataType;
 import eu.unicore.xuudb.Log;
 import eu.unicore.xuudb.X509Utils;
 

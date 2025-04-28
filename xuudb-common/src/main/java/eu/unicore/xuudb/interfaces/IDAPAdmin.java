@@ -1,15 +1,15 @@
 package eu.unicore.xuudb.interfaces;
 
-import de.fzJuelich.unicore.xuudb.FindMappingRequestDocument;
-import de.fzJuelich.unicore.xuudb.FindMappingResponseDocument;
-import de.fzJuelich.unicore.xuudb.FindReverseMappingRequestDocument;
-import de.fzJuelich.unicore.xuudb.FindReverseMappingResponseDocument;
-import de.fzJuelich.unicore.xuudb.FreezeMappingRequestDocument;
-import de.fzJuelich.unicore.xuudb.ListMappingRequestDocument;
-import de.fzJuelich.unicore.xuudb.ListMappingResponseDocument;
-import de.fzJuelich.unicore.xuudb.ListPoolsResponseDocument;
-import de.fzJuelich.unicore.xuudb.RemoveMappingRequestDocument;
-import de.fzJuelich.unicore.xuudb.RemovePoolRequestDocument;
+import eu.unicore.xuudb.xbeans.FindMappingRequestDocument;
+import eu.unicore.xuudb.xbeans.FindMappingResponseDocument;
+import eu.unicore.xuudb.xbeans.FindReverseMappingRequestDocument;
+import eu.unicore.xuudb.xbeans.FindReverseMappingResponseDocument;
+import eu.unicore.xuudb.xbeans.FreezeMappingRequestDocument;
+import eu.unicore.xuudb.xbeans.ListMappingRequestDocument;
+import eu.unicore.xuudb.xbeans.ListMappingResponseDocument;
+import eu.unicore.xuudb.xbeans.ListPoolsResponseDocument;
+import eu.unicore.xuudb.xbeans.RemoveMappingRequestDocument;
+import eu.unicore.xuudb.xbeans.RemovePoolRequestDocument;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebResult;

@@ -2,13 +2,13 @@ package eu.unicore.xuudb.client.wsapi.impl;
 
 import org.apache.logging.log4j.Logger;
 
-import de.fzJuelich.unicore.xuudb.GetAttributesRequestDocument;
-import de.fzJuelich.unicore.xuudb.GetAttributesRequestType;
-import de.fzJuelich.unicore.xuudb.GetAttributesResponseDocument;
-import de.fzJuelich.unicore.xuudb.GetAttributesResponseType;
-import de.fzJuelich.unicore.xuudb.SimplifiedAttributeType;
-import de.fzJuelich.unicore.xuudb.SimulateGetAttributesRequestDocument;
-import de.fzJuelich.unicore.xuudb.SimulateGetAttributesResponseDocument;
+import eu.unicore.xuudb.xbeans.GetAttributesRequestDocument;
+import eu.unicore.xuudb.xbeans.GetAttributesRequestType;
+import eu.unicore.xuudb.xbeans.GetAttributesResponseDocument;
+import eu.unicore.xuudb.xbeans.GetAttributesResponseType;
+import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
+import eu.unicore.xuudb.xbeans.SimulateGetAttributesRequestDocument;
+import eu.unicore.xuudb.xbeans.SimulateGetAttributesResponseDocument;
 import eu.unicore.xuudb.Log;
 import eu.unicore.xuudb.client.wsapi.IDAPPublicExtInterface;
 import eu.unicore.xuudb.interfaces.IDynamicAttributesPublic;
