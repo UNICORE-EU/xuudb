@@ -28,9 +28,9 @@
     <cxf.version>4.0.6</cxf.version>
     <seclib.version>7.2.0</seclib.version>
     <xmlbeans.version>5.3.0</xmlbeans.version>
-    <json.version>20250107</json.version>
-    <mysql.version>9.2.0</mysql.version>
-    <pgsql.version>42.7.5</pgsql.version>
+    <json.version>20250517</json.version>
+    <mysql.version>9.3.0</mysql.version>
+    <pgsql.version>42.7.7</pgsql.version>
     <mybatis.version>3.5.19</mybatis.version>
     <h2.version>2.3.232</h2.version>
     <spring.version>5.3.29</spring.version>
