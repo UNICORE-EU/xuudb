@@ -32,10 +32,6 @@
       <artifactId>secutils-cxf</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock-junit5</artifactId>
     </dependency>
@@ -59,8 +55,8 @@
             <index>true</true>
             -->
             <manifest>
-              <mainClass>de.fzj.unicore.xuudb.client.XUUDBClient</mainClass>
-              <packageName>de.fzj.unicore.xuudb</packageName>
+              <mainClass>eu.unicore.xuudb.client.XUUDBClient</mainClass>
+              <packageName>eu.unicore.xuudb</packageName>
               <addClasspath>true</addClasspath>
             </manifest>
           </archive>

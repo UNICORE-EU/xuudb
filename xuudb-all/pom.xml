@@ -47,7 +47,7 @@
 	    <executions>
 	      <execution>
 		<id>aggregate-report</id>
-		<phase>verify</phase>
+		<phase>test</phase>
 		<goals>
 		  <goal>report-aggregate</goal>
 		</goals>
