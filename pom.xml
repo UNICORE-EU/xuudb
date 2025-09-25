@@ -23,16 +23,16 @@
   </scm>
 
   <properties>
-    <secutils.version>4.2.0</secutils.version>
-    <jetty.version>11.0.25</jetty.version>
+    <secutils.version>4.2.1</secutils.version>
+    <jetty.version>11.0.26</jetty.version>
     <cxf.version>4.0.6</cxf.version>
     <seclib.version>7.2.1</seclib.version>
     <xmlbeans.version>5.3.0</xmlbeans.version>
     <json.version>20250517</json.version>
-    <mysql.version>9.3.0</mysql.version>
-    <pgsql.version>42.7.7</pgsql.version>
+    <mysql.version>9.4.0</mysql.version>
+    <pgsql.version>42.7.8</pgsql.version>
     <mybatis.version>3.5.19</mybatis.version>
-    <h2.version>2.3.232</h2.version>
+    <h2.version>2.4.240</h2.version>
     <spring.version>5.3.29</spring.version>
     <mvel.version>2.5.2.Final</mvel.version>
     <junit.version>5.12.0</junit.version>
