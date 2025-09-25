@@ -20,8 +20,8 @@
 			pool		INTEGER,
 			entry		VARCHAR(64),
 			poolKey		VARCHAR(512) DEFAULT NULL,
-			lastAccess	DATETIME,
-			freezeTime	DATETIME DEFAULT NULL,
+			lastAccess	TIMESTAMP,
+			freezeTime	TIMESTAMP DEFAULT NULL,
 			UNIQUE (pool, entry),
 			FOREIGN KEY (pool) REFERENCES UUDB_POOLS (id) ON DELETE CASCADE
 		);
