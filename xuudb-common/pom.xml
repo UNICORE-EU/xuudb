@@ -7,14 +7,12 @@
   <parent>
     <groupId>eu.unicore.xuudb</groupId>
     <artifactId>xuudb-parent</artifactId>
-    <version>2.12.2-SNAPSHOT</version>
+    <version>2.12.2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <properties>
     <automatic.module.name>eu.unicore.xuudb.common</automatic.module.name>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
