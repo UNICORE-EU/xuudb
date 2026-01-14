@@ -1,5 +1,7 @@
 # UNICORE XUUDB
 
+[![Unit tests](https://github.com/UNICORE-EU/xuudb/actions/workflows/maven.yml/badge.svg)](https://github.com/UNICORE-EU/xuudb/actions/workflows/maven.yml)
+
 This repository contains the source code for the UNICORE XUUDB,
 a service acting as an 'attribute source' as part
 of a UNICORE installation. It is an optional service, that is best
