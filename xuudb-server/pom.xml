@@ -4,7 +4,7 @@
   <parent>
     <groupId>eu.unicore.xuudb</groupId>
     <artifactId>xuudb-parent</artifactId>
-    <version>2.12.2</version>
+    <version>2.13.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>xuudb-server</artifactId>
@@ -26,16 +26,24 @@
     </dependency>
     <!-- others -->
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-servlet</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlets</artifactId>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-servlets</artifactId>
     </dependency>
     <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-rewrite</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.compression</groupId>
+      <artifactId>jetty-compression-server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.compression</groupId>
+      <artifactId>jetty-compression-gzip</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>

@@ -6,9 +6,9 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 
 import eu.unicore.security.canl.AuthnAndTrustProperties;
 import eu.unicore.security.canl.CredentialProperties;
@@ -22,8 +22,9 @@ import eu.unicore.util.jetty.JettyServerBase;
  */
 public class JettyServer extends JettyServerBase {
 
-	private final CXFNonSpringServlet wsServlet=new CXFNonSpringServlet();
-	private final CXFNonSpringServlet restServlet=new CXFNonSpringServlet();
+	private final CXFNonSpringServlet wsServlet = new CXFNonSpringServlet();
+
+	private final CXFNonSpringServlet restServlet = new CXFNonSpringServlet();
 
 	private final AuthnAndTrustProperties securityCfg;
 
@@ -56,21 +57,20 @@ public class JettyServer extends JettyServerBase {
 
 	@Override
 	protected Handler createRootHandler() throws ConfigurationException {
-		ServletContextHandler root = new ServletContextHandler(getServer(), "/", ServletContextHandler.SESSIONS);
-		ServletHolder sh=new ServletHolder(wsServlet);
+		ServletContextHandler root = new ServletContextHandler("/", ServletContextHandler.SESSIONS);
+		ServletHolder sh = new ServletHolder(wsServlet);
 		root.addServlet(sh, "/*");
 		ServletHolder sh2=new ServletHolder(restServlet);
 		root.addServlet(sh2, "/rest/*");
 		return root;
 	}
-	
+
 	public CXFNonSpringServlet getWSServlet(){
 		return wsServlet;
 	}
-	
-	
+
 	public CXFNonSpringServlet getRESTServlet(){
 		return restServlet;
 	}
-	
+
 }
