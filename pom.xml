@@ -25,12 +25,12 @@
   <properties>
     <secutils.version>5.0.0</secutils.version>
     <jetty.version>12.1.6</jetty.version>
-    <cxf.version>4.1.4</cxf.version>
+    <cxf.version>4.1.6</cxf.version>
     <seclib.version>8.0.0</seclib.version>
     <xmlbeans.version>5.3.0</xmlbeans.version>
     <json.version>20251224</json.version>
-    <mysql.version>9.5.0</mysql.version>
-    <pgsql.version>42.7.8</pgsql.version>
+    <mysql.version>9.6.0</mysql.version>
+    <pgsql.version>42.7.10</pgsql.version>
     <mybatis.version>3.5.19</mybatis.version>
     <h2.version>2.4.240</h2.version>
     <spring.version>5.3.29</spring.version>
