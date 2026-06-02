@@ -19,6 +19,7 @@
     <dependency>
       <groupId>eu.unicore.security</groupId>
       <artifactId>secutils-cxf</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
