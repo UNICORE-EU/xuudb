@@ -8,13 +8,11 @@
   <version>2.13.6</version>
   <description>XUUDB attribute source for UNICORE</description>
   <inceptionYear>2006</inceptionYear>
-
   <parent>
     <artifactId>unicore-parent</artifactId>
     <groupId>eu.unicore</groupId>
     <version>4.1.0</version>
   </parent>
-
   <scm>
     <connection>scm:git:git://github.com/UNICORE-EU/xuudb.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/UNICORE-EU/xuudb.git</developerConnection>
@@ -24,7 +22,7 @@
 
   <properties>
     <secutils.version>5.0.3</secutils.version>
-    <jetty.version>12.1.10</jetty.version>
+    <jetty.version>12.1.11</jetty.version>
     <seclib.version>8.2.0</seclib.version>
     <xmlbeans.version>5.3.0</xmlbeans.version>
     <json.version>20260522</json.version>
@@ -34,8 +32,7 @@
     <h2.version>2.4.240</h2.version>
     <spring.version>5.3.29</spring.version>
     <mvel.version>2.5.2.Final</mvel.version>
-    <junit.version>5.12.0</junit.version>
-    <junit.p.version>1.12.0</junit.p.version>
+    <junit.version>6.1.2</junit.version>
     <jmock.version>2.13.1</jmock.version>
   </properties>
 
@@ -51,26 +48,26 @@
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
-	<version>${junit.version}</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
-	<groupId>org.junit.platform</groupId>
-	<artifactId>junit-platform-launcher</artifactId>
-	<version>${junit.p.version}</version>
-	<scope>test</scope>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
-	<groupId>org.jmock</groupId>
-	<artifactId>jmock-junit5</artifactId>
-	<version>${jmock.version}</version>
-	<scope>test</scope>
-	<exclusions>
-	  <exclusion>
-	    <groupId>org.junit.jupiter</groupId>
+        <groupId>org.jmock</groupId>
+        <artifactId>jmock-junit5</artifactId>
+        <version>${jmock.version}</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-	  </exclusion>
-	</exclusions>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty.ee10</groupId>
@@ -87,12 +84,12 @@
         <artifactId>jetty-rewrite</artifactId>
         <version>${jetty.version}</version>
       </dependency>
-       <dependency>
+      <dependency>
         <groupId>org.eclipse.jetty.compression</groupId>
         <artifactId>jetty-compression-server</artifactId>
         <version>${jetty.version}</version>
-       </dependency>
-       <dependency>
+      </dependency>
+      <dependency>
         <groupId>org.eclipse.jetty.compression</groupId>
         <artifactId>jetty-compression-gzip</artifactId>
         <version>${jetty.version}</version>
@@ -101,12 +98,12 @@
         <groupId>eu.unicore.security</groupId>
         <artifactId>securityLibrary</artifactId>
         <version>${seclib.version}</version>
-	<exclusions>
-	  <exclusion>
-	    <groupId>org.apache.satuarion</groupId>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.satuarion</groupId>
             <artifactId>xmlsec</artifactId>
-	  </exclusion>
-	</exclusions>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>eu.unicore.security</groupId>
@@ -114,9 +111,9 @@
         <version>${secutils.version}</version>
       </dependency>
       <dependency>
-	<groupId>org.json</groupId>
-	<artifactId>json</artifactId>
-	<version>${json.version}</version>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>${json.version}</version>
       </dependency>
       <dependency>
         <groupId>org.mybatis</groupId>
@@ -134,28 +131,27 @@
         <version>${mysql.version}</version>
       </dependency>
       <dependency>
-	<groupId>org.postgresql</groupId>
-	<artifactId>postgresql</artifactId>
-	<version>${pgsql.version}</version>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${pgsql.version}</version>
       </dependency>
       <dependency>
-      <groupId>org.mvel</groupId>
-      <artifactId>mvel2</artifactId>
-      <version>${mvel.version}</version>
-    </dependency>
+        <groupId>org.mvel</groupId>
+        <artifactId>mvel2</artifactId>
+        <version>${mvel.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
-
   <!-- test dependencies for all modules -->
   <dependencies>
-      <dependency>
-	<groupId>org.junit.jupiter</groupId>
-	<artifactId>junit-jupiter</artifactId>
-      </dependency>
-      <dependency>
-	<groupId>org.junit.platform</groupId>
-	<artifactId>junit-platform-launcher</artifactId>
-      </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -170,5 +166,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>
