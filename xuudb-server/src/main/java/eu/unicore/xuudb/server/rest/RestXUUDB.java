@@ -6,7 +6,9 @@ import java.util.Set;
 import org.json.JSONObject;
 
 import eu.unicore.xuudb.server.db.IRESTClassicStorage;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -44,6 +46,21 @@ public class RestXUUDB extends RestBase {
 		}
 	}
 
+	@PUT
+	@Path("/update")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(String json) {
+		try {
+			String msg = storage.update(new JSONObject(json));
+			JSONObject res = new JSONObject();
+			res.put("status", msg);
+			return Response.ok(res.toString(), MediaType.APPLICATION_JSON).build();
+		}catch(Exception e) {
+			return handleError("Query error", e);
+		}
+	}
+
 	public static class XUUDBApplication extends Application {
 		@Override
 		public Set<Class<?>> getClasses() {
@@ -52,4 +69,5 @@ public class RestXUUDB extends RestBase {
 			return classes;
 		}
 	}
+
 }

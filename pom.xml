@@ -25,7 +25,7 @@
     <jetty.version>12.1.12</jetty.version>
     <seclib.version>8.2.1</seclib.version>
     <xmlbeans.version>5.3.0</xmlbeans.version>
-    <json.version>20260719</json.version>
+    <json.version>20260814</json.version>
     <mysql.version>26.7.0</mysql.version>
     <pgsql.version>42.7.13</pgsql.version>
     <mybatis.version>3.5.19</mybatis.version>

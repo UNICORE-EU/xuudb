@@ -185,13 +185,14 @@ public class MyBatisJSONClassicDB implements IRESTClassicStorage {
 	}
 
 	@Override
-	public String update(String gcid, String dn, JSONObject login)
+	public String update(JSONObject login)
 			throws IllegalArgumentException, PersistenceException
 	{
-		SecurityToken stok = new SecurityToken(dn);
 		try(SqlSession session = factory.openSession(true))
 		{
 			LoginBean bean = new LoginBean(login);
+			String gcid = bean.getGcid();
+			SecurityToken stok = new SecurityToken(bean.getToken());	
 			UudbClassicMapper mapper = session.getMapper(UudbClassicMapper.class);
 			int updated = mapper.updateRecord(gcid, stok.toString(), bean);
 			session.commit();

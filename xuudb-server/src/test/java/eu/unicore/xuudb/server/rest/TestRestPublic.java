@@ -1,21 +1,25 @@
 package eu.unicore.xuudb.server.rest;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.net.URIBuilder;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import eu.unicore.util.httpclient.DefaultClientConfiguration;
+import eu.unicore.util.httpclient.HttpUtils;
 import eu.unicore.xuudb.server.HttpsServer;
 
 public class TestRestPublic {
@@ -25,15 +29,15 @@ public class TestRestPublic {
 		HttpsServer server = setup();
 		try {
 			URL u = new URL("http://localhost:34463/rest/xuudb/info");
-			HttpURLConnection conn = (HttpURLConnection)u.openConnection();
-			try(InputStream in = conn.getInputStream()){
-				System.out.println(new JSONObject(IOUtils.toString(in, "UTF-8"))
+			var get = new HttpGet(u.toString());
+			try(var hc = client(u);
+				var res = hc.executeOpen(null, get, HttpClientContext.create()))
+			{
+				System.out.println(new JSONObject(EntityUtils.toString(res.getEntity(), "UTF-8"))
 						.toString(2));
-			}
+			} 
 		} finally {
-			try {
-				server.shutdown();
-			} catch (Exception e) {}
+			server.shutdown();
 		}
 	}
 
@@ -47,16 +51,15 @@ public class TestRestPublic {
 			ub.setPath("/rest/xuudb/query/test");
 			ub.addParameter("dn", "CN=demouser");
 			URL u = ub.build().toURL();
-			HttpURLConnection conn = (HttpURLConnection)u.openConnection();
-			try(InputStream in = conn.getInputStream()){
-				System.out.println(new JSONObject(IOUtils.toString(in, "UTF-8"))
+			var get = new HttpGet(u.toString());
+			try(var hc = client(u);
+				var res = hc.executeOpen(null, get, HttpClientContext.create()))
+			{
+				System.out.println(new JSONObject(EntityUtils.toString(res.getEntity(), "UTF-8"))
 						.toString(2));
-			}
-		} finally {
-			try {
-				server.shutdown();
-			} catch (Exception e) { /* ignored */
-			}
+			} 
+		}finally {
+			server.shutdown();
 		}
 	}
 
@@ -66,18 +69,37 @@ public class TestRestPublic {
 		try {
 			URL u = new URL("http://localhost:34463/rest/xuudb/query/test");
 			// no DN - expect 400 error
-			Exception e = assertThrows(Exception.class, ()->{
-				HttpURLConnection conn = (HttpURLConnection)u.openConnection();
-				try(InputStream in = conn.getInputStream()){
-					new JSONObject(IOUtils.toString(in, "UTF-8"));
-				}
-			});
-			assertTrue(e.toString().contains("400"));
+			var get = new HttpGet(u.toString());
+			try(var hc = client(u); 
+				var res = hc.executeOpen(null, get, HttpClientContext.create()))
+			{
+				System.out.println(new JSONObject(EntityUtils.toString(res.getEntity(), "UTF-8")).toString(2));
+				assertTrue(res.getCode()==400);
+			} 
+		}finally {
+			server.shutdown();
+		}
+	}
+	
+	@Test
+	public void testPUTACLCheck() throws Exception {
+		HttpsServer server = setup();
+		try {
+			URL u = new URL("http://localhost:34463/rest/xuudb/update");
+			// no auth - expect 403 error
+			var put = new HttpPut(u.toString());
+			put.setHeader("Content-Type", "application/json");
+			JSONObject j = new JSONObject();
+			put.setEntity(new StringEntity(j.toString()));
+			try(var hc = client(u); 
+				var res = hc.executeOpen(null, put, HttpClientContext.create()))
+			{
+				System.out.println("Got: " + res.getReasonPhrase()+" "
+						+ EntityUtils.toString(res.getEntity(),"UTF-8"));
+				assertTrue(res.getCode()==403);
+			} 
 		} finally {
-			try {
-				server.shutdown();
-			} catch (Exception e) { /* ignored */
-			}
+			server.shutdown();
 		}
 	}
 
@@ -91,4 +113,9 @@ public class TestRestPublic {
 		server.start();
 		return server;
 	}
+
+	private CloseableHttpClient client(URL url) throws Exception {
+		return HttpUtils.client(url.toString(), new DefaultClientConfiguration());
+	}
+
 }

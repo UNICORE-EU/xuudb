@@ -1,4 +1,4 @@
-package eu.unicore.xuudb.server;
+package eu.unicore.xuudb.server.rest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,39 +11,37 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
-import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.jaxrs.model.OperationResourceInfo;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.Phase;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.logging.log4j.Logger;
 
 import eu.emi.security.authn.x509.impl.X500NameUtils;
+import eu.unicore.security.Client;
 import eu.unicore.security.SecurityException;
 import eu.unicore.xuudb.Log;
+import eu.unicore.xuudb.server.FileWatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 
 /**
- * use an ACL file to limit access
+ * Limit access to the API via an ACL
  *
  * @author schuller
  */
-public class ACLHandler extends AbstractSoapInterceptor implements ContainerRequestFilter {
+public class AccessControlHandler implements ContainerRequestFilter {
 
-	private static final Logger logger=Log.getLogger(Log.XUUDB_SERVER, ACLHandler.class);
+	private static final Logger logger=Log.getLogger(Log.XUUDB_SERVER, AccessControlHandler.class);
 
 	private final File aclFile;
 	private final FileWatcher watchDog;
 	private final Set<String>acceptedDNs = new HashSet<>();
 
-	public ACLHandler(File aclFile)throws IOException{
-		super(Phase.PRE_INVOKE);
+	public AccessControlHandler(File aclFile)throws IOException{
 		this.aclFile=aclFile;
 		if(!aclFile.exists()){
 			throw new FileNotFoundException("ACL file <"+aclFile.getPath()+"> not found!");
@@ -56,33 +54,29 @@ public class ACLHandler extends AbstractSoapInterceptor implements ContainerRequ
 		}
 	}
 
-	public void handleMessage(SoapMessage message) {
-		try{
-			checkAccess(getDN(message));
-		}catch(Exception ex){
-			throw new Fault(ex);
-		}
-	}
-
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		Message message = PhaseInterceptorChain.getCurrentMessage();
-		try{
-			checkAccess(getDN(message));
-		}
-		catch(Exception ex){
-			throw new WebApplicationException(ex, HttpStatus.SC_FORBIDDEN);
+		final OperationResourceInfo ori = message.getExchange().get(OperationResourceInfo.class);
+		String action = ori.getHttpMethod();
+		if(!"GET".equalsIgnoreCase(action)) {
+			try{
+				String userName = checkAccess(getDN(message));
+				logger.info("Admin access from <{}>", userName );
+			}
+			catch(Exception ex){
+				throw new WebApplicationException(ex, HttpStatus.SC_FORBIDDEN);
+			}
 		}
 	}
 
 	private String getDN(Message message) throws Exception {
-		String userName = "anonymous";
+		String userName = Client.ANONYMOUS_CLIENT_DN;
 		X509Certificate[] certPath = getSSLCertPath(message);
 		if (certPath != null){
 			X509Certificate userCert = certPath[0];
 			userName = userCert.getSubjectX500Principal().getName();
 		}
-		logger.info("Admin access from {}", userName );
 		return userName ;
 	}
 
@@ -91,15 +85,14 @@ public class ACLHandler extends AbstractSoapInterceptor implements ContainerRequ
 		return (X509Certificate[])req.getAttribute("jakarta.servlet.request.X509Certificate");
 	}
 
-	private void checkAccess(String userName)throws Exception {
+	private String checkAccess(String userName)throws Exception {
 		synchronized (acceptedDNs) {
 			if(!acceptedDNs.contains(X500NameUtils.getComparableForm(userName))){
-				String msg="Admin access denied!\n\nTo allow access for this " +
-						"certificate, the distinguished name \n" +userName+
-						"\nneeds to be entered into the ACL file."
-						+"\nPlease check the XUUDB's ACL file!\n\n" ;
+				String msg = "Admin access for <" + userName + "> denied! Please check the XUUDB's ACL file.";
+				logger.debug(msg);
 				throw new SecurityException(msg);
 			}
+			return userName;
 		}
 	}
 

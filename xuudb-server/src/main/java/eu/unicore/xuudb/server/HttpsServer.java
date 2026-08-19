@@ -26,7 +26,8 @@ import eu.unicore.xuudb.interfaces.IPublic;
 import eu.unicore.xuudb.server.db.IStorage;
 import eu.unicore.xuudb.server.db.StorageFactory;
 import eu.unicore.xuudb.server.dynamic.DAPConfiguration;
-import eu.unicore.xuudb.server.rest.RestDAPQuery;
+import eu.unicore.xuudb.server.rest.AccessControlHandler;
+import eu.unicore.xuudb.server.rest.RestDAP;
 import eu.unicore.xuudb.server.rest.RestXUUDB;
 
 public class HttpsServer implements IShutdownable {
@@ -42,7 +43,7 @@ public class HttpsServer implements IShutdownable {
 	private IDynamicAttributesPublic dapPublicImpl;
 
 	private RestXUUDB publicRESTImpl;
-	private RestDAPQuery publicRESTDAP;
+	private RestDAP publicRESTDAP;
 	
 	/**
 	 * creates a XUUDB Http(s)Server configured using the given properties
@@ -94,21 +95,21 @@ public class HttpsServer implements IShutdownable {
 		hook.register(this);
 
 		IStorage storage = StorageFactory.getDatabase(config, hook);
-
-		String acl=config.getValue(ServerConfiguration.PROP_ACL_FILE);
+		String acl = config.getValue(ServerConfiguration.PROP_ACL_FILE);
 		ACLHandler aclHandler = new ACLHandler(new File(acl));
-
 		createPublicService(aclHandler, storage);
 		createAdminService(aclHandler,storage);		
-		createRESTPublic(storage, aclHandler);
+		
+		AccessControlHandler accessControl = new AccessControlHandler(new File(acl));
+		createRESTInterface(storage, accessControl);
 
 		File dapConfigFile = config.getFileValue(ServerConfiguration.PROP_DAP_FILE, false);
 		DAPConfiguration dapConfiguration = new DAPConfiguration(dapConfigFile, storage.getPoolStorage());
 		createDAPPublicService(dapConfiguration,aclHandler);
 		createDAPAdminService(dapConfiguration,aclHandler,storage);
-		createRESTDAPPublic(dapConfiguration, aclHandler);
+		createRESTDAPInterface(dapConfiguration, accessControl);
 	}
-	
+
 	protected void createPublicService(ACLHandler aclHandler, IStorage storage)throws Exception{
 		JaxWsServerFactoryBean factory=getFactory();
 		factory.setAddress(IPublic.SERVICE_NAME);
@@ -202,14 +203,12 @@ public class HttpsServer implements IShutdownable {
 		return dapPublicImpl;
 	}
 	
-	protected void createRESTPublic(IStorage storage, ACLHandler aclHandler)throws Exception{
+	protected void createRESTInterface(IStorage storage, AccessControlHandler aclHandler)throws Exception{
 		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
 				new RestXUUDB.XUUDBApplication(), true, false, false,
 				server.getRESTServlet().getBus());
 		factory.setAddress("/xuudb");
-		if (config.getBooleanValue(ServerConfiguration.PROP_PROTECT_ALL)){
-			factory.setProvider(aclHandler);
-		}
+		factory.setProvider(aclHandler);
 		publicRESTImpl = new RestXUUDB();
 		publicRESTImpl.setStorage(storage.getRESTClassicStorage());
 		factory.setInvoker(new 
@@ -222,16 +221,14 @@ public class HttpsServer implements IShutdownable {
 		factory.create();	
 	}
 
-	protected void createRESTDAPPublic(DAPConfiguration dapConfiguration, ACLHandler aclHandler)
+	protected void createRESTDAPInterface(DAPConfiguration dapConfiguration, AccessControlHandler aclHandler)
 			throws Exception{
 		JAXRSServerFactoryBean factory = ResourceUtils.createApplication(
-				new RestDAPQuery.DAPApplication(), true, false, false,
+				new RestDAP.DAPApplication(), true, false, false,
 				server.getRESTServlet().getBus());
 		factory.setAddress("/dap");
-		if (config.getBooleanValue(ServerConfiguration.PROP_PROTECT_ALL)){
-			factory.setProvider(aclHandler);
-		}
-		publicRESTDAP = new RestDAPQuery();
+		factory.setProvider(aclHandler);
+		publicRESTDAP = new RestDAP();
 		publicRESTDAP.setConfig(dapConfiguration);
 		factory.setInvoker(new 
 				JAXRSInvoker() {

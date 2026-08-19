@@ -155,6 +155,7 @@ public class TestMyBatisJSONXUUDB {
 		xuudb.import_csv(csv);
 		assertEquals(1,getEntries().size());
 	}
+
 	@Test
 	public void testBasicCRUD()throws Exception{
 		JSONObject addRequest = getAddRequest("xlogin1");
@@ -170,7 +171,7 @@ public class TestMyBatisJSONXUUDB {
 		assertEquals("foo",gcids.get(0));
 
 		JSONObject update = getAddRequest("xlogin2");
-		xuudb.update("foo", update.getString("token"), update);
+		xuudb.update(update);
 		assertEquals(1, getEntries().size());
 
 		JSONObject removeRequest = getRemoveByXloginRequest("xlogin2");

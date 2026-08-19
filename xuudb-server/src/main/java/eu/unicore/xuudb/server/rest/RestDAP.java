@@ -22,13 +22,13 @@ import jakarta.ws.rs.core.Response;
  * @author schuller
  */
 @Path("/")
-public class RestDAPQuery extends RestBase {
+public class RestDAP extends RestBase {
 
 	private DAPConfiguration config;
 
 	private final EvaluationEngine engine;
 
-	public RestDAPQuery() {
+	public RestDAP() {
 		this.engine = new EvaluationEngine();
 	}
 
@@ -76,7 +76,7 @@ public class RestDAPQuery extends RestBase {
 		@Override
 		public Set<Class<?>> getClasses() {
 			Set<Class<?>>classes = new HashSet<>();
-			classes.add(RestDAPQuery.class);
+			classes.add(RestDAP.class);
 			return classes;
 		}
 	}

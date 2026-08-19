@@ -47,12 +47,11 @@ public interface IRESTClassicStorage {
 
 	/**
 	 * update an entry
-	 * @param gcid
-	 * @param dn
+	 *
 	 * @param login
 	 * @return
 	 */
-	public String update(String gcid, String dn, JSONObject login);
+	public String update(JSONObject login);
 
 	/**
 	 * retrieve a list of all GCIDs currently in use by the XUUDB
