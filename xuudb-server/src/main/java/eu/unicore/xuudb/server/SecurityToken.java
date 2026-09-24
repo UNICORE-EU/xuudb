@@ -2,7 +2,7 @@ package eu.unicore.xuudb.server;
 
 import java.security.cert.X509Certificate;
 
-import eu.emi.security.authn.x509.impl.X500NameUtils;
+import io.imunity.tanl.x509.impl.X500NameUtils;
 import eu.unicore.xuudb.X509Utils;
 
 /**

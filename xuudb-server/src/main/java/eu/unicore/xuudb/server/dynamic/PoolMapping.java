@@ -3,7 +3,7 @@ package eu.unicore.xuudb.server.dynamic;
 import org.apache.logging.log4j.Logger;
 
 import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
-import eu.emi.security.authn.x509.impl.X500NameUtils;
+import io.imunity.tanl.x509.impl.X500NameUtils;
 import eu.unicore.xuudb.Log;
 import eu.unicore.xuudb.server.db.IPoolStorage;
 

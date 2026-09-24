@@ -4,8 +4,8 @@ import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
 
-import eu.emi.security.authn.x509.impl.CertificateUtils;
-import eu.emi.security.authn.x509.impl.FormatMode;
+import io.imunity.tanl.x509.impl.CertificateUtils;
+import io.imunity.tanl.x509.impl.FormatMode;
 import eu.unicore.xuudb.X509Utils;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;
 

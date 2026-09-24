@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import eu.unicore.xuudb.xbeans.GetAttributesResponseType;
 import eu.unicore.xuudb.xbeans.SimplifiedAttributeType;
-import eu.emi.security.authn.x509.impl.X500NameUtils;
+import io.imunity.tanl.x509.impl.X500NameUtils;
 
 public class DAPSimulateGetAttributes extends AbstractAction {
 	

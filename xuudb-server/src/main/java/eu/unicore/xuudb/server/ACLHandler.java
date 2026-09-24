@@ -21,7 +21,7 @@ import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.logging.log4j.Logger;
 
-import eu.emi.security.authn.x509.impl.X500NameUtils;
+import io.imunity.tanl.x509.impl.X500NameUtils;
 import eu.unicore.security.SecurityException;
 import eu.unicore.xuudb.Log;
 import jakarta.servlet.http.HttpServletRequest;

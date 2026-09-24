@@ -8,7 +8,7 @@ import java.security.cert.X509Certificate;
 
 import org.junit.jupiter.api.Test;
 
-import eu.emi.security.authn.x509.impl.X500NameUtils;
+import io.imunity.tanl.x509.impl.X500NameUtils;
 
 public class TestX509Utils {
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.unicore.xuudb.xbeans.LoginDataType;
-import eu.emi.security.authn.x509.impl.X500NameUtils;
+import io.imunity.tanl.x509.impl.X500NameUtils;
 import eu.unicore.util.Log;
 import eu.unicore.xuudb.client.wsapi.XUUDBResponse;
 
